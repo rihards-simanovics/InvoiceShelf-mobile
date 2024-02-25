@@ -7,7 +7,7 @@ import t from 'locales/use-translation';
 import {colors} from '@/styles/colors.js';
 import {TouchableOpacity, Animated} from 'react-native';
 import {RefreshIcon} from '@/icons/refresh-icon.js';
-import {styles} from './exchange-rate-styles';
+import {styles} from './exchange-rate-styles.js';
 
 const hitSlop = {top: 20, left: 25, bottom: 20, right: 25};
 const SPIN_OPTION = {START: 'start', STOP: 'stop'};

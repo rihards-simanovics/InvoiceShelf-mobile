@@ -3,7 +3,7 @@ import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import {reduxForm, Field, change} from 'redux-form';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {BaseDatePicker, BaseTimePicker} from '../base';
+import {BaseDatePicker, BaseTimePicker} from '.';
 import {DATE_FORMAT} from '@/constants';
 import {colors} from '@/styles';
 import {BaseError, BaseLabel} from '@/components';
