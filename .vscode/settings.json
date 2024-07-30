@@ -1,17 +1,10 @@
 {
-    "[javascript]": {
-        "editor.tabSize": 4
-    },
-    "[javascriptreact]": {
-        "editor.tabSize": 4
-    },
-    "[jsx-tags]": {
-        "editor.tabSize": 4
-    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true
-
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
