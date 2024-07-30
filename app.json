@@ -12,9 +12,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     },
@@ -23,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.gwsrihards.s.invoiceshelfmobile"
+      "package": "com.invoiceshelf.mobile"
     },
     "web": {
       "bundler": "metro",
