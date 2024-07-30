@@ -1,3 +1,5 @@
+# ❗README NEEDS UPDATE 📝
+
 <img height="150px" src="https://res.cloudinary.com/bytefury/image/upload/v1574149856/Crater/craterframe.png">
 
 ## Introduction
@@ -22,20 +24,20 @@ _Please note:_ To use this app on your mobile device, you need to have the crate
 
 Below are the steps for starting up the crater app locally for development. If you aren't looking to customise or contribute to mobile apps then you can ignore the steps below and use the Crater [IOS & Android Apps](#mobile-app-links) directly.
 
--   Clone this repository
--   Install Expo CLI : `npm install -g expo-cli`
--   Change your current working directly in terminal to the cloned folder: `cd crater`
--   run command: `npm start`
+- Clone this repository
+- Install Expo CLI : `npm install -g expo-cli`
+- Change your current working directly in terminal to the cloned folder: `cd crater`
+- run command: `npm start`
 
 ## Web
 
--   [Repository Link](https://github.com/crater-invoice/crater)
--   [Download Link](https://craterapp.com/downloads)
+- [Repository Link](https://github.com/crater-invoice/crater)
+- [Download Link](https://craterapp.com/downloads)
 
 ## Mobile App Links
 
--   [Android](https://play.google.com/store/apps/details?id=com.craterapp.app)
--   [IOS](https://apps.apple.com/app/id1489169767)
+- [Android](https://play.google.com/store/apps/details?id=com.craterapp.app)
+- [IOS](https://apps.apple.com/app/id1489169767)
 
 ## Copyright
 
@@ -48,11 +50,15 @@ See [LICENSE](LICENSE) for details.
 
 ## Release Channels:
 
--   development
--   staging
--   production
--   production-4
+- development
+- staging
+- production
+- production-4
 
 Example: expo build:ios --release-channel staging
 
 expo build:android -t app-bundle --release-channel staging
+
+# WSL notes
+
+If using WSL2 but utilising Windows android-studio during dev, when building, make sure to prepend WSL Android SDK home and not windows, i.e. `ANDROID_HOME=~/Android/Sdk yarn build:android-local` - feel free to change location if Android SDK is in a different location.
