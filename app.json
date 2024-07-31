@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "invoiceshelf-mobile",
+    "name": "InvoiceShelf Mobile",
     "slug": "invoiceshelf-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,18 +9,18 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#F9FBFF"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.invoiceshelf.mobile",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.invoiceshelf.mobile"
+      }
     },
     "web": {
       "bundler": "metro",
