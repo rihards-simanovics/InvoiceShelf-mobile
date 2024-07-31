@@ -139,7 +139,6 @@ Below is a list of file that still need to bew reviewed for proper documentation
     │   ├── flash-message
     │   │   ├── flash-message-manager.js
     │   │   ├── flash-message-wrapper.js
-    │   │   ├── flash-message.js
     │   │   └── index.js
     │   ├── header
     │   │   ├── header.js

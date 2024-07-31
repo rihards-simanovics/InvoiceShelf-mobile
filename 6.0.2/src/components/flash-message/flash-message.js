@@ -322,18 +322,6 @@ DefaultFlash.propTypes = {
 };
 
 /**
- * @todo Improve comments to help with code rewrite and migration. Comments
- *       above this line have already been re-written
- *
- * ========================== Improved Comments Above ==========================
- *
- *
- *
- *
- *
- */
-
-/**
  * Main component of this package.
  *
  * The FlashMessage component is a global utility for creating customizable
