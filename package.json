@@ -12,6 +12,7 @@
         "lint": "expo lint",
         "build:android-local": "eas build --platform android --local",
         "build:ios-local": "eas build --platform ios --local",
+        "build:web-local": "npx expo export -p web",
         "prepare": "husky install",
         "cz": "cz",
         "release": "standard-version",
