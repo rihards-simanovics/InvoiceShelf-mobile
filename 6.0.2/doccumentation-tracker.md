@@ -2,6 +2,14 @@
 
 Below is a list of file that still need to bew reviewed for proper documentation
 
+use the below AI prompt but make sure to check all of the outputs, feed the files whole and if too large then function by function.
+
+```txt
+hey I have a task for you, I am currently documenting the codebase for an abandoned open source project, but before beginning redevelopment, could you help me with documenting it, I will provide you with file contents folder by folder and file by file. Please make sure to write documents for functions, classes, vars, const, etc. and also where appropriate inline comments, but with inline comments be sure to only add them where necessary and sparingly, and for any type definitions make sure to use document style comments. Also where possible try cleaning-up the imports into a more digestible order, group them if you find necessary.
+
+the location of the first file is /src/..., and it is part of a react native expo app.
+```
+
 <pre>
 src
 ├── components
@@ -246,7 +254,6 @@ src
 │   ├── rectangle-icon.js
 │   ├── refresh-icon.js
 │   └── setting-icon.js
-├── index.js
 ├── interfaces
 │   ├── class.js
 │   ├── index.js
