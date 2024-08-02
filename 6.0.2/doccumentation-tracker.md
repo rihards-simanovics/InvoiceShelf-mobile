@@ -254,11 +254,6 @@ src
 │   ├── rectangle-icon.js
 │   ├── refresh-icon.js
 │   └── setting-icon.js
-├── interfaces
-│   ├── class.js
-│   ├── index.js
-│   ├── navigator.js
-│   └── theme.js
 ├── locales
 │   ├── use-translation.js
 ├── navigation

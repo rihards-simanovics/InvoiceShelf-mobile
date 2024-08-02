@@ -1,10 +1,11 @@
+/**
+ * Type definition for theme properties used in the application.
+ */
 export type ITheme = {
   mode: 'dark' | 'light',
 
   backgroundColor: string,
-
   secondaryBgColor: string,
-
   thirdBgColor: string,
 
   text: {
@@ -13,8 +14,8 @@ export type ITheme = {
     thirdColor: string,
     fourthColor: string,
     fifthColor: string,
-    sixthColor: String,
-    seventhColor: string
+    sixthColor: string,
+    seventhColor: string,
   },
 
   // Component Input
@@ -25,7 +26,7 @@ export type ITheme = {
     placeholderColor: string,
     borderColor: string,
     disableBackgroundColor: string,
-    firstColor: String
+    firstColor: string,
   },
 
   // Component Icons
@@ -39,51 +40,51 @@ export type ITheme = {
     fourthColor: string,
 
     plus: {
-      backgroundColor: string
+      backgroundColor: string,
     },
     circle: {
       backgroundColor: string,
       secondaryBgColor: string,
-      borderColor: string
+      borderColor: string,
     },
     eye: {
-      color: string
+      color: string,
     },
     filter: {
-      color: string
+      color: string,
     },
     biometric: {
-      backgroundColor: string
-    }
+      backgroundColor: string,
+    },
   },
 
   // Component Header
   header: {
     primary: {
-      color: string
+      color: string,
     },
     secondary: {
-      color: string
-    }
+      color: string,
+    },
   },
 
   // Component List Item
   listItem: {
     primary: {
-      color: string
+      color: string,
     },
     secondary: {
-      color: string
+      color: string,
     },
     third: {
-      color: string
+      color: string,
     },
     fourth: {
-      color: string
+      color: string,
     },
     fifth: {
-      color: string
-    }
+      color: string,
+    },
   },
 
   // Component Tab
@@ -91,7 +92,7 @@ export type ITheme = {
     activeColor: string,
     color: string,
     borderColor: string,
-    borderBottomColor: string
+    borderBottomColor: string,
   },
 
   // Navigation Tab
@@ -100,18 +101,18 @@ export type ITheme = {
     activeTextColor: string,
     inActiveTextColor: string,
     activeIconColor: string,
-    inActiveIconColor: string
+    inActiveIconColor: string,
   },
 
   // Component Divider
   divider: {
     primaryBgColor: string,
-    secondaryBgColor: string
+    secondaryBgColor: string,
   },
 
   // Component Avatar
   avatar: {
-    bgColor: string
+    bgColor: string,
   },
 
   // ViewLabel
@@ -120,23 +121,23 @@ export type ITheme = {
     secondaryColor: string,
     thirdColor: string,
     fourthColor: string,
-    fifthColor: string
+    fifthColor: string,
   },
 
   // Card
   card: {
     primary: {
-      bgColor: string
+      bgColor: string,
     },
     secondary: {
-      bgColor: string
-    }
+      bgColor: string,
+    },
   },
 
   // Button
   button: {
     disable: {
-      bgColor: string
-    }
-  }
+      bgColor: string,
+    },
+  },
 };
