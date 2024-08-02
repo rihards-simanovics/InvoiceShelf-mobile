@@ -1,7 +1,12 @@
 import {findNodeHandle} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 
-export const trim = data => {
+/**
+ * Trims whitespace from the beginning and end of string properties in an object.
+ * @param {Object} data - The object containing string properties to trim.
+ * @returns {Object} - A new object with trimmed string properties.
+ */
+export const trim = (data) => {
   return Object.keys(data).reduce((accumulator, key) => {
     accumulator[key] =
       typeof data[key] === 'string' ? data[key].trim() : data[key];
@@ -10,20 +15,37 @@ export const trim = data => {
   }, {});
 };
 
+/**
+ * Scrolls to the input field within a scroll view.
+ * @param {Object} scrollView - The scroll view containing the input field.
+ * @param {Object} target - The target input field to scroll to.
+ */
 export const scrollToInput = ({scrollView}, {target}) => {
   scrollView.scrollToFocusedInput(findNodeHandle(target));
 };
 
+/**
+ * Picks specified keys from an object and returns a new object with those keys.
+ * @param {Object} object - The source object.
+ * @param {Array} keys - The keys to pick from the source object.
+ * @returns {Object} - A new object with the picked keys.
+ */
 export const pick = (object = {}, keys = []) => {
   const result = {};
 
-  keys.forEach(key => {
+  keys.forEach((key) => {
     result[key] = object[key];
   });
 
   return result;
 };
 
+/**
+ * Formats a number as currency.
+ * @param {number} amount - The amount to format.
+ * @param {Object} [currency] - The currency formatting options.
+ * @returns {Object} - An object containing the formatted money string and currency symbol.
+ */
 export const formatMoney = (amount, currency = 0) => {
   amount = amount / 100;
 
@@ -32,7 +54,7 @@ export const formatMoney = (amount, currency = 0) => {
       precision: 2,
       thousand_separator: ',',
       decimal_separator: '.',
-      symbol: '$'
+      symbol: '$',
     };
   }
 
@@ -41,7 +63,7 @@ export const formatMoney = (amount, currency = 0) => {
     decimal_separator,
     thousand_separator,
     symbol,
-    swap_currency_symbol
+    swap_currency_symbol,
   } = currency;
 
   try {
@@ -67,18 +89,25 @@ export const formatMoney = (amount, currency = 0) => {
               .toFixed(precision)
               .slice(2)
           : ''),
-      swap_currency_symbol
+      swap_currency_symbol,
     };
-  } catch (e) {}
+  } catch (e) {
+    // Handle any errors that occur during formatting
+  }
 };
 
-export const getConditionStyles = (styles: IGetConditionStyles) => {
+/**
+ * Merges styles based on conditions.
+ * @param {Array} styles - An array of style objects with conditions.
+ * @returns {Object} - A merged style object.
+ */
+export const getConditionStyles = (styles) => {
   let commonStyles = {};
 
   if (typeof styles === 'object' && Array.isArray(styles)) {
     styles
-      .filter(v => !!v && typeof v === 'object')
-      .forEach(v => {
+      .filter((v) => !!v && typeof v === 'object')
+      .forEach((v) => {
         const {condition, style} = v;
 
         if (condition) {
@@ -92,11 +121,20 @@ export const getConditionStyles = (styles: IGetConditionStyles) => {
   return commonStyles;
 };
 
+/**
+ * Checks the network connection status.
+ * @returns {Promise<boolean>} - A promise that resolves to the connection status.
+ */
 export const checkConnection = async () => {
   const state = await NetInfo.fetch();
   return state.isConnected;
 };
 
-export const capitalize = word => {
+/**
+ * Capitalizes the first letter of a word.
+ * @param {string} word - The word to capitalize.
+ * @returns {string} - The capitalized word.
+ */
+export const capitalize = (word) => {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
 };

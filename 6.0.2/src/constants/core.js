@@ -1,3 +1,6 @@
+/**
+ * Button color constants used throughout the application.
+ */
 export const BUTTON_COLOR = {
   PRIMARY: 'primary',
   PRIMARY_LIGHT: 'primaryLight',
@@ -20,20 +23,47 @@ export const BUTTON_COLOR = {
   VERY_DARK_GRAY: 'veryDarkGray',
   PINK: 'pink',
   LIGHT_GREEN: 'lightGreen',
-  WHITE: 'white'
+  WHITE: 'white',
 };
 
+/**
+ * Date format used throughout the application.
+ * @type {string}
+ */
 export const DATE_FORMAT = 'YYYY-MM-DD';
+
+/**
+ * Time format used throughout the application.
+ * @type {string}
+ */
 export const TIME_FORMAT = 'HH:mm';
+
+/**
+ * Time format with meridiem used throughout the application.
+ * @type {string}
+ */
 export const TIME_FORMAT_MERIDIEM = 'hh:mm A';
 
+/**
+ * Action type for switching themes.
+ * @type {string}
+ */
 export const SWITCH_THEME = 'SWITCH_THEME';
+
+/**
+ * Biometry authentication types.
+ */
 export const BIOMETRY_AUTH_TYPES = {
   FINGERPRINT: 'FINGERPRINT',
-  FACE: 'FACE'
+  FACE: 'FACE',
 };
 
+/**
+ * Action creator for switching themes.
+ * @param {Object} payload - The payload for the action.
+ * @returns {Object} - The action object.
+ */
 export const switchTheme = (payload = {}) => ({
   type: SWITCH_THEME,
-  payload
+  payload,
 });
