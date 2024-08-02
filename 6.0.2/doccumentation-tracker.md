@@ -233,11 +233,6 @@ src
 │       ├── index.js
 │       ├── type.d.js
 │       └── view-data.js
-├── helpers
-│   ├── keyboard.js
-│   ├── platform.js
-│   ├── size.js
-│   └── styled.js
 ├── icons
 │   ├── cancel-icon.js
 │   ├── check-icon.js

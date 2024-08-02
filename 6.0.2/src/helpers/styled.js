@@ -1,3 +1,7 @@
+/**
+ * View properties for styling various aspects of a view component.
+ * Includes alignment, display, position, flex, size, margin, padding, and z-index utilities.
+ */
 const viewProperties = {
   /**
    * Align Content
@@ -94,7 +98,7 @@ const viewProperties = {
 
   /**
    * Size
-   * Utilities for setting the size of an element
+   * Utilities for setting the size of an element.
    */
   height: {height: 0},
   width: {width: 0},
@@ -129,9 +133,12 @@ const viewProperties = {
    * Z-Index
    * Utilities for controlling the stack order of an element.
    */
-  z: {zIndex: 0}
+  z: {zIndex: 0},
 };
 
+/**
+ * Image properties for controlling the resizing mode of images.
+ */
 const imageProperties = {
   /**
    * Image size
@@ -141,9 +148,13 @@ const imageProperties = {
   'image-contain': {resizeMode: 'contain'},
   'image-stretch': {resizeMode: 'stretch'},
   'image-repeat': {resizeMode: 'repeat'},
-  'image-center': {resizeMode: 'center'}
+  'image-center': {resizeMode: 'center'},
 };
 
+/**
+ * Border properties for styling the borders of elements.
+ * Includes border width, radius, and style utilities.
+ */
 const borderProperties = {
   /**
    * Border Width
@@ -175,11 +186,11 @@ const borderProperties = {
    */
   'border-solid': {borderStyle: 'solid'},
   'border-dotted': {borderStyle: 'dotted'},
-  'border-dashed': {borderStyle: 'dashed'}
+  'border-dashed': {borderStyle: 'dashed'},
 };
 
 export default {
   ...viewProperties,
   ...imageProperties,
-  ...borderProperties
+  ...borderProperties,
 };
