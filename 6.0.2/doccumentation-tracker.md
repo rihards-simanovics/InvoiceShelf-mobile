@@ -254,8 +254,6 @@ src
 │   ├── rectangle-icon.js
 │   ├── refresh-icon.js
 │   └── setting-icon.js
-├── locales
-│   ├── use-translation.js
 ├── navigation
 │   ├── index.js
 │   ├── navigation-action.js
@@ -615,9 +613,6 @@ src
 │   ├── tax-select-modal.js
 │   ├── time-zone-select-modal.js
 │   └── unit-select-modal.js
-├── services
-│   ├── index.js
-│   └── permission-service.js
 ├── stores
 │   ├── auth
 │   │   ├── actions.js
@@ -804,14 +799,6 @@ src
 │       ├── service.js
 │       ├── types.js
 │       └── validator.js
-├── styles
-│   ├── colors.js
-│   ├── fonts.js
-│   ├── global.js
-│   └── index.js
-├── theme
-│   ├── dark.js
-│   └── light.js
 ├── utils
 │   ├── appearance.js
 │   ├── badge.js

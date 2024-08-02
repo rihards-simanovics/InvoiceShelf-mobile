@@ -1,3 +1,6 @@
+/**
+ * Object representing the color palette used in the application.
+ */
 export const colors = {
   primary: '#5851D8',
   primaryLight: '#817AE3',
@@ -50,5 +53,5 @@ export const colors = {
   white9: '#EBDCC7',
   white10: '#F8FAFC',
   black: '#000',
-  black2: '#1F2937'
+  black2: '#1F2937',
 };

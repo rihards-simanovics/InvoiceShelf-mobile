@@ -1,7 +1,9 @@
+// Import necessary modules
 import {find} from 'lodash';
 import {hasValue, toObject} from '@/constants';
 import {routes} from '@/navigation/navigation-routes';
 
+// Define abilities for different routes and actions
 const abilities = [
   // Customer
   {route: routes.MAIN_CUSTOMERS, ability: 'view-customer'},
@@ -62,24 +64,40 @@ const abilities = [
   {route: routes.CREATE_CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Settings
-  {route: routes.NOTES, ability: 'view-all-notes'}
+  {route: routes.NOTES, ability: 'view-all-notes'},
 ];
 
+/**
+ * Class representing the Permission service.
+ */
 class Service {
   currentAbilities: any;
   isOwner: boolean;
 
+  /**
+   * Create a Service instance.
+   */
   constructor() {
     this.currentAbilities = [];
     this.isOwner = false;
   }
 
+  /**
+   * Set the current permissions and ownership status.
+   * @param {Array} currentAbilities - The current abilities of the user.
+   * @param {boolean} isOwner - Whether the user is the owner.
+   */
   setPermissions = (currentAbilities, isOwner) => {
     this.currentAbilities = currentAbilities ?? [];
     this.isOwner = isOwner;
   };
 
-  hasPermission = ability => {
+  /**
+   * Check if the user has a specific permission.
+   * @param {string} ability - The ability to check.
+   * @returns {boolean} - True if the user has the permission, otherwise false.
+   */
+  hasPermission = (ability) => {
     if (!hasValue(ability)) {
       return true;
     }
@@ -91,44 +109,75 @@ class Service {
     return hasValue(find(this.currentAbilities, {name: ability}));
   };
 
-  isAllowToCreate = route => {
+  /**
+   * Check if the user is allowed to create an item on a specific route.
+   * @param {string} route - The route to check.
+   * @returns {boolean} - True if the user is allowed to create, otherwise false.
+   */
+  isAllowToCreate = (route) => {
     const ability = toObject(
-      abilities.filter(a => a.route === route && a.ability.includes('create'))
+      abilities.filter((a) => a.route === route && a.ability.includes('create'))
     )?.ability;
     return this.hasPermission(ability);
   };
 
-  isAllowToEdit = route => {
+  /**
+   * Check if the user is allowed to edit an item on a specific route.
+   * @param {string} route - The route to check.
+   * @returns {boolean} - True if the user is allowed to edit, otherwise false.
+   */
+  isAllowToEdit = (route) => {
     const ability = toObject(
-      abilities.filter(a => a.route === route && a.ability.includes('edit'))
+      abilities.filter((a) => a.route === route && a.ability.includes('edit'))
     )?.ability;
     return this.hasPermission(ability);
   };
 
-  isAllowToDelete = route => {
+  /**
+   * Check if the user is allowed to delete an item on a specific route.
+   * @param {string} route - The route to check.
+   * @returns {boolean} - True if the user is allowed to delete, otherwise false.
+   */
+  isAllowToDelete = (route) => {
     const ability = toObject(
-      abilities.filter(a => a.route === route && a.ability.includes('delete'))
+      abilities.filter((a) => a.route === route && a.ability.includes('delete'))
     )?.ability;
     return this.hasPermission(ability);
   };
 
-  isAllowToView = route => {
+  /**
+   * Check if the user is allowed to view an item on a specific route.
+   * @param {string} route - The route to check.
+   * @returns {boolean} - True if the user is allowed to view, otherwise false.
+   */
+  isAllowToView = (route) => {
     const ability = toObject(
-      abilities.filter(a => a.route === route && a.ability.includes('view'))
+      abilities.filter((a) => a.route === route && a.ability.includes('view'))
     )?.ability;
     return this.hasPermission(ability);
   };
 
-  isAllowToManage = ability => {
+  /**
+   * Check if the user is allowed to manage a specific ability.
+   * @param {string} ability - The ability to check.
+   * @returns {boolean} - True if the user is allowed to manage, otherwise false.
+   */
+  isAllowToManage = (ability) => {
     return this.hasPermission(ability);
   };
 
-  isAllowToSend = route => {
+  /**
+   * Check if the user is allowed to send an item on a specific route.
+   * @param {string} route - The route to check.
+   * @returns {boolean} - True if the user is allowed to send, otherwise false.
+   */
+  isAllowToSend = (route) => {
     const ability = toObject(
-      abilities.filter(a => a.route === route && a.ability.includes('send'))
+      abilities.filter((a) => a.route === route && a.ability.includes('send'))
     )?.ability;
     return this.hasPermission(ability);
   };
 }
 
+// Export an instance of the Permission service
 export const PermissionService = new Service();
