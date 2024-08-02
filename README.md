@@ -59,6 +59,8 @@ Example: expo build:ios --release-channel staging
 
 expo build:android -t app-bundle --release-channel staging
 
-# WSL notes
+# WSL Notes
 
-If using WSL2 but utilising Windows android-studio during dev, when building, make sure to prepend WSL Android SDK home and not windows, i.e. `ANDROID_HOME=~/Android/Sdk yarn build:android-local` - feel free to change location if Android SDK is in a different location.
+For Expo Application Services docs visit [EAS Docs](https://docs.expo.dev/build-reference/apk/).
+
+If using WSL2 but utilising Windows android-studio during dev, when building, make sure to prepend WSL Android SDK home and not windows, i.e. `ANDROID_HOME=~/Android/Sdk yarn build:android-local` - feel free to change location if Android SDK is in a different location, or I guess simply use the android-studio command line tools.

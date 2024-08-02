@@ -1,6 +1,5 @@
 node_modules/
 .expo/
-dist/
 npm-debug.*
 *.jks
 *.p8
@@ -19,5 +18,7 @@ web-build/
 expo-env.d.ts
 # @end expo-cli
 
-# bundle files
+# export files
+dist/
 *.aab
+*.apk

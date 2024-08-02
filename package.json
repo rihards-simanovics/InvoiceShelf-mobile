@@ -11,6 +11,7 @@
         "test": "jest --watchAll",
         "lint": "expo lint",
         "build:android-local": "eas build --platform android --local",
+        "build:android-local-preview": "eas build -p android --profile preview --local",
         "build:ios-local": "eas build --platform ios --local",
         "build:web-local": "npx expo export -p web",
         "prepare": "husky install",
