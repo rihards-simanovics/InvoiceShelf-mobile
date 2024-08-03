@@ -19,22 +19,25 @@ import {CommonServices} from './service';
 import {TranslationService} from 'locales/use-translation';
 
 /**
- * Fetch Tax And Discount Per item saga.
- * @returns {*}
+ * Saga to fetch tax and discount per item.
+ * @returns {Generator} The generator function.
  */
 export function* fetchTaxAndDiscountPerItem() {
   try {
     const response = yield call(req.fetchTaxAndDiscountPerItem);
     yield put({
       type: types.FETCH_TAX_AND_DISCOUNT_PER_ITEM_SUCCESS,
-      payload: response
+      payload: response,
     });
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Save endpoint url saga
- * @returns {IterableIterator<*>}
+ * Saga to save the endpoint URL.
+ * @param {object} action - The action containing the payload.
+ * @returns {Generator} The generator function.
  */
 function* saveEndpointURL({payload}) {
   const {url, navigation, onResult} = payload;
@@ -51,8 +54,9 @@ function* saveEndpointURL({payload}) {
 }
 
 /**
- * Check exchange rate saga
- * @returns {IterableIterator<*>}
+ * Saga to check the exchange rate.
+ * @param {object} action - The action containing the payload.
+ * @returns {Generator} The generator function.
  */
 function* checkExchangeRate({payload}) {
   try {
@@ -65,8 +69,9 @@ function* checkExchangeRate({payload}) {
 }
 
 /**
- * Check exchange rate provider saga
- * @returns {IterableIterator<*>}
+ * Saga to check the exchange rate provider.
+ * @param {object} action - The action containing the payload.
+ * @returns {Generator} The generator function.
  */
 function* checkExchangeRateProvider({payload}) {
   try {
@@ -79,8 +84,9 @@ function* checkExchangeRateProvider({payload}) {
 }
 
 /**
- * Check OTA update saga
- * @returns {IterableIterator<*>}
+ * Saga to check for OTA updates.
+ * @param {object} payload - The payload for the action.
+ * @returns {Generator} The generator function.
  */
 function* checkOTAUpdate(payload) {
   try {
@@ -116,12 +122,15 @@ function* checkOTAUpdate(payload) {
       yield Updates.fetchUpdateAsync();
       yield Updates.reloadAsync();
     }
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch bootstrap saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch bootstrap data.
+ * @param {object} payloadData - The payload data for the action.
+ * @returns {Generator} The generator function.
  */
 export function* fetchBootstrap(payloadData) {
   try {
@@ -133,7 +142,7 @@ export function* fetchBootstrap(payloadData) {
       current_company_settings,
       current_user_settings,
       current_user_abilities = [],
-      companies = []
+      companies = [],
     } = response;
     const locale = current_user_settings?.language ?? 'en';
     PermissionService.setPermissions(
@@ -149,13 +158,13 @@ export function* fetchBootstrap(payloadData) {
     yield put(
       setUserSetting({
         currentUser: current_user,
-        currentAbilities: current_user_abilities
+        currentAbilities: current_user_abilities,
       })
     );
     yield put(
       setCompanySetting({
         selectedCompanyCurrency: current_company_currency,
-        selectedCompanySettings: current_company_settings
+        selectedCompanySettings: current_company_settings,
       })
     );
 
@@ -176,8 +185,8 @@ export function* fetchBootstrap(payloadData) {
 }
 
 /**
- * Fetch countries saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch countries.
+ * @returns {Generator} The generator function.
  */
 export function* fetchCountries() {
   try {
@@ -187,9 +196,15 @@ export function* fetchCountries() {
     const {data} = yield call(req.fetchCountries);
     yield put({type: types.FETCH_COUNTRIES_SUCCESS, payload: data});
     CommonServices.setIsCountriesItemLoaded();
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
+/**
+ * Root saga for common actions.
+ * @returns {Generator} The generator function.
+ */
 export default function* commonSaga() {
   yield takeEvery(types.SAVE_ENDPOINT_URL, saveEndpointURL);
   yield takeEvery(types.CHECK_EXCHANGE_RATE, checkExchangeRate);

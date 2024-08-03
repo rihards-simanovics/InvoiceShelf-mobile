@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 
+// Import individual reducers
 import auth from 'stores/auth/reducer';
 import invoice from 'stores/invoice/reducer';
 import estimate from 'stores/estimate/reducer';
@@ -23,6 +24,10 @@ import taxation from 'stores/taxation/reducer';
 import customField from 'stores/custom-field/reducer';
 import setting from 'stores/setting/reducer';
 
+/**
+ * Combines all individual reducers into a single root reducer.
+ * @returns {Function} The combined reducer function.
+ */
 export default combineReducers({
   auth,
   invoice,
@@ -45,5 +50,5 @@ export default combineReducers({
   taxation,
   customField,
   setting,
-  form: formReducer
+  form: formReducer, // Redux Form reducer
 });

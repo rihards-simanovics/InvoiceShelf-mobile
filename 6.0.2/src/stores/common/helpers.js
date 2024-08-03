@@ -1,11 +1,32 @@
+// References for various calculation tabs
 export let calculationRefs = {};
-export const setCalculationRef = refs => (calculationRefs = refs);
+
+/**
+ * Set the calculation references.
+ * @param {object} refs - The references to set.
+ */
+export const setCalculationRef = (refs) => (calculationRefs = refs);
 
 export let invoicesTabRefs = {};
-export const setInvoicesTabRef = refs => (invoicesTabRefs = refs);
+
+/**
+ * Set the invoices tab references.
+ * @param {object} refs - The references to set.
+ */
+export const setInvoicesTabRef = (refs) => (invoicesTabRefs = refs);
 
 export let estimatesTabRefs = {};
-export const setEstimatesTabRef = refs => (estimatesTabRefs = refs);
+
+/**
+ * Set the estimates tab references.
+ * @param {object} refs - The references to set.
+ */
+export const setEstimatesTabRef = (refs) => (estimatesTabRefs = refs);
 
 export let recurringTabRefs = {};
-export const setRecurringTabRef = refs => (recurringTabRefs = refs);
+
+/**
+ * Set the recurring tab references.
+ * @param {object} refs - The references to set.
+ */
+export const setRecurringTabRef = (refs) => (recurringTabRefs = refs);

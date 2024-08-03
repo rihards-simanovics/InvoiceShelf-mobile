@@ -8,8 +8,9 @@ import {checkOTAUpdate} from '../common/actions';
 import {fetchBootstrap} from '../common/saga';
 
 /**
- * Login saga
- * @returns {IterableIterator<*>}
+ * Saga for handling user login.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* login({payload}) {
   const {params, onResult} = payload;
@@ -28,8 +29,9 @@ function* login({payload}) {
 }
 
 /**
- * Biometry login saga
- * @returns {IterableIterator<*>}
+ * Saga for handling biometry login.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* biometryLogin({payload}) {
   try {
@@ -49,8 +51,9 @@ function* biometryLogin({payload}) {
 }
 
 /**
- * Send recovery mail saga
- * @returns {IterableIterator<*>}
+ * Saga for sending recovery email.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* sendRecoveryMail({payload}) {
   const {email, onSuccess, onFail} = payload;
@@ -64,6 +67,10 @@ function* sendRecoveryMail({payload}) {
   }
 }
 
+/**
+ * Root saga for authentication-related sagas.
+ * @returns {IterableIterator<*>} The generator function.
+ */
 export default function* authSaga() {
   yield takeLatest(types.LOGIN, login);
   yield takeLatest(types.BIOMETRY_AUTH_LOGIN, biometryLogin);

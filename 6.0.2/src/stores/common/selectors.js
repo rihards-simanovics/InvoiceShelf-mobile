@@ -2,9 +2,15 @@ import {createSelector} from 'reselect';
 import {PermissionService} from '@/services';
 import {isEmpty} from '@/constants';
 
-const commonStore = state => state?.common;
+// Selector to get the common store state
+const commonStore = (state) => state?.common;
 
-export const permissionSelector = route => {
+/**
+ * Selector to get permission details based on the route.
+ * @param {object} route - The route object containing parameters.
+ * @returns {object} The permission details.
+ */
+export const permissionSelector = (route) => {
   const type = route?.params?.type ?? 'ADD';
   const id = route?.params?.id;
   const isEditScreen = type === 'UPDATE';
@@ -21,37 +27,48 @@ export const permissionSelector = route => {
     isCreateScreen: !isEditScreen,
     isEditScreen,
     isAllowToEdit,
-    isAllowToDelete
+    isAllowToDelete,
   };
 };
 
-export const commonSelector = state => {
+/**
+ * Selector to get common state details.
+ * @param {object} state - The Redux state.
+ * @returns {object} The common state details.
+ */
+export const commonSelector = (state) => {
   const {common, user} = state;
   return {
     locale: common?.locale,
     theme: common?.theme,
-    abilities: user?.currentAbilities
+    abilities: user?.currentAbilities,
   };
 };
 
-export const settingsSelector = state => {
+/**
+ * Selector to get settings related to discounts and taxes.
+ * @param {object} state - The Redux state.
+ * @returns {object} The settings details.
+ */
+export const settingsSelector = (state) => {
   const {
-    common: {discount_per_item, tax_per_item}
+    common: {discount_per_item, tax_per_item},
   } = state;
   return {
     discount_per_item,
-    tax_per_item
+    tax_per_item,
   };
 };
 
-export const countriesSelector = createSelector(
-  commonStore,
-  store => {
-    if (isEmpty(store?.countries)) return [];
-    return store.countries.map(country => ({
-      title: country.name,
-      rightTitle: country.code,
-      fullItem: country
-    }));
-  }
-);
+/**
+ * Selector to get the list of countries.
+ * @returns {function} The selector function.
+ */
+export const countriesSelector = createSelector(commonStore, (store) => {
+  if (isEmpty(store?.countries)) return [];
+  return store.countries.map((country) => ({
+    title: country.name,
+    rightTitle: country.code,
+    fullItem: country,
+  }));
+});

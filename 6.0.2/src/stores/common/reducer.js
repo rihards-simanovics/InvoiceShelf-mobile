@@ -3,6 +3,7 @@ import {DATE_FORMAT, SWITCH_THEME} from '@/constants';
 import {lightTheme} from '@/theme/light';
 import {SET_BIOMETRY_AUTH_TYPE} from '../setting/types';
 
+// Initial state for the common reducer
 const initialState = {
   locale: 'en',
   timeZone: null,
@@ -16,9 +17,15 @@ const initialState = {
   biometryAuthType: null,
   lastOTACheckDate: null,
   theme: lightTheme,
-  countries: []
+  countries: [],
 };
 
+/**
+ * Common reducer to handle actions related to common state.
+ * @param {object} state - The current state.
+ * @param {object} action - The action dispatched.
+ * @returns {object} The new state.
+ */
 export default function commonReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -27,7 +34,7 @@ export default function commonReducer(state = initialState, action) {
       return {
         ...state,
         endpointURL: payload,
-        endpointApi: payload ? `${payload}/api/v1` : null
+        endpointApi: payload ? `${payload}/api/v1` : null,
       };
 
     case types.FETCH_TAX_AND_DISCOUNT_PER_ITEM_SUCCESS:
@@ -42,7 +49,7 @@ export default function commonReducer(state = initialState, action) {
         ...payload,
         dateFormat: current_company_settings.moment_date_format,
         fiscalYear: current_company_settings.fiscal_year,
-        locale: current_user_settings?.language ?? 'en'
+        locale: current_user_settings?.language ?? 'en',
       };
 
     case SET_BIOMETRY_AUTH_TYPE:

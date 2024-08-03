@@ -1,6 +1,7 @@
 import {all, takeEvery, select} from 'redux-saga/effects';
 import {REHYDRATE} from 'redux-persist/src/constants';
 
+// Import individual sagas
 import auth from 'stores/auth/saga';
 import invoice from 'stores/invoice/saga';
 import estimate from 'stores/estimate/saga';
@@ -24,15 +25,23 @@ import taxation from 'stores/taxation/saga';
 import customField from 'stores/custom-field/saga';
 import {PermissionService} from '@/services';
 
+/**
+ * Root saga that manages the overall saga middleware.
+ * It listens for the REHYDRATE action to set permissions and run all sagas.
+ * @returns {Generator} A generator function for saga middleware.
+ */
 export default function* rootSaga() {
   yield takeEvery(REHYDRATE, function* boot() {
     const reduxStore = yield select();
     const userStore = reduxStore?.user;
+
+    // Set user permissions based on the current user state
     PermissionService.setPermissions(
       userStore?.currentAbilities,
       userStore?.currentUser?.is_owner
     );
 
+    // Run all sagas in parallel
     yield all([
       auth(),
       invoice(),
@@ -54,7 +63,7 @@ export default function* rootSaga() {
       note(),
       taxType(),
       taxation(),
-      customField()
+      customField(),
     ]);
   });
 }

@@ -7,8 +7,9 @@ import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
 
 /**
- * Fetch categories saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching categories.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 export function* fetchCategories({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -16,7 +17,7 @@ export function* fetchCategories({payload}) {
     const response = yield call(req.fetchCategories, queryString);
     yield put({
       type: types.FETCH_CATEGORIES_SUCCESS,
-      payload: {categories: response?.data, fresh}
+      payload: {categories: response?.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -25,8 +26,9 @@ export function* fetchCategories({payload}) {
 }
 
 /**
- * Fetch single category saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching a single category.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchSingleCategory({payload}) {
   try {
@@ -37,8 +39,9 @@ function* fetchSingleCategory({payload}) {
 }
 
 /**
- * Add category saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a category.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* addCategory({payload}) {
   try {
@@ -56,8 +59,9 @@ function* addCategory({payload}) {
 }
 
 /**
- * Update category saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a category.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* updateCategory({payload}) {
   const {id, params} = payload;
@@ -75,8 +79,9 @@ function* updateCategory({payload}) {
 }
 
 /**
- * Remove category saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a category.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* removeCategory({payload}) {
   try {
@@ -93,6 +98,10 @@ function* removeCategory({payload}) {
   }
 }
 
+/**
+ * Root saga for category-related sagas.
+ * @returns {IterableIterator<*>} The generator function.
+ */
 export default function* categorySaga() {
   yield takeLatest(types.FETCH_CATEGORIES, fetchCategories);
   yield takeLatest(types.FETCH_SINGLE_CATEGORY, fetchSingleCategory);

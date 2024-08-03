@@ -572,31 +572,6 @@ src
 │       ├── webview-type.d.js
 │       └── webview.js
 └── stores
-    ├── auth
-    │   ├── actions.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── category
-    │   ├── actions.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── common
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
     ├── company
     │   ├── actions.js
     │   ├── reducer.js
@@ -641,7 +616,6 @@ src
     │   ├── service.js
     │   ├── types.js
     │   └── validator.js
-    ├── index.js
     ├── invoice
     │   ├── actions.js
     │   ├── helpers.js
@@ -715,8 +689,6 @@ src
     │   ├── service.js
     │   ├── types.js
     │   └── validator.js
-    ├── root-reducer.js
-    ├── root-saga.js
     ├── setting
     │   ├── actions.js
     │   ├── helpers.js
