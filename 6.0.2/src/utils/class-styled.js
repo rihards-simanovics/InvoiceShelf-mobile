@@ -4,7 +4,10 @@ import {SCREEN_HEIGHT} from '@/helpers/size';
 import properties from '../helpers/styled';
 
 /**
- * Helper function to formate property name
+ * Formats the property name by removing platform-specific prefixes.
+ *
+ * @param {string} property - The property name to format.
+ * @returns {string} - The formatted property name.
  */
 function formattedPropertyName(property) {
   if (property.includes('ios:')) {
@@ -31,7 +34,11 @@ function formattedPropertyName(property) {
 }
 
 /**
- * Helper function to get property actual value
+ * Gets the actual value of a property, adjusting for negative values and units.
+ *
+ * @param {string} property - The property name.
+ * @param {string} value - The value associated with the property.
+ * @returns {string|number} - The formatted property value.
  */
 function formattedPropertyValue(property, value) {
   const isNegative = property.charAt(0) === '-';
@@ -54,7 +61,10 @@ function formattedPropertyValue(property, value) {
 }
 
 /**
- * Helper function to check that is allow to show style or not
+ * Checks if a style property is allowed to be applied based on platform and screen size.
+ *
+ * @param {string} property - The property to check.
+ * @returns {boolean} - Returns true if the property can be applied, otherwise false.
  */
 function isAllowToApply(property) {
   if (!property) {
@@ -81,7 +91,10 @@ function isAllowToApply(property) {
 }
 
 /**
- * Helper function to return property and value.
+ * Splits a property string into its name and value components.
+ *
+ * @param {string} prop - The property string to split.
+ * @returns {{property: string, value: string}} - An object containing the property name and value.
  */
 function splitPropertyAndValue(prop) {
   const split = prop.split('-');
@@ -92,7 +105,10 @@ function splitPropertyAndValue(prop) {
 }
 
 /**
- * Utility component wrapper to handle dynamic class value
+ * Returns the dynamic style for a given property if allowed.
+ *
+ * @param {string} prop - The property string to process.
+ * @returns {Object} - The resulting style object.
  */
 function getDynamicStyle(prop) {
   const {property, value} = splitPropertyAndValue(prop);
@@ -112,7 +128,11 @@ function getDynamicStyle(prop) {
 }
 
 /**
- * Utility component wrapper to handle dynamic binding class
+ * Binds a style property to the given props if it exists.
+ *
+ * @param {Object} props - The props object to check against.
+ * @param {string} property - The property string to bind.
+ * @returns {Object} - The resulting style object or an empty object.
  */
 function bindStyle(props, property) {
   const key = property.substring(1);
@@ -125,7 +145,11 @@ function bindStyle(props, property) {
 }
 
 /**
- * Utility component wrapper to handle class
+ * Retrieves the style for a given property based on the provided props.
+ *
+ * @param {Object} props - The props object to use for style binding.
+ * @param {string} property - The property string to retrieve the style for.
+ * @returns {Object} - The resulting style object or an empty object.
  */
 function getStyle(props, property) {
   if (property.charAt(0) === ':') {
@@ -147,6 +171,13 @@ function getStyle(props, property) {
   return style;
 }
 
+/**
+ * Main function to get the combined styles based on the provided style class.
+ *
+ * @param {Object} props - The props object to use for style binding.
+ * @param {string} styleClass - The class string containing styles to apply.
+ * @returns {Object} - The combined styles object.
+ */
 export const getClass = (props, styleClass) => {
   if (!hasValue(styleClass)) {
     return {};
@@ -157,7 +188,7 @@ export const getClass = (props, styleClass) => {
   styleClass
     .trim()
     .split(' ')
-    .map(key => {
+    .map((key) => {
       const style = getStyle(props, key);
       if (style) {
         styles = {...styles, ...style};

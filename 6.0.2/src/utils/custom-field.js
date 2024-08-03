@@ -3,20 +3,27 @@ import {hasValue, isEmpty} from '@/constants';
 import {sortByItem} from './common';
 import {dataTypes} from 'stores/custom-field/helpers';
 
+/**
+ * Initializes custom fields based on provided initial values and custom fields.
+ *
+ * @param {Array} customFields - The array of custom fields to initialize.
+ * @param {Array} initialValues - The initial values to populate the custom fields.
+ * @returns {Array} - The initialized and sorted custom fields.
+ */
 export const getInitialCustomFields = (customFields, initialValues) => {
   let fields = [];
 
   if (!isEmpty(initialValues)) {
-    initialValues.map(value => {
+    initialValues.map((value) => {
       fields.push({
         ...value.custom_field,
-        defaultAnswer: value.defaultAnswer ?? value.default_answer
+        defaultAnswer: value.defaultAnswer ?? value.default_answer,
       });
     });
   }
 
   if (!isEmpty(customFields)) {
-    customFields.map(customField => {
+    customFields.map((customField) => {
       const isOld = find(fields, {id: customField.id});
       if (!isOld) fields.push(customField);
     });
@@ -25,18 +32,24 @@ export const getInitialCustomFields = (customFields, initialValues) => {
   return sortByItem(fields, 'order');
 };
 
-export const getCustomFieldValueParams = customFields => {
+/**
+ * Retrieves the parameters for custom field values.
+ *
+ * @param {Array} customFields - The array of custom fields to process.
+ * @returns {Array} - An array of objects containing the custom field values and metadata.
+ */
+export const getCustomFieldValueParams = (customFields) => {
   if (isEmpty(customFields)) {
     return [];
   }
 
-  return customFields.map(field => {
+  return customFields.map((field) => {
     const {
       id,
       type,
       defaultAnswer = null,
       default_answer = null,
-      is_required
+      is_required,
     } = field;
 
     let value = defaultAnswer ?? default_answer;
@@ -45,19 +58,25 @@ export const getCustomFieldValueParams = customFields => {
       id,
       type,
       isRequired: is_required,
-      value: type !== dataTypes.SWITCH ? value?.toString() : value
+      value: type !== dataTypes.SWITCH ? value?.toString() : value,
     };
   });
 };
 
-export const getApiFormattedCustomFields = customFields => {
+/**
+ * Formats custom fields for API submission.
+ *
+ * @param {Array} customFields - The array of custom fields to format.
+ * @returns {Array} - An array of formatted custom fields ready for API submission.
+ */
+export const getApiFormattedCustomFields = (customFields) => {
   if (isEmpty(customFields)) {
     return [];
   }
 
   const apiFormattedFields = [];
 
-  customFields.map(field => {
+  customFields.map((field) => {
     let isAllow = true;
 
     if (

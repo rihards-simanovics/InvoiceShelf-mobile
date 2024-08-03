@@ -5,7 +5,7 @@ Below is a list of file that still need to bew reviewed for proper documentation
 use the below AI prompt but make sure to check all of the outputs, feed the files whole and if too large then function by function.
 
 ```txt
-hey I have a task for you, I am currently documenting the codebase for an abandoned open source project, but before beginning redevelopment, could you help me with documenting it, I will provide you with file contents folder by folder and file by file. Please make sure to write documents for functions, classes, vars, const, etc. and also where appropriate inline comments, but with inline comments be sure to only add them where necessary and sparingly, and for any type definitions make sure to use document style comments. Also where possible try cleaning-up the imports into a more digestible order, group them if you find necessary.
+hey I have a task for you, I am currently documenting the codebase for an abandoned open source project, but before beginning redevelopment, could you help me with documenting it, I will provide you with file contents folder by folder and file by file. Please make sure to write doccomment for functions, classes, vars, const, etc. and also where appropriate inline comments, but with inline comments be sure to only add them where necessary, sparingly and such that it doesn't state the obvious (i.e. what I can get from reading the code). Also for any type definitions make sure to use doccomment style comments for each property as opposed to adding comment at the end of the line. Also where possible try cleaning-up the imports into a more digestible order, group them if you find necessary.
 
 the location of the first file is /src/..., and it is part of a react native expo app.
 ```
@@ -241,19 +241,6 @@ src
 │       ├── index.js
 │       ├── type.d.js
 │       └── view-data.js
-├── icons
-│   ├── cancel-icon.js
-│   ├── check-icon.js
-│   ├── close-icon.js
-│   ├── face-icon.js
-│   ├── finger-press-icon.js
-│   ├── finger-print-icon.js
-│   ├── index.js
-│   ├── lost-connection-icon.js
-│   ├── percentage-icon.js
-│   ├── rectangle-icon.js
-│   ├── refresh-icon.js
-│   └── setting-icon.js
 ├── navigation
 │   ├── index.js
 │   ├── navigation-action.js
@@ -613,211 +600,190 @@ src
 │   ├── tax-select-modal.js
 │   ├── time-zone-select-modal.js
 │   └── unit-select-modal.js
-├── stores
-│   ├── auth
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── category
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── common
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── company
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── custom-field
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── customer
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── estimate
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── expense
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── index.js
-│   ├── invoice
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── item
-│   │   ├── actions.js
-│   │   ├── helper.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── item-unit
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   └── types.js
-│   ├── more
-│   │   └── helpers.js
-│   ├── note
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── payment
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── payment-mode
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   └── types.js
-│   ├── recurring-invoice
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── report
-│   │   ├── helpers.js
-│   │   ├── types.js
-│   │   └── validation.js
-│   ├── role
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── root-reducer.js
-│   ├── root-saga.js
-│   ├── setting
-│   │   ├── actions.js
-│   │   ├── helpers.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── tax-type
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   ├── taxation
-│   │   ├── actions.js
-│   │   ├── helper.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   └── types.js
-│   ├── user
-│   │   ├── actions.js
-│   │   ├── reducer.js
-│   │   ├── saga.js
-│   │   ├── selectors.js
-│   │   ├── service.js
-│   │   ├── types.js
-│   │   └── validator.js
-│   └── users
-│       ├── actions.js
-│       ├── reducer.js
-│       ├── saga.js
-│       ├── selectors.js
-│       ├── service.js
-│       ├── types.js
-│       └── validator.js
-├── utils
-│   ├── appearance.js
-│   ├── badge.js
-│   ├── biometric-authentication.js
-│   ├── class-styled.js
-│   ├── common.js
-│   ├── compare-version.js
-│   ├── custom-field.js
-│   ├── empty-placeholder.js
-│   ├── error-message.js
-│   ├── header.js
-│   ├── index.js
-│   ├── notification.js
-│   ├── rating-review.js
-│   ├── request.js
-│   ├── search.js
-│   └── styled.js
-└── validator
-    ├── error.js
+└── stores
+    ├── auth
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── category
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── common
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── company
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── custom-field
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── customer
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── estimate
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── expense
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
     ├── index.js
-    └── regex.js
+    ├── invoice
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── item
+    │   ├── actions.js
+    │   ├── helper.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── item-unit
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   └── types.js
+    ├── more
+    │   └── helpers.js
+    ├── note
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── payment
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── payment-mode
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   └── types.js
+    ├── recurring-invoice
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── report
+    │   ├── helpers.js
+    │   ├── types.js
+    │   └── validation.js
+    ├── role
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── root-reducer.js
+    ├── root-saga.js
+    ├── setting
+    │   ├── actions.js
+    │   ├── helpers.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── tax-type
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    ├── taxation
+    │   ├── actions.js
+    │   ├── helper.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   └── types.js
+    ├── user
+    │   ├── actions.js
+    │   ├── reducer.js
+    │   ├── saga.js
+    │   ├── selectors.js
+    │   ├── service.js
+    │   ├── types.js
+    │   └── validator.js
+    └── users
+        ├── actions.js
+        ├── reducer.js
+        ├── saga.js
+        ├── selectors.js
+        ├── service.js
+        ├── types.js
+        └── validator.js
 </pre>
