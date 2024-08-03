@@ -1,3 +1,4 @@
+// Define the routes used in the navigation
 export const routes = {
   AUTH: 'AUTH',
   LOGIN: 'LOGIN',
@@ -88,5 +89,5 @@ export const routes = {
 
   // Modal
   COMPANY_ADDRESS_MODAL: 'COMPANY_ADDRESS_MODAL',
-  CUSTOMER_ADDRESS_MODAL: 'CUSTOMER_ADDRESS_MODAL'
+  CUSTOMER_ADDRESS_MODAL: 'CUSTOMER_ADDRESS_MODAL',
 };

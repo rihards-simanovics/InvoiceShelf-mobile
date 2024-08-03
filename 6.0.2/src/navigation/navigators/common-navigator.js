@@ -3,61 +3,46 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {navigatorOptions as options} from '../navigation-action';
 import {routes} from '../navigation-routes';
 
+// Import screens for the common navigator
 import {CreateCustomer, CustomerAddress} from 'screens/customers';
-
 import CreateCompany from 'screens/companies/create-company';
-
 import {CreateExpense} from 'screens/expenses';
-
 import {CreatePayment} from 'screens/payments';
-
 import Endpoint from 'screens/endpoint';
 import LostConnection from 'screens/lost-connection';
 import UpdateAppVersion from 'screens/update-app-version';
-
 import Account from 'screens/account';
-
 import {Settings, Notification, TouchOrFaceId} from 'screens/settings';
-
 import Preferences from 'screens/preferences';
-
 import {Categories, CreateCategory} from 'screens/categories';
-
 import {Taxes, CreateTax} from 'screens/taxes';
-
 import {CustomFields, CreateCustomField} from 'screens/custom-field';
-
 import {Notes, CreateNote} from 'screens/notes';
-
 import {Users, CreateUser} from 'screens/users';
-
 import {Roles, CreateRole} from 'screens/roles';
-
 import {ItemUnits} from 'screens/item-units';
-
 import {Items, CreateItem} from 'screens/items';
-
 import CreateInvoice from 'screens/invoices/create-invoice';
-
 import {Estimates, CreateEstimate} from 'screens/estimates';
-
 import {Reports, GenerateReport} from 'screens/reports';
-
 import {PaymentModes} from 'screens/payment-modes';
-
 import Webview from 'screens/webview';
-
 import CompanyAddressModal from 'screens/modal/company-address';
 import CustomerAddressModal from 'screens/modal/customer-address';
-
 import {
   RecurringInvoices,
   ViewRecurringInvoice,
-  CreateRecurringInvoice
+  CreateRecurringInvoice,
 } from 'screens/recurring-invoices';
 
+// Create a stack navigator for common screens
 const Stack = createStackNavigator();
 
+/**
+ * CommonNavigator component that defines the common stack screens.
+ *
+ * @returns {JSX.Element} The CommonNavigator component.
+ */
 export const CommonNavigator = (
   <>
     {/* Customer Navigator */}
@@ -159,12 +144,12 @@ export const CommonNavigator = (
     <Stack.Screen
       name={routes.UPDATE_APP_VERSION}
       component={UpdateAppVersion}
-      options={{gestureEnabled: false}}
+      options={{gestureEnabled: false}} // Disable gesture navigation for this screen
     />
     <Stack.Screen
       name={routes.LOST_CONNECTION}
       component={LostConnection}
-      options={{gestureEnabled: false}}
+      options={{gestureEnabled: false}} // Disable gesture navigation for this screen
     />
     <Stack.Screen
       name={routes.ENDPOINTS_SETTINGS}
