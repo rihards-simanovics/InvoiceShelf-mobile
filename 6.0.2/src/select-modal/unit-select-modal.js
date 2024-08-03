@@ -7,20 +7,25 @@ interface IProps {
   /**
    * An array of objects with data for each unit.
    */
-
   units?: Array<any>;
 
   /**
-   * An action to return a list of unit.
+   * An action to fetch a list of units.
    */
   fetchItemUnits?: () => void;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 }
 
+/**
+ * A modal component for selecting a unit.
+ *
+ * @param props - The properties for the UnitSelectModal component.
+ * @returns A modal for selecting a unit from a list.
+ */
 export const UnitSelectModal = (props: IProps) => {
   const {units, fetchItemUnits, disabled} = props;
 
@@ -28,7 +33,7 @@ export const UnitSelectModal = (props: IProps) => {
     <SelectField
       placeholder={t('items.unit_placeholder')}
       {...props}
-      items={units ?? []}
+      items={units ?? []} // Fallback to an empty array if units is undefined
       getItems={fetchItemUnits}
       apiSearch
       hasPagination

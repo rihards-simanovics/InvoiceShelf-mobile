@@ -15,7 +15,7 @@ interface IProps {
   multiSelectedItems?: Array<any>;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 
@@ -26,14 +26,21 @@ interface IProps {
   theme?: ITheme;
 }
 
+/**
+ * A modal component for selecting companies.
+ *
+ * @param props - The properties for the CompanySelectModal component.
+ * @returns A rendered SelectField component for company selection.
+ */
 export const CompanySelectModal = (props: IProps) => {
   const {companies, disabled = false, multiSelectedItems} = props;
+
   return (
     <SelectField
-      input={{value: null}}
+      input={{value: null}} // Initial input value
       isInternalSearch
       {...props}
-      items={companies ?? []}
+      items={companies ?? []} // Fallback to empty array if companies is undefined
       multiSelectedItems={multiSelectedItems}
       searchFields={['name']}
       isMultiSelect
@@ -49,7 +56,7 @@ export const CompanySelectModal = (props: IProps) => {
       isEditable={!disabled}
       baseSelectProps={{
         disabled,
-        label: t('header.companies')
+        label: t('header.companies'),
       }}
     />
   );

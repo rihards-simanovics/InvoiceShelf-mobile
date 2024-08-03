@@ -10,32 +10,38 @@ interface IProps {
   invoices?: Array<any>;
 
   /**
-   * An action to return a list of invoice.
+   * An action to fetch the list of invoices.
    */
   getInvoices?: () => void;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 
   /**
-   * Description shown below Fake-input.
+   * Description shown below the input field.
    */
-  description?: String;
+  description?: string;
 }
 
+/**
+ * A modal component for selecting invoices.
+ *
+ * @param props - The properties for the InvoiceSelectModal component.
+ * @returns A rendered SelectField component for invoice selection.
+ */
 export const InvoiceSelectModal = (props: IProps) => {
   const {getInvoices, disabled, description} = props;
   const invoices = isEmpty(props?.invoices)
     ? []
-    : props.invoices.filter(invoice => hasObjectLength(invoice));
+    : props.invoices.filter((invoice) => hasObjectLength(invoice));
 
   return (
     <SelectField
       placeholder=" "
       {...props}
-      items={isEmpty(invoices) ? [] : invoices}
+      items={isEmpty(invoices) ? [] : invoices} // Fallback to empty array if invoices is empty
       getItems={getInvoices}
       apiSearch
       hasPagination

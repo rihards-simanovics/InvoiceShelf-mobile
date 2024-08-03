@@ -15,7 +15,7 @@ interface IProps {
   notes?: Array<any>;
 
   /**
-   * An action to return a list of note.
+   * An action to fetch the list of notes.
    */
   fetchNotes?: () => void;
 
@@ -24,12 +24,24 @@ interface IProps {
    * @see ITheme
    */
   theme: ITheme;
+
+  /**
+   * Callback function to handle selection.
+   */
+  onSelect?: (note: any) => void;
 }
 
 let notesReference = React.createRef();
 
+/**
+ * A modal component for selecting notes.
+ *
+ * @param props - The properties for the NoteSelectModal component.
+ * @returns A rendered SelectField component for note selection.
+ */
 export const NoteSelectModal = (props: IProps) => {
   const {notes, fetchNotes, theme, onSelect} = props;
+
   return (
     <SelectField
       {...props}
@@ -39,7 +51,7 @@ export const NoteSelectModal = (props: IProps) => {
       hasPagination
       onlyPlaceholder
       paginationLimit={defineSize(15, 15, 15, 20)}
-      reference={ref => (notesReference = ref)}
+      reference={(ref) => (notesReference = ref)}
       headerProps={{title: t('notes.select')}}
       emptyContentProps={{contentType: 'notes'}}
       onSelect={onSelect}
@@ -56,7 +68,7 @@ export const NoteSelectModal = (props: IProps) => {
             </Text>
           </TouchableOpacity>
         ) : (
-          <View class="mt-32"></View>
+          <View className="mt-32"></View>
         )
       }
     />

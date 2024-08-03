@@ -12,7 +12,7 @@ interface IProps {
   countries?: Array<any>;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 
@@ -23,33 +23,49 @@ interface IProps {
   theme: ITheme;
 
   /**
-   * An Object of Props of input.
+   * An object containing input properties.
    */
   input?: Object;
 }
 
+/**
+ * A modal component for selecting countries.
+ *
+ * @param props - The properties for the CountrySelectModal component.
+ * @returns A rendered InternalPagination component for country selection.
+ */
 export const CountrySelectModal = (props: IProps) => {
   const {countries, disabled, input, theme} = props;
 
+  /**
+   * Retrieves the title of the selected country based on input value.
+   *
+   * @returns The title of the selected country or a space if none is selected.
+   */
   const getSelectedCountryTitle = () => {
     if (isEmpty(countries) || !input?.value) {
       return ' ';
     }
 
     const country = find(countries, {
-      fullItem: {id: Number(input?.value)}
+      fullItem: {id: Number(input?.value)},
     });
 
     return country?.title;
   };
 
+  /**
+   * Retrieves the symbol of the selected country based on input value.
+   *
+   * @returns The symbol of the selected country or a space if none is selected.
+   */
   const getSelectedCountrySymbol = () => {
     if (isEmpty(countries) || !input?.value) {
       return ' ';
     }
 
     const country = find(countries, {
-      fullItem: {id: Number(input?.value)}
+      fullItem: {id: Number(input?.value)},
     });
 
     return country?.fullItem?.code;
@@ -58,7 +74,7 @@ export const CountrySelectModal = (props: IProps) => {
   return (
     <InternalPagination
       {...props}
-      items={countries ?? []}
+      items={countries ?? []} // Fallback to empty array if countries is undefined
       label={t('customers.address.country')}
       placeholder={getSelectedCountryTitle()}
       displayName="name"
@@ -68,14 +84,14 @@ export const CountrySelectModal = (props: IProps) => {
       isInternalSearch
       headerProps={{
         title: t('header.country'),
-        rightIconPress: null
+        rightIconPress: null,
       }}
       listViewProps={{contentContainerStyle: {flex: 7}}}
       emptyContentProps={{contentType: 'countries'}}
       baseSelectProps={{
         leftSymbol: getSelectedCountrySymbol(),
         leftSymbolStyle: {color: theme?.icons?.secondaryColor},
-        disabled
+        disabled,
       }}
       isAllowToSelect={!disabled}
     />

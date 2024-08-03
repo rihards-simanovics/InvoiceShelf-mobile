@@ -5,15 +5,21 @@ import {fontSizes} from '@/styles';
 
 interface IProps {
   /**
-   * An array of objects with data for each retrospective-edit.
+   * An array of objects with data for each retrospective edit.
    */
   retrospectiveEdits?: Array<any>;
 }
 
+/**
+ * A modal component for selecting retrospective edits.
+ *
+ * @param props - The properties for the RetrospectiveEditSelectModal component.
+ * @returns A rendered SelectField component for retrospective edit selection.
+ */
 export const RetrospectiveEditSelectModal = (props: IProps) => (
   <SelectField
     {...props}
-    items={props?.retrospectiveEdits ?? []}
+    items={props?.retrospectiveEdits ?? []} // Fallback to empty array if retrospectiveEdits is undefined
     displayName={'title'}
     label={t('settings.preferences.retrospective_edits')}
     icon="calendar-alt"

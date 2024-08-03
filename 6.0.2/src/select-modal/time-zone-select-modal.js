@@ -9,10 +9,16 @@ interface IProps {
   timezones?: Array<any>;
 }
 
+/**
+ * A modal component for selecting a time zone.
+ *
+ * @param props - The properties for the TimeZoneSelectModal component.
+ * @returns A modal for selecting a time zone from a list.
+ */
 export const TimeZoneSelectModal = (props: IProps) => (
   <InternalPagination
     {...props}
-    items={props?.timezones ?? []}
+    items={props?.timezones ?? []} // Fallback to an empty array if timezones is undefined
     displayName="key"
     label={t('settings.preferences.time_zone')}
     placeholder={t('settings.preferences.time_zone_placeholder')}

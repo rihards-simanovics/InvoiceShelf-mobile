@@ -13,18 +13,25 @@ interface IProps {
   items?: Array<any>;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 }
 
+/**
+ * A modal component for selecting items.
+ *
+ * @param props - The properties for the ItemSelectModal component.
+ * @returns A rendered SelectField component for item selection.
+ */
 export const ItemSelectModal = (props: IProps) => {
   const {items, disabled} = props;
+
   return (
     <SelectField
       {...props}
-      items={items ?? []}
-      getItems={q => store.dispatch(fetchItems(q))}
+      items={items ?? []} // Fallback to empty array if items is undefined
+      getItems={(q) => store.dispatch(fetchItems(q))}
       hasPagination
       apiSearch
       onlyPlaceholder
@@ -40,12 +47,12 @@ export const ItemSelectModal = (props: IProps) => {
         icon: 'shopping-basket',
         rightIcon: 'angle-right',
         color: colors.primaryLight,
-        disabled
+        disabled,
       }}
       headerProps={{title: t('items.title')}}
       emptyContentProps={{
         contentType: 'items',
-        image: AssetImage.images.empty_items
+        image: AssetImage.images.empty_items,
       }}
       listViewProps={{leftSubTitleStyle: itemsDescriptionStyle()}}
     />

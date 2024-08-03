@@ -10,16 +10,22 @@ interface IProps {
   customers?: Array<any>;
 
   /**
-   * An action to return a list of customer.
+   * An action to fetch the list of customers.
    */
   fetchCustomers?: () => void;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 }
 
+/**
+ * A modal component for selecting customers.
+ *
+ * @param props - The properties for the CustomerSelectModal component.
+ * @returns A rendered SelectField component for customer selection.
+ */
 export const CustomerSelectModal = (props: IProps) => {
   const {customers, fetchCustomers, disabled, isRequired = true} = props;
 
@@ -27,7 +33,7 @@ export const CustomerSelectModal = (props: IProps) => {
     <SelectField
       placeholder={t('estimates.customer_placeholder')}
       {...props}
-      items={customers ?? []}
+      items={customers ?? []} // Fallback to empty array if customers is undefined
       getItems={fetchCustomers}
       isRequired={isRequired}
       apiSearch
@@ -41,7 +47,7 @@ export const CustomerSelectModal = (props: IProps) => {
       listViewProps={{hasAvatar: true}}
       emptyContentProps={{
         contentType: 'customers',
-        image: AssetImage.images.empty_customers
+        image: AssetImage.images.empty_customers,
       }}
       isEditable={!disabled}
       baseSelectProps={{disabled}}

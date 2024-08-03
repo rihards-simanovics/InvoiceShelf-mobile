@@ -9,10 +9,16 @@ interface IProps {
   languages?: Array<any>;
 }
 
+/**
+ * A modal component for selecting languages.
+ *
+ * @param props - The properties for the LanguageSelectModal component.
+ * @returns A rendered SelectField component for language selection.
+ */
 export const LanguageSelectModal = (props: IProps) => (
   <SelectField
     {...props}
-    items={props?.languages ?? []}
+    items={props?.languages ?? []} // Fallback to empty array if languages is undefined
     label={t('settings.preferences.language')}
     icon="language"
     rightIcon="angle-right"

@@ -10,23 +10,29 @@ interface IProps {
   categories?: Array<any>;
 
   /**
-   * An action to return a list of category.
+   * An action to fetch the list of categories.
    */
   fetchCategories?: () => void;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 }
 
+/**
+ * A modal component for selecting expense categories.
+ *
+ * @param props - The properties for the ExpenseCategorySelectModal component.
+ * @returns A rendered SelectField component for category selection.
+ */
 export const ExpenseCategorySelectModal = (props: IProps) => {
   const {categories, fetchCategories, disabled = false} = props;
 
   return (
     <SelectField
       {...props}
-      items={categories ?? []}
+      items={categories ?? []} // Fallback to empty array if categories is undefined
       getItems={fetchCategories}
       isRequired
       apiSearch

@@ -13,17 +13,17 @@ interface IProps {
   currencies?: Array<any>;
 
   /**
-   * An Object of Props of input.
+   * An object containing input properties.
    */
   input?: Object;
 
   /**
-   * Props of Fake-Input.
+   * Props for the base select input.
    */
   baseSelectProps?: any;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 
@@ -34,28 +34,44 @@ interface IProps {
   theme: ITheme;
 }
 
+/**
+ * A modal component for selecting currencies.
+ *
+ * @param props - The properties for the CurrencySelectModal component.
+ * @returns A rendered InternalPagination component for currency selection.
+ */
 export const CurrencySelectModal = (props: IProps) => {
   const {currencies, input, baseSelectProps, disabled, theme} = props;
 
+  /**
+   * Retrieves the symbol of the selected currency based on input value.
+   *
+   * @returns The symbol of the selected currency or null if none is selected.
+   */
   const getSelectedCurrencySymbol = () => {
     if (isEmpty(currencies) || !input?.value) {
       return null;
     }
 
     const currency = find(currencies, {
-      fullItem: {id: Number(input?.value)}
+      fullItem: {id: Number(input?.value)},
     });
 
     return currency?.fullItem?.code;
   };
 
+  /**
+   * Retrieves the title of the selected currency based on input value.
+   *
+   * @returns The title of the selected currency or a placeholder if none is selected.
+   */
   const getSelectedCurrencyTitle = () => {
     if (isEmpty(currencies) || !input?.value) {
       return t('settings.preferences.currency_placeholder');
     }
 
     const currency = find(currencies, {
-      fullItem: {id: Number(input?.value)}
+      fullItem: {id: Number(input?.value)},
     });
 
     return currency?.title;
@@ -65,7 +81,7 @@ export const CurrencySelectModal = (props: IProps) => {
     <InternalPagination
       placeholder={getSelectedCurrencyTitle()}
       {...props}
-      items={currencies ?? []}
+      items={currencies ?? []} // Fallback to empty array if currencies is undefined
       displayName="name"
       searchFields={['name']}
       compareField="id"
@@ -76,11 +92,11 @@ export const CurrencySelectModal = (props: IProps) => {
         leftSymbol: getSelectedCurrencySymbol(),
         leftSymbolStyle: {color: theme?.icons?.primaryColor},
         disabled,
-        ...baseSelectProps
+        ...baseSelectProps,
       }}
       listViewProps={{
         contentContainerStyle: {flex: 5},
-        rightTitleStyle: SymbolStyle
+        rightTitleStyle: SymbolStyle,
       }}
     />
   );

@@ -581,25 +581,6 @@ src
 │       ├── webview-style.js
 │       ├── webview-type.d.js
 │       └── webview.js
-├── select-modal
-│   ├── company-select-modal.js
-│   ├── country-select-modal.js
-│   ├── currency-select-modal.js
-│   ├── customer-select-modal.js
-│   ├── date-format-select-modal.js
-│   ├── expense-category-select-modal.js
-│   ├── fiscal-year-select-modal.js
-│   ├── index.js
-│   ├── invoice-select-modal.js
-│   ├── item-select-modal.js
-│   ├── language-select-modal.js
-│   ├── note-select-modal.js
-│   ├── payment-mode-select-modal.js
-│   ├── retrospective-edit-select-modal.js
-│   ├── role-select-modal.js
-│   ├── tax-select-modal.js
-│   ├── time-zone-select-modal.js
-│   └── unit-select-modal.js
 └── stores
     ├── auth
     │   ├── actions.js

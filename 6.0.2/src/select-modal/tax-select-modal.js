@@ -8,17 +8,17 @@ import {ITheme} from '@/interfaces';
 
 interface IProps {
   /**
-   * An array of objects with data for each tax.
+   * An array of objects with data for each tax type.
    */
   taxTypes?: Array<any>;
 
   /**
-   * An action to return a list of tax.
+   * An action to fetch the list of taxes.
    */
   fetchTaxes?: () => void;
 
   /**
-   * Is allowed to edit.
+   * Indicates whether editing is allowed.
    */
   disabled?: boolean;
 
@@ -27,8 +27,24 @@ interface IProps {
    * @see ITheme
    */
   theme: ITheme;
+
+  /**
+   * Custom view class for styling.
+   */
+  customViewClass?: string;
+
+  /**
+   * An array of selected tax items.
+   */
+  multiSelectedItems?: Array<any>;
 }
 
+/**
+ * A modal component for selecting tax types.
+ *
+ * @param props - The properties for the TaxSelectModal component.
+ * @returns A rendered SelectField component for tax selection.
+ */
 export const TaxSelectModal = (props: IProps) => {
   const {
     taxTypes,
@@ -36,14 +52,14 @@ export const TaxSelectModal = (props: IProps) => {
     disabled = false,
     theme,
     customViewClass,
-    multiSelectedItems
+    multiSelectedItems,
   } = props;
 
   return (
     <SelectField
-      input={{value: null}}
+      input={{value: null}} // Initial input value
       {...props}
-      items={taxTypes ?? []}
+      items={taxTypes ?? []} // Fallback to empty array if taxTypes is undefined
       getItems={fetchTaxes}
       apiSearch
       hasPagination
@@ -64,7 +80,7 @@ export const TaxSelectModal = (props: IProps) => {
         ...(props['custom-view']
           ? {
               customView: ({props}) => (
-                <View class={`flex-row ${customViewClass}`}>
+                <View className={`flex-row ${customViewClass}`}>
                   <View style={{flex: 0.9}} />
                   <TouchableOpacity
                     onPress={() => props?.onChangeCallback?.()}
@@ -76,7 +92,7 @@ export const TaxSelectModal = (props: IProps) => {
                     </Text>
                   </TouchableOpacity>
                 </View>
-              )
+              ),
             }
           : {
               label: t('items.taxes'),
@@ -84,9 +100,9 @@ export const TaxSelectModal = (props: IProps) => {
               icon: 'percent',
               leftIconProps: {
                 size: 14,
-                style: {paddingLeft: 19}
-              }
-            })
+                style: {paddingLeft: 19},
+              },
+            }),
       }}
     />
   );
