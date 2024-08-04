@@ -10,19 +10,21 @@ import {fetchCountries} from '../common/saga';
 import {navigation} from '@/navigation';
 
 /**
- * Fetch companies saga
+ * Saga for fetching companies.
  * @returns {IterableIterator<*>}
  */
-export function* fetchCompanies(payload) {
+export function* fetchCompanies() {
   try {
     const {data} = yield call(req.fetchCompanies);
     yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: data});
     yield put(spinner('isSaving', false));
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch Currencies saga
+ * Saga for fetching currencies.
  * @returns {IterableIterator<*>}
  */
 export function* fetchCurrencies() {
@@ -33,33 +35,40 @@ export function* fetchCurrencies() {
     const {data} = yield call(req.fetchCurrencies);
     yield put({type: types.FETCH_CURRENCIES_SUCCESS, payload: data});
     CompanyServices.setIsCurrenciesItemLoaded();
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch timezones saga
+ * Saga for fetching timezones.
  * @returns {IterableIterator<*>}
  */
 function* fetchTimezones() {
   try {
     const {time_zones} = yield call(req.fetchTimezones);
     yield put({type: types.FETCH_TIMEZONES_SUCCESS, payload: time_zones});
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch Date-Formats saga
+ * Saga for fetching date formats.
  * @returns {IterableIterator<*>}
  */
 function* fetchDateFormats() {
   try {
     const {date_formats} = yield call(req.fetchDateFormats);
     yield put({type: types.FETCH_DATE_FORMATS_SUCCESS, payload: date_formats});
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch Preferences saga
+ * Saga for fetching preferences.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* fetchPreferences({payload}) {
@@ -75,11 +84,14 @@ function* fetchPreferences({payload}) {
 
     yield put(spinner('isSaving', false));
     payload?.onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Update Preferences saga
+ * Saga for updating preferences.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* updatePreferences({payload}) {
@@ -111,7 +123,8 @@ function* updatePreferences({payload}) {
 }
 
 /**
- * Fetch company initial details saga
+ * Saga for fetching company initial details.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* fetchCompanyInitialDetails({payload}) {
@@ -127,11 +140,14 @@ function* fetchCompanyInitialDetails({payload}) {
     }
     yield put(spinner('isSaving', false));
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add company saga
+ * Saga for adding a company.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* addCompany({payload}) {
@@ -152,7 +168,8 @@ function* addCompany({payload}) {
 }
 
 /**
- * Update company saga
+ * Saga for updating a company.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* updateCompany({payload}) {
@@ -174,7 +191,8 @@ function* updateCompany({payload}) {
 }
 
 /**
- * Fetch company settings saga
+ * Saga for fetching company settings.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* fetchCompanySettings({payload}) {
@@ -183,11 +201,14 @@ function* fetchCompanySettings({payload}) {
     const response = yield call(req.fetchCompanySettings, keys);
     yield put({type: types.FETCH_COMPANY_SETTINGS_SUCCESS, payload: response});
     onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Update company settings saga
+ * Saga for updating company settings.
+ * @param {Object} action - The action object containing payload.
  * @returns {IterableIterator<*>}
  */
 function* updateCompanySettings({payload}) {
@@ -201,6 +222,10 @@ function* updateCompanySettings({payload}) {
   }
 }
 
+/**
+ * Root saga for company-related sagas.
+ * @returns {IterableIterator<*>}
+ */
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);

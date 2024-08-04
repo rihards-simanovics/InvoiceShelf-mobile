@@ -7,8 +7,9 @@ import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
 
 /**
- * Fetch custom-fields saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching custom fields.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 export function* fetchCustomFields({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -16,7 +17,7 @@ export function* fetchCustomFields({payload}) {
     const response = yield call(req.fetchCustomFields, queryString);
     yield put({
       type: types.FETCH_CUSTOM_FIELDS_SUCCESS,
-      payload: {customFields: response?.data, fresh}
+      payload: {customFields: response?.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -25,20 +26,24 @@ export function* fetchCustomFields({payload}) {
 }
 
 /**
- * Fetch single custom-field saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching a single custom field.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchSingleCustomField({payload}) {
   try {
     const {id, onSuccess} = payload;
     const {data} = yield call(req.fetchSingleCustomField, id);
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add custom-field saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a custom field.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* addCustomField({payload}) {
   try {
@@ -56,8 +61,9 @@ function* addCustomField({payload}) {
 }
 
 /**
- * Update custom-field saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a custom field.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateCustomField({payload}) {
   const {id, params} = payload;
@@ -75,8 +81,9 @@ function* updateCustomField({payload}) {
 }
 
 /**
- * Remove custom-field saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a custom field.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* removeCustomField({payload}) {
   try {
@@ -93,6 +100,10 @@ function* removeCustomField({payload}) {
   }
 }
 
+/**
+ * Root saga for custom field operations.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* customFieldSaga() {
   yield takeLatest(types.FETCH_CUSTOM_FIELDS, fetchCustomFields);
   yield takeLatest(types.FETCH_SINGLE_CUSTOM_FIELD, fetchSingleCustomField);

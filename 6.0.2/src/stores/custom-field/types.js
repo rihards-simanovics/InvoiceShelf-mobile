@@ -1,3 +1,4 @@
+// Action type constants for custom fields
 export const SPINNER = 'field/SPINNER';
 
 export const CUSTOM_FIELDS_FORM = 'field/CUSTOM_FIELDS_FORM';

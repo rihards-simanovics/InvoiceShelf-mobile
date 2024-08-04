@@ -572,23 +572,6 @@ src
 │       ├── webview-type.d.js
 │       └── webview.js
 └── stores
-    ├── company
-    │   ├── actions.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── custom-field
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
     ├── customer
     │   ├── actions.js
     │   ├── helpers.js
@@ -641,8 +624,6 @@ src
     │   ├── selectors.js
     │   ├── service.js
     │   └── types.js
-    ├── more
-    │   └── helpers.js
     ├── note
     │   ├── actions.js
     │   ├── helpers.js

@@ -3,9 +3,15 @@ import * as types from './types';
 const initialState = {
   customFields: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Reducer for managing custom field state.
+ * @param {Object} state - The current state.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} - The new state.
+ */
 export default function customFieldReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -19,32 +25,32 @@ export default function customFieldReducer(state = initialState, action) {
           ...state,
           customFields: payload.customFields,
           isSaving: false,
-          isDeleting: false
+          isDeleting: false,
         };
       }
       return {
         ...state,
-        customFields: [...state.customFields, ...payload.customFields]
+        customFields: [...state.customFields, ...payload.customFields],
       };
 
     case types.ADD_CUSTOM_FIELD_SUCCESS:
       return {
         ...state,
-        customFields: [...[payload], ...state.customFields]
+        customFields: [payload, ...state.customFields],
       };
 
     case types.UPDATE_CUSTOM_FIELD_SUCCESS:
       return {
         ...state,
-        customFields: state.customFields.map(c =>
+        customFields: state.customFields.map((c) =>
           c.id === payload.id ? payload : c
-        )
+        ),
       };
 
     case types.REMOVE_CUSTOM_FIELD_SUCCESS:
       return {
         ...state,
-        customFields: state.customFields.filter(({id}) => id !== payload)
+        customFields: state.customFields.filter(({id}) => id !== payload),
       };
 
     default:

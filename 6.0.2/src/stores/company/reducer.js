@@ -8,9 +8,15 @@ const initialState = {
   selectedCompany: null,
   selectedCompanyCurrency: null,
   selectedCompanySettings: null,
-  isSaving: false
+  isSaving: false,
 };
 
+/**
+ * Reducer function for managing company state.
+ * @param {Object} state - The current state.
+ * @param {Object} action - The action object.
+ * @returns {Object} The new state.
+ */
 export default function companyReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -39,7 +45,7 @@ export default function companyReducer(state = initialState, action) {
     case types.FETCH_COMPANY_SETTINGS_SUCCESS:
       return {
         ...state,
-        selectedCompanySettings: {...state.selectedCompanySettings, ...payload}
+        selectedCompanySettings: {...state.selectedCompanySettings, ...payload},
       };
 
     default:

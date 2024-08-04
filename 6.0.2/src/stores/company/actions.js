@@ -1,127 +1,127 @@
 import * as types from './types';
 
 /**
- * Spinner
- * @param name
- * @param value
- * @returns {{type: string, payload: *}}
+ * Action creator for setting a spinner state.
+ * @param {string} name - The name of the spinner.
+ * @param {boolean} value - The value of the spinner (true/false).
+ * @returns {{type: string, payload: {name: string, value: boolean}}} The action object.
  */
 export function spinner(name, value) {
   return {
     type: types.SPINNER,
-    payload: {name, value}
+    payload: {name, value},
   };
 }
 
 /**
- * Fetch companies
- * @param payload
- * @returns {{type: string, payload: *}}
+ * Action creator for fetching companies.
+ * @param {Object} [payload={}] - The payload for the action.
+ * @returns {{type: string, payload: Object}} The action object.
  */
 export function fetchCompanies(payload = {}) {
   return {
     type: types.FETCH_COMPANIES,
-    payload
+    payload,
   };
 }
 
 /**
- * Add company
- * @param params
- * @param logo
- * @returns {{type: string, payload: *}}
+ * Action creator for adding a company.
+ * @param {Object} params - The parameters for the company.
+ * @param {File} logo - The logo file for the company.
+ * @returns {{type: string, payload: {params: Object, logo: File}}} The action object.
  */
 export function addCompany(params, logo) {
   return {
     type: types.ADD_COMPANY,
-    payload: {params, logo}
+    payload: {params, logo},
   };
 }
 
 /**
- * Update company
- * @param params
- * @param logo
- * @returns {{type: string, payload: *}}
+ * Action creator for updating a company.
+ * @param {Object} params - The parameters for the company.
+ * @param {File|null} [logo=null] - The logo file for the company (optional).
+ * @returns {{type: string, payload: {params: Object, logo: File|null}}} The action object.
  */
 export function updateCompany(params, logo = null) {
   return {
     type: types.UPDATE_COMPANY,
-    payload: {params, logo}
+    payload: {params, logo},
   };
 }
 
 /**
- * Fetch preferences
- * @param onSuccess
- * @returns {{type: string, payload: *}}
+ * Action creator for fetching preferences.
+ * @param {Function} onSuccess - Callback function to execute on success.
+ * @returns {{type: string, payload: {onSuccess: Function}}} The action object.
  */
 export function fetchPreferences(onSuccess) {
   return {
     type: types.FETCH_PREFERENCES,
-    payload: {onSuccess}
+    payload: {onSuccess},
   };
 }
 
 /**
- * Update preferences
- * @param payload
- * @returns {{type: string, payload: *}}
+ * Action creator for updating preferences.
+ * @param {Object} payload - The payload for the action.
+ * @returns {{type: string, payload: Object}} The action object.
  */
-export const updatePreferences = payload => ({
+export const updatePreferences = (payload) => ({
   type: types.UPDATE_PREFERENCES,
-  payload
+  payload,
 });
 
 /**
- * Fetch company initial details
- * @param isCreateScreen
- * @param onSuccess
- * @returns {{type: string, payload: *}}
+ * Action creator for fetching company initial details.
+ * @param {boolean} isCreateScreen - Indicates if it's a create screen.
+ * @param {Function} onSuccess - Callback function to execute on success.
+ * @returns {{type: string, payload: {isCreateScreen: boolean, onSuccess: Function}}} The action object.
  */
 export const fetchCompanyInitialDetails = (isCreateScreen, onSuccess) => ({
   type: types.FETCH_INITIAL_DETAILS,
-  payload: {isCreateScreen, onSuccess}
+  payload: {isCreateScreen, onSuccess},
 });
 
 /**
- * Set selected company
- * @param payload
- * @returns {{type: string, payload: *}}
+ * Action creator for setting the selected company.
+ * @param {Object} payload - The payload for the action.
+ * @returns {{type: string, payload: Object}} The action object.
  */
-export const setSelectedCompany = payload => ({
+export const setSelectedCompany = (payload) => ({
   type: types.SET_SELECTED_COMPANY,
-  payload
+  payload,
 });
 
 /**
- * Set company setting
- * @param payload
- * @returns {{type: string, payload: *}}
+ * Action creator for setting company settings.
+ * @param {Object} [payload={}] - The payload for the action.
+ * @returns {{type: string, payload: Object}} The action object.
  */
 export const setCompanySetting = (payload = {}) => ({
   type: types.SET_COMPANY_SETTING,
-  payload
+  payload,
 });
 
 /**
- * fetch company settings
- * @param keys
- * @param onSuccess
- * @returns {{type: string, payload: *}}
+ * Action creator for fetching company settings.
+ * @param {Array|null} [keys=null] - The keys for the settings (optional).
+ * @param {Function|null} [onSuccess=null] - Callback function to execute on success (optional).
+ * @returns {{type: string, payload: {keys: Array|null, onSuccess: Function|null}}} The action object.
  */
 export const fetchCompanySettings = (keys = null, onSuccess = null) => ({
   type: types.FETCH_COMPANY_SETTINGS,
-  payload: {keys, onSuccess}
+  payload: {keys, onSuccess},
 });
 
 /**
- * update company settings
- * @param params
- * @param navigation
- * @returns {{type: string, payload: *}}
+ * Action creator for updating company settings.
+ * @param {Object} params - The parameters for the settings.
+ * @param {Object|null} [navigation=null] - The navigation object (optional).
+ * @returns {{type: string, payload: {params: Object, navigation: Object|null}}} The action object.
  */
 export const updateCompanySettings = (params, navigation = null) => ({
   type: types.UPDATE_COMPANY_SETTINGS,
-  payload: {params, navigation}
+  payload: {params, navigation},
 });

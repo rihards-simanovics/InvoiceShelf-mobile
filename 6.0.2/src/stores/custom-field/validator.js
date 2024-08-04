@@ -1,7 +1,12 @@
 import {getError} from '@/validator';
 import {dataTypes} from './helpers';
 
-export const validate = values => {
+/**
+ * Validate custom field values.
+ * @param {Object} values - The values to validate.
+ * @returns {Object} - The validation errors.
+ */
+export const validate = (values) => {
   const errors = {};
   const {name, modalType, type, label, order, defaultValue} = values;
 
@@ -11,6 +16,7 @@ export const validate = values => {
   errors.label = getError(label, ['required']);
   errors.order = getError(order, ['required']);
 
+  // Validate defaultValue based on type
   if (defaultValue && type === dataTypes.URL) {
     errors.defaultValue = getError(defaultValue, ['urlFormat']);
   }
