@@ -14,8 +14,8 @@ import {isEmpty} from '@/constants';
 import {selectedCompanySalesTaxSettingSelector} from '../company/selectors';
 
 /**
- * Fetch estimate templates saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch estimate templates.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* fetchEstimateTemplates() {
   const state = yield select();
@@ -23,28 +23,31 @@ function* fetchEstimateTemplates() {
     const {estimateTemplates} = yield call(req.fetchEstimateTemplates);
     yield put({
       type: types.FETCH_ESTIMATE_TEMPLATES_SUCCESS,
-      payload: estimateTemplates
+      payload: estimateTemplates,
     });
   }
 }
 
 /**
- * Fetch estimate templates saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch initial estimate data.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* fetchEstimateData() {
   try {
     yield put({type: types.CLEAR_ESTIMATE});
     yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.ESTIMATE, limit: 'all'}}
+      payload: {queryString: {type: modalTypes.ESTIMATE, limit: 'all'}},
     });
     yield call(fetchEstimateTemplates);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch recurring estimate initial details saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch initial details for an estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* fetchEstimateInitialDetails({payload}) {
   yield call(fetchEstimateData);
@@ -55,8 +58,9 @@ function* fetchEstimateInitialDetails({payload}) {
 }
 
 /**
- * Fetch next estimate number saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch the next estimate number.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* fetchNextEstimateNumber({payload = {}}) {
   try {
@@ -64,12 +68,15 @@ function* fetchNextEstimateNumber({payload = {}}) {
     const params = {key: 'estimate', userId, model_id};
     const {nextNumber} = yield call(req.fetchNextEstimateNumber, params);
     onSuccess?.(nextNumber);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch estimates saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch estimates.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* fetchEstimates({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -78,7 +85,7 @@ function* fetchEstimates({payload}) {
     const estimates = response?.data ?? [];
     yield put({
       type: types.FETCH_ESTIMATES_SUCCESS,
-      payload: {estimates, fresh}
+      payload: {estimates, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -87,8 +94,9 @@ function* fetchEstimates({payload}) {
 }
 
 /**
- * Fetch single estimate saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch a single estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* fetchSingleEstimate({payload}) {
   try {
@@ -97,15 +105,18 @@ function* fetchSingleEstimate({payload}) {
     yield call(fetchEstimateData);
     yield put({
       type: types.ADD_ESTIMATE_ITEM_SUCCESS,
-      payload: data?.items ?? []
+      payload: data?.items ?? [],
     });
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add estimate saga
- * @returns {IterableIterator<*>}
+ * Saga to add a new estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* addEstimate({payload}) {
   try {
@@ -127,8 +138,9 @@ function* addEstimate({payload}) {
 }
 
 /**
- * Update estimate saga
- * @returns {IterableIterator<*>}
+ * Saga to update an existing estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* updateEstimate({payload}) {
   try {
@@ -146,8 +158,9 @@ function* updateEstimate({payload}) {
 }
 
 /**
- * Remove estimate saga
- * @returns {IterableIterator<*>}
+ * Saga to remove an estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* removeEstimate({payload}) {
   try {
@@ -165,8 +178,9 @@ function* removeEstimate({payload}) {
 }
 
 /**
- * Add estimate item saga
- * @returns {IterableIterator<*>}
+ * Saga to add an estimate item.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* addEstimateItem({payload}) {
   try {
@@ -176,14 +190,16 @@ function* addEstimateItem({payload}) {
     yield put({type: types.ADD_ESTIMATE_ITEM_SUCCESS, payload: items ?? []});
     onSuccess?.();
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isSaving', false));
   }
 }
 
 /**
- * Remove estimate item saga
- * @returns {IterableIterator<*>}
+ * Saga to remove an estimate item.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* removeEstimateItem({payload}) {
   try {
@@ -191,14 +207,16 @@ function* removeEstimateItem({payload}) {
     yield put(spinner('isDeleting', true));
     yield put({type: types.REMOVE_ESTIMATE_ITEM_SUCCESS, payload: id});
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isDeleting', false));
   }
 }
 
 /**
- * Convert to invoice saga
- * @returns {IterableIterator<*>}
+ * Saga to convert an estimate to an invoice.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* convertToInvoice({payload}) {
   try {
@@ -207,12 +225,15 @@ function* convertToInvoice({payload}) {
     yield put({type: FETCH_INVOICES_SUCCESS, payload: {invoices: [data]}});
     onSuccess?.();
     showNotification({message: t('notification.invoice_created')});
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Change estimate status saga
- * @returns {IterableIterator<*>}
+ * Saga to change the status of an estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* changeEstimateStatus({payload}) {
   try {
@@ -222,14 +243,16 @@ function* changeEstimateStatus({payload}) {
     onSuccess?.();
     navigation.navigate(routes.ESTIMATES);
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isLoading', false));
   }
 }
 
 /**
- * Send estimate saga
- * @returns {IterableIterator<*>}
+ * Saga to send an estimate.
+ * @param {Object} action - The action containing payload.
+ * @returns {IterableIterator<*>} - Generator function for saga.
  */
 function* sendEstimate({payload}) {
   try {
@@ -245,6 +268,10 @@ function* sendEstimate({payload}) {
   }
 }
 
+/**
+ * Root saga for estimate-related sagas.
+ * @returns {IterableIterator<*>} - Generator function for saga.
+ */
 export default function* estimateSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchEstimateInitialDetails);
   yield takeEvery(types.FETCH_NEXT_ESTIMATE_NUMBER, fetchNextEstimateNumber);

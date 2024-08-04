@@ -7,9 +7,15 @@ const initialState = {
   isDeleting: false,
   isSaving: false,
   invoiceTemplates: [],
-  selectedItems: []
+  selectedItems: [],
 };
 
+/**
+ * Reducer function for managing invoice state.
+ * @param {Object} state - The current state.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} - The new state.
+ */
 export default function invoiceReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -21,11 +27,10 @@ export default function invoiceReducer(state = initialState, action) {
       if (payload.fresh) {
         return {...state, invoices: payload.invoices};
       }
-
       return {...state, invoices: [...state.invoices, ...payload.invoices]};
 
     case types.ADD_INVOICE_SUCCESS:
-      return {...state, invoices: [...[payload], ...state.invoices]};
+      return {...state, invoices: [payload, ...state.invoices]};
 
     case types.FETCH_INVOICE_TEMPLATES_SUCCESS:
       return {...state, invoiceTemplates: payload};
@@ -33,15 +38,15 @@ export default function invoiceReducer(state = initialState, action) {
     case types.UPDATE_INVOICE_SUCCESS:
       return {
         ...state,
-        invoices: state.invoices.map(invoice =>
+        invoices: state.invoices.map((invoice) =>
           invoice.id === payload.id ? payload : invoice
-        )
+        ),
       };
 
     case types.REMOVE_INVOICE_SUCCESS:
       return {
         ...state,
-        invoices: state.invoices.filter(({id}) => id !== payload)
+        invoices: state.invoices.filter(({id}) => id !== payload),
       };
 
     case types.ADD_INVOICE_ITEM_SUCCESS:
@@ -50,7 +55,7 @@ export default function invoiceReducer(state = initialState, action) {
     case types.REMOVE_INVOICE_ITEM_SUCCESS:
       return {
         ...state,
-        selectedItems: state.selectedItems.filter(({id}) => id !== payload)
+        selectedItems: state.selectedItems.filter(({id}) => id !== payload),
       };
 
     case types.CLEAR_INVOICE:
@@ -60,7 +65,7 @@ export default function invoiceReducer(state = initialState, action) {
         isFetchingInitialData: false,
         isLoading: false,
         isDeleting: false,
-        isSaving: false
+        isSaving: false,
       };
 
     default:

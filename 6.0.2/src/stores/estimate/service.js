@@ -2,92 +2,92 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch Estimate Templates
- * @returns {*}
+ * Fetches estimate templates from the server.
+ * @returns {Promise} - The promise resolving to the response data.
  */
 export const fetchEstimateTemplates = () => {
   return Request.get(`/estimates/templates`);
 };
 
 /**
- * Fetch estimates
- * @param q : queryString
- * @returns {*}
+ * Fetches estimates based on the provided query string.
+ * @param {Object} q - The query string parameters.
+ * @returns {Promise} - The promise resolving to the response data.
  */
-export const fetchEstimates = q => {
+export const fetchEstimates = (q) => {
   return Request.get(`/estimates?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single estimate
- * @param id : estimate id
- * @returns {*}
+ * Fetches a single estimate by its ID.
+ * @param {string} id - The ID of the estimate.
+ * @returns {Promise} - The promise resolving to the response data.
  */
-export const fetchSingleEstimate = id => {
+export const fetchSingleEstimate = (id) => {
   return Request.get(`/estimates/${id}`);
 };
 
 /**
- * Add estimate
- * @param data
- * @returns {*}
+ * Adds a new estimate.
+ * @param {Object} data - The data for the new estimate.
+ * @returns {Promise} - The promise resolving to the response data.
  */
-export const addEstimate = data => {
+export const addEstimate = (data) => {
   return Request.post(`/estimates`, data);
 };
 
 /**
- * Update estimate
- * @param id : estimate id
- * @param data
- * @returns {*}
+ * Updates an existing estimate by its ID.
+ * @param {string} id - The ID of the estimate.
+ * @param {Object} data - The updated data for the estimate.
+ * @returns {Promise} - The promise resolving to the response data.
  */
 export const updateEstimate = (id, data) => {
   return Request.put(`/estimates/${id}`, data);
 };
 
 /**
- * change estimate status
- * @param action : update action
- * @param data
- * @returns {*}
+ * Changes the status of an estimate.
+ * @param {string} action - The action to perform (e.g., 'mark_as_sent').
+ * @param {Object} data - The data for the status change.
+ * @returns {Promise} - The promise resolving to the response data.
  */
 export const changeEstimateStatus = (action, data) => {
   return Request.post(`/estimates/${action}`, data);
 };
 
 /**
- * Remove estimate
- * @param data : Array of estimate ids
- * @returns {*}
+ * Removes an estimate by its ID.
+ * @param {string} id - The ID of the estimate to remove.
+ * @returns {Promise} - The promise resolving to the response data.
  */
-export const removeEstimate = id => {
+export const removeEstimate = (id) => {
   return Request.post(`/estimates/delete`, {ids: [id]});
 };
 
 /**
- * Remove estimate
- * @param id : estimate id
- * @returns {*}
+ * Converts an estimate to an invoice by its ID.
+ * @param {string} id - The ID of the estimate to convert.
+ * @returns {Promise} - The promise resolving to the response data.
  */
-export const convertToInvoice = id => {
+export const convertToInvoice = (id) => {
   return Request.post(`/estimates/${id}/convert-to-invoice`);
 };
 
 /**
- * Fetch next estimate number
- * @param q : queryString
- * @returns {*}
+ * Fetches the next estimate number based on the provided query string.
+ * @param {Object} q - The query string parameters.
+ * @returns {Promise} - The promise resolving to the response data.
  */
-export const fetchNextEstimateNumber = q => {
+export const fetchNextEstimateNumber = (q) => {
   return Request.get(`/next-number?${queryString.stringify(q)}`);
 };
 
 /**
- * Send estimate
- * @param id : estimate id
- * @param data
- * @returns {*}
+ * Sends an estimate by its ID.
+ * @param {string} id - The ID of the estimate to send.
+ * @param {Object} data - The data to send with the estimate.
+ * @returns {Promise} - The promise resolving to the response data.
  */
 export const sendEstimate = (id, data) => {
   return Request.post(`/estimates/${id}/send`, data);

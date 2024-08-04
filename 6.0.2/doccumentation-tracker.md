@@ -572,42 +572,6 @@ src
 │       ├── webview-type.d.js
 │       └── webview.js
 └── stores
-    ├── customer
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── estimate
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── expense
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── invoice
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
     ├── item
     │   ├── actions.js
     │   ├── helper.js

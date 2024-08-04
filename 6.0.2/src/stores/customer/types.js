@@ -1,3 +1,4 @@
+// Action type constants for customer management
 export const SPINNER = 'customer/SPINNER';
 
 export const CUSTOMERS_FORM = 'customer/CUSTOMERS_FORM';

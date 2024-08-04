@@ -2,48 +2,48 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch expenses
- * @param q : queryString
- * @returns {*}
+ * Fetches expenses based on the provided query string.
+ * @param {Object} q - The query string parameters.
+ * @returns {Promise<*>} - The response from the API.
  */
-export const fetchExpenses = q => {
+export const fetchExpenses = (q) => {
   return Request.get(`/expenses?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single expense
- * @param id : expense id
- * @returns {*}
+ * Fetches a single expense by its ID.
+ * @param {string} id - The ID of the expense.
+ * @returns {Promise<*>} - The response from the API.
  */
-export const fetchSingleExpense = id => {
+export const fetchSingleExpense = (id) => {
   return Request.get(`/expenses/${id}`);
 };
 
 /**
- * Add expense
- * @param data
- * @returns {*}
+ * Adds a new expense.
+ * @param {Object} data - The expense data to add.
+ * @returns {Promise<*>} - The response from the API.
  */
-export const addExpense = data => {
+export const addExpense = (data) => {
   return Request.post(`/expenses`, data, {withMultipartFormData: false});
 };
 
 /**
- * Update expense
- * @param id : expense id
- * @param data
- * @returns {*}
+ * Updates an existing expense by its ID.
+ * @param {string} id - The ID of the expense.
+ * @param {Object} data - The updated expense data.
+ * @returns {Promise<*>} - The response from the API.
  */
 export const updateExpense = (id, data) => {
   return Request.put(`/expenses/${id}`, data, {withMultipartFormData: false});
 };
 
 /**
- * Upload attachment receipt
- * @param id : expense id
- * @param attachmentReceipt : receipt attachment
- * @param type : create or edit type of request
- * @returns {*}
+ * Uploads an attachment receipt for an expense.
+ * @param {string} id - The ID of the expense.
+ * @param {File} attachmentReceipt - The receipt attachment.
+ * @param {string} type - The type of request (create or edit).
+ * @returns {Promise<*>} - The response from the API.
  */
 export const uploadAttachmentReceipt = (id, attachmentReceipt, type) => {
   return Request.post(
@@ -54,11 +54,10 @@ export const uploadAttachmentReceipt = (id, attachmentReceipt, type) => {
 };
 
 /**
- * Remove expense
- * @param id : expense id
- * @param data : Array of expense ids
- * @returns {*}
+ * Removes an expense by its ID.
+ * @param {string} id - The ID of the expense.
+ * @returns {Promise<*>} - The response from the API.
  */
-export const removeExpense = id => {
+export const removeExpense = (id) => {
   return Request.post(`/expenses/delete`, {ids: [id]});
 };

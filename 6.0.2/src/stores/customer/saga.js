@@ -11,8 +11,9 @@ import {fetchCountries} from 'stores/common/saga';
 import {modalTypes} from '../custom-field/helpers';
 
 /**
- * Fetch customers saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching customers.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 export function* fetchCustomers({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -20,7 +21,7 @@ export function* fetchCustomers({payload}) {
     const response = yield call(req.fetchCustomers, queryString);
     yield put({
       type: types.FETCH_CUSTOMERS_SUCCESS,
-      payload: {customers: response?.data, fresh}
+      payload: {customers: response?.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -29,38 +30,44 @@ export function* fetchCustomers({payload}) {
 }
 
 /**
- * Fetch single customer saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching a single customer.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchSingleCustomer({payload}) {
   try {
+    // Fetch necessary data before fetching the single customer
     yield call(fetchCountries);
     yield call(fetchCurrencies);
     yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.CUSTOMER, limit: 'all'}}
+      payload: {queryString: {type: modalTypes.CUSTOMER, limit: 'all'}},
     });
     const {id, onSuccess} = payload;
     const {data} = yield call(req.fetchSingleCustomer, id);
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch customer initial details saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching customer initial details.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchCustomerInitialDetails({payload}) {
   yield call(fetchCountries);
   yield call(fetchCurrencies);
   yield call(fetchCustomFields, {
-    payload: {queryString: {type: modalTypes.CUSTOMER, limit: 'all'}}
+    payload: {queryString: {type: modalTypes.CUSTOMER, limit: 'all'}},
   });
   payload?.();
 }
 
 /**
- * Add customer saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a customer.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* addCustomer({payload}) {
   try {
@@ -78,8 +85,9 @@ function* addCustomer({payload}) {
 }
 
 /**
- * Update customer saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a customer.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateCustomer({payload}) {
   const {id, params} = payload;
@@ -97,8 +105,9 @@ function* updateCustomer({payload}) {
 }
 
 /**
- * Remove customer saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a customer.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* removeCustomer({payload}) {
   try {
@@ -115,6 +124,10 @@ function* removeCustomer({payload}) {
   }
 }
 
+/**
+ * Root saga for customer operations.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* customerSaga() {
   yield takeLatest(types.FETCH_CUSTOMERS, fetchCustomers);
   yield takeLatest(types.FETCH_SINGLE_CUSTOMER, fetchSingleCustomer);

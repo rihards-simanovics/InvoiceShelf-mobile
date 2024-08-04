@@ -13,7 +13,7 @@ import {isEmpty} from '@/constants';
 import {selectedCompanySalesTaxSettingSelector} from '../company/selectors';
 
 /**
- * Fetch invoice templates saga
+ * Saga for fetching invoice templates.
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceTemplates() {
@@ -22,27 +22,30 @@ function* fetchInvoiceTemplates() {
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
     yield put({
       type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
-      payload: invoiceTemplates
+      payload: invoiceTemplates,
     });
   }
 }
 
 /**
- * Fetch invoice common details saga
+ * Saga for fetching common invoice details.
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceData() {
   try {
     yield put({type: types.CLEAR_INVOICE});
     yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
+      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}},
     });
     yield call(fetchInvoiceTemplates);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch invoice initial details saga
+ * Saga for fetching initial invoice details.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceInitialDetails({payload}) {
@@ -54,7 +57,8 @@ function* fetchInvoiceInitialDetails({payload}) {
 }
 
 /**
- * Fetch next invoice number saga
+ * Saga for fetching the next invoice number.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchNextInvoiceNumber({payload = {}}) {
@@ -63,11 +67,14 @@ function* fetchNextInvoiceNumber({payload = {}}) {
     const params = {key: 'invoice', userId, model_id};
     const {nextNumber} = yield call(req.fetchNextInvoiceNumber, params);
     onSuccess?.(nextNumber);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch invoices saga
+ * Saga for fetching invoices.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoices({payload}) {
@@ -83,7 +90,8 @@ function* fetchInvoices({payload}) {
 }
 
 /**
- * Fetch single invoice saga
+ * Saga for fetching a single invoice.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchSingleInvoice({payload}) {
@@ -93,14 +101,17 @@ function* fetchSingleInvoice({payload}) {
     yield call(fetchInvoiceData);
     yield put({
       type: types.ADD_INVOICE_ITEM_SUCCESS,
-      payload: data?.items ?? []
+      payload: data?.items ?? [],
     });
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add invoice saga
+ * Saga for adding an invoice.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* addInvoice({payload}) {
@@ -124,7 +135,8 @@ function* addInvoice({payload}) {
 }
 
 /**
- * Update invoice saga
+ * Saga for updating an invoice.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* updateInvoice({payload}) {
@@ -143,7 +155,8 @@ function* updateInvoice({payload}) {
 }
 
 /**
- * Remove invoice saga
+ * Saga for removing an invoice.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* removeInvoice({payload}) {
@@ -162,7 +175,8 @@ function* removeInvoice({payload}) {
 }
 
 /**
- * Add invoice item saga
+ * Saga for adding an invoice item.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* addInvoiceItem({payload}) {
@@ -173,13 +187,15 @@ function* addInvoiceItem({payload}) {
     yield put({type: types.ADD_INVOICE_ITEM_SUCCESS, payload: items ?? []});
     onSuccess?.();
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isSaving', false));
   }
 }
 
 /**
- * Remove invoice item saga
+ * Saga for removing an invoice item.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* removeInvoiceItem({payload}) {
@@ -188,13 +204,15 @@ function* removeInvoiceItem({payload}) {
     const {id} = payload;
     yield put({type: types.REMOVE_INVOICE_ITEM_SUCCESS, payload: id});
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isDeleting', false));
   }
 }
 
 /**
- * Change invoice status saga
+ * Saga for changing the status of an invoice.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* changeInvoiceStatus({payload}) {
@@ -212,7 +230,8 @@ function* changeInvoiceStatus({payload}) {
 }
 
 /**
- * Send invoice saga
+ * Saga for sending an invoice.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* sendInvoice({payload}) {
@@ -229,6 +248,10 @@ function* sendInvoice({payload}) {
   }
 }
 
+/**
+ * Root saga for invoice-related actions.
+ * @returns {IterableIterator<*>}
+ */
 export default function* invoiceSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchInvoiceInitialDetails);
   yield takeLatest(types.FETCH_INVOICES, fetchInvoices);

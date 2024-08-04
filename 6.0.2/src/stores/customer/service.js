@@ -2,47 +2,47 @@ import Request from 'utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch customers
- * @param q : queryString
- * @returns {*}
+ * Fetch customers from the server.
+ * @param {Object} q - The query parameters.
+ * @returns {Promise<*>} - The response from the server.
  */
-export const fetchCustomers = q => {
+export const fetchCustomers = (q) => {
   return Request.get(`/customers?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single customer
- * @param id : customer id
- * @returns {*}
+ * Fetch a single customer by ID.
+ * @param {string} id - The ID of the customer.
+ * @returns {Promise<*>} - The response from the server.
  */
-export const fetchSingleCustomer = id => {
+export const fetchSingleCustomer = (id) => {
   return Request.get(`/customers/${id}`);
 };
 
 /**
- * Add customer
- * @param data
- * @returns {*}
+ * Add a new customer.
+ * @param {Object} data - The data for the new customer.
+ * @returns {Promise<*>} - The response from the server.
  */
-export const addCustomer = data => {
+export const addCustomer = (data) => {
   return Request.post(`/customers`, data);
 };
 
 /**
- * Update customer
- * @param id : customer id
- * @param data
- * @returns {*}
+ * Update an existing customer.
+ * @param {string} id - The ID of the customer.
+ * @param {Object} data - The updated data for the customer.
+ * @returns {Promise<*>} - The response from the server.
  */
 export const updateCustomer = (id, data) => {
   return Request.put(`/customers/${id}`, data);
 };
 
 /**
- * Remove customer
- * @param id : customer id
- * @returns {*}
+ * Remove a customer by ID.
+ * @param {string} id - The ID of the customer.
+ * @returns {Promise<*>} - The response from the server.
  */
-export const removeCustomer = id => {
+export const removeCustomer = (id) => {
   return Request.post(`/customers/delete`, {ids: [id]});
 };

@@ -1,3 +1,4 @@
+// Action types for expense management
 export const EXPENSES_FORM = 'expense/EXPENSES_FORM';
 export const CREATE_EXPENSE_FORM = 'expense/CREATE_EXPENSE_FORM';
 

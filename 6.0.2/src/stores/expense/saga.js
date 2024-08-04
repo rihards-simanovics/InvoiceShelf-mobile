@@ -10,20 +10,23 @@ import {navigation} from '@/navigation';
 import {fetchCurrencies} from '../company/saga';
 
 /**
- * Fetch expense templates saga
+ * Saga for fetching expense templates.
  * @returns {IterableIterator<*>}
  */
 function* fetchExpenseData() {
   try {
     yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.EXPENSE, limit: 'all'}}
+      payload: {queryString: {type: modalTypes.EXPENSE, limit: 'all'}},
     });
     yield call(fetchCurrencies);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch recurring expense initial details saga
+ * Saga for fetching initial details of a recurring expense.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchExpenseInitialDetails({payload}) {
@@ -32,7 +35,8 @@ function* fetchExpenseInitialDetails({payload}) {
 }
 
 /**
- * Fetch expenses saga
+ * Saga for fetching expenses.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchExpenses({payload}) {
@@ -42,7 +46,7 @@ function* fetchExpenses({payload}) {
     const expenses = response?.data ?? [];
     yield put({
       type: types.FETCH_EXPENSES_SUCCESS,
-      payload: {expenses, fresh}
+      payload: {expenses, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -51,7 +55,8 @@ function* fetchExpenses({payload}) {
 }
 
 /**
- * Fetch single expense saga
+ * Saga for fetching a single expense.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* fetchSingleExpense({payload}) {
@@ -60,11 +65,14 @@ function* fetchSingleExpense({payload}) {
     const {data} = yield call(req.fetchSingleExpense, id);
     yield call(fetchExpenseData);
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add expense saga
+ * Saga for adding an expense.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* addExpense({payload}) {
@@ -91,7 +99,8 @@ function* addExpense({payload}) {
 }
 
 /**
- * Update expense saga
+ * Saga for updating an expense.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* updateExpense({payload}) {
@@ -113,7 +122,8 @@ function* updateExpense({payload}) {
 }
 
 /**
- * Remove expense saga
+ * Saga for removing an expense.
+ * @param {Object} action - The action dispatched.
  * @returns {IterableIterator<*>}
  */
 function* removeExpense({payload}) {
@@ -131,6 +141,10 @@ function* removeExpense({payload}) {
   }
 }
 
+/**
+ * Root saga for expense-related actions.
+ * @returns {IterableIterator<*>}
+ */
 export default function* expenseSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchExpenseInitialDetails);
   yield takeLatest(types.FETCH_EXPENSES, fetchExpenses);

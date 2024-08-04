@@ -1,4 +1,9 @@
-export const addressParams = address => {
+/**
+ * Extracts address parameters from an address object.
+ * @param {Object} address - The address object.
+ * @returns {Object} - The formatted address parameters.
+ */
+export const addressParams = (address) => {
   return {
     address_street_1: address?.address_street_1,
     address_street_2: address?.address_street_2,
@@ -8,11 +13,16 @@ export const addressParams = address => {
     phone: address?.phone,
     state: address?.state,
     zip: address?.zip,
-    type: null
+    type: null,
   };
 };
 
-export const isAddress = object => {
+/**
+ * Checks if an object contains any address fields.
+ * @param {Object} object - The object to check.
+ * @returns {boolean} - True if the object has address fields, false otherwise.
+ */
+export const isAddress = (object) => {
   return object?.address_street_1 ||
     object?.address_street_2 ||
     object?.city ||

@@ -2,7 +2,12 @@ import {validateCustomField} from '@/components';
 import {isEmpty} from '@/constants';
 import {getError} from '@/validator';
 
-export const validate = values => {
+/**
+ * Validate customer values.
+ * @param {Object} values - The values to validate.
+ * @returns {Object} - The validation errors.
+ */
+export const validate = (values) => {
   const {
     name,
     email,
@@ -11,7 +16,7 @@ export const validate = values => {
     confirm_password,
     enable_portal,
     isEditScreen,
-    password_added
+    password_added,
   } = values;
   const errors = {};
 
@@ -30,7 +35,7 @@ export const validate = values => {
     );
 
     errors.confirm_password = getError(confirm_password, ['passwordCompared'], {
-      fieldName: password
+      fieldName: password,
     });
   }
 
