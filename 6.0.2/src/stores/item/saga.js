@@ -10,8 +10,9 @@ import {fetchCustomFields} from '../custom-field/saga';
 import {modalTypes} from '../custom-field/helpers';
 
 /**
- * Fetch items saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching items.
+ * @param {Object} action - The action object containing payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -27,8 +28,9 @@ function* fetchItems({payload}) {
 }
 
 /**
- * Add item saga
- * @returns {IterableIterator<*>}
+ * Saga for adding an item.
+ * @param {Object} action - The action object containing payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 export function* addItem({payload}) {
   try {
@@ -54,8 +56,9 @@ export function* addItem({payload}) {
 }
 
 /**
- * Update item saga
- * @returns {IterableIterator<*>}
+ * Saga for updating an item.
+ * @param {Object} action - The action object containing payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateItem({payload}) {
   try {
@@ -72,8 +75,9 @@ function* updateItem({payload}) {
 }
 
 /**
- * Remove item saga
- * @returns {IterableIterator<*>}
+ * Saga for removing an item.
+ * @param {Object} action - The action object containing payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* removeItem({payload}) {
   try {
@@ -91,16 +95,20 @@ function* removeItem({payload}) {
 }
 
 /**
- * Fetch item initial details saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching initial details of an item.
+ * @param {Object} action - The action object containing payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchItemInitialDetails({payload}) {
-  // yield call(fetchCustomFields, {
-  //   payload: {queryString: {type: modalTypes.ITEM, limit: 'all'}}
-  // });
+  // Uncomment the following line to enable fetching custom fields
+  // yield call(fetchCustomFields, { payload: { queryString: { type: modalTypes.ITEM, limit: 'all' } } });
   payload?.();
 }
 
+/**
+ * Root saga for item-related sagas.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* itemSaga() {
   yield takeLatest(types.FETCH_ITEMS, fetchItems);
   yield takeLatest(types.ADD_ITEM, addItem);

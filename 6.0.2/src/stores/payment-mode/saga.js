@@ -6,8 +6,9 @@ import * as types from './types';
 import {showNotification, handleError} from '@/utils';
 
 /**
- * Fetch payment-methods saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching payment modes.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 export function* fetchPaymentModes({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -15,17 +16,19 @@ export function* fetchPaymentModes({payload}) {
     const response = yield call(req.fetchPaymentModes, queryString);
     yield put({
       type: types.FETCH_PAYMENT_MODES_SUCCESS,
-      payload: {modes: response.data, fresh}
+      payload: {modes: response.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
+    handleError(e);
     onFail?.();
   }
 }
 
 /**
- * Add payment-methods saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a payment mode.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* addPaymentMode({payload}) {
   const {params, onSuccess, onFail} = payload;
@@ -44,8 +47,9 @@ function* addPaymentMode({payload}) {
 }
 
 /**
- * Update payment-methods saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a payment mode.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* updatePaymentMode({payload}) {
   const {params, onSuccess, onFail} = payload;
@@ -64,8 +68,9 @@ function* updatePaymentMode({payload}) {
 }
 
 /**
- * Remove payment-methods saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a payment mode.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* removePaymentMode({payload}) {
   const {id, onSuccess, onFail} = payload;
@@ -83,6 +88,10 @@ function* removePaymentMode({payload}) {
   }
 }
 
+/**
+ * Root saga for payment modes.
+ * @returns {IterableIterator<*>} The generator function.
+ */
 export default function* paymentModeSaga() {
   yield takeEvery(types.FETCH_PAYMENT_MODES, fetchPaymentModes);
   yield takeEvery(types.ADD_PAYMENT_MODE, addPaymentMode);

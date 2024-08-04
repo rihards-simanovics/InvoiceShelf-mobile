@@ -6,9 +6,15 @@ const initialState = {
   selectedItems: [],
   invoiceTemplates: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Reducer for managing the state of recurring invoices.
+ * @param {Object} state - The current state of the reducer.
+ * @param {Object} action - The action dispatched to the reducer.
+ * @returns {Object} - The new state after applying the action.
+ */
 export default function recurringInvoiceReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -23,42 +29,41 @@ export default function recurringInvoiceReducer(state = initialState, action) {
       if (payload.fresh) {
         return {...state, invoices: payload.invoices};
       }
-
       return {
         ...state,
-        invoices: [...state.invoices, ...payload.invoices]
+        invoices: [...state.invoices, ...payload.invoices],
       };
 
     case types.ADD_RECURRING_INVOICE_SUCCESS:
       return {
         ...state,
-        invoices: [...[payload], ...state.invoices]
+        invoices: [payload, ...state.invoices],
       };
 
     case types.UPDATE_RECURRING_INVOICE_SUCCESS:
       return {
         ...state,
-        invoices: state.invoices.map(invoice =>
+        invoices: state.invoices.map((invoice) =>
           invoice.id === payload.id ? payload : invoice
-        )
+        ),
       };
 
     case types.REMOVE_RECURRING_INVOICE_SUCCESS:
       return {
         ...state,
-        invoices: state.invoices.filter(({id}) => id !== payload)
+        invoices: state.invoices.filter(({id}) => id !== payload),
       };
 
     case types.ADD_RECURRING_INVOICE_ITEM_SUCCESS:
       return {
         ...state,
-        selectedItems: [...state.selectedItems, ...payload]
+        selectedItems: [...state.selectedItems, ...payload],
       };
 
     case types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS:
       return {
         ...state,
-        selectedItems: state.selectedItems.filter(({id}) => id !== payload)
+        selectedItems: state.selectedItems.filter(({id}) => id !== payload),
       };
 
     case types.CLEAR_RECURRING_INVOICE:
@@ -66,7 +71,7 @@ export default function recurringInvoiceReducer(state = initialState, action) {
         ...state,
         isSaving: false,
         isDeleting: false,
-        selectedItems: []
+        selectedItems: [],
       };
 
     default:

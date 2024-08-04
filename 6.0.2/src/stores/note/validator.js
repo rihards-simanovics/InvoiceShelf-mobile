@@ -1,6 +1,11 @@
 import {getError} from '@/validator';
 
-export const validate = values => {
+/**
+ * Validate note form values.
+ * @param {Object} values - The form values to validate.
+ * @returns {Object} - An object containing validation errors.
+ */
+export const validate = (values) => {
   const errors = {};
 
   errors.name = getError(values?.name, ['required']);

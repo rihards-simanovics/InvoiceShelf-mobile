@@ -10,8 +10,9 @@ import {modalTypes} from '../custom-field/helpers';
 import {hasValue} from '@/constants';
 
 /**
- * Fetch payments saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch payments.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 export function* fetchPayments({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -19,7 +20,7 @@ export function* fetchPayments({payload}) {
     const response = yield call(req.fetchPayments, queryString);
     yield put({
       type: types.FETCH_PAYMENTS_SUCCESS,
-      payload: {payments: response?.data, fresh}
+      payload: {payments: response?.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -28,27 +29,31 @@ export function* fetchPayments({payload}) {
 }
 
 /**
- * Fetch single payment saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch a single payment.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchSinglePayment({payload}) {
   try {
     const {id, onSuccess} = payload;
     yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
+      payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}},
     });
     const {data} = yield call(req.fetchSinglePayment, id);
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch payment initial details saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch initial payment details.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchPaymentInitialDetails({payload}) {
   yield call(fetchCustomFields, {
-    payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
+    payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}},
   });
   const params = {key: 'payment'};
   const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
@@ -56,8 +61,9 @@ function* fetchPaymentInitialDetails({payload}) {
 }
 
 /**
- * Fetch next payment number saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch the next payment number.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchNextPaymentNumber({payload = {}}) {
   try {
@@ -65,12 +71,15 @@ function* fetchNextPaymentNumber({payload = {}}) {
     const params = {key: 'payment', userId, model_id};
     const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
     onSuccess?.(nextNumber);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add payment saga
- * @returns {IterableIterator<*>}
+ * Saga to add a payment.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* addPayment({payload}) {
   try {
@@ -90,8 +99,9 @@ function* addPayment({payload}) {
 }
 
 /**
- * Update payment saga
- * @returns {IterableIterator<*>}
+ * Saga to update a payment.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* updatePayment({payload}) {
   const {id, params} = payload;
@@ -109,8 +119,9 @@ function* updatePayment({payload}) {
 }
 
 /**
- * Remove payment saga
- * @returns {IterableIterator<*>}
+ * Saga to remove a payment.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* removePayment({payload}) {
   try {
@@ -128,8 +139,9 @@ function* removePayment({payload}) {
 }
 
 /**
- * Fetch payment invoices saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch payment invoices.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 export function* fetchPaymentInvoices({payload}) {
   try {
@@ -137,7 +149,7 @@ export function* fetchPaymentInvoices({payload}) {
     if (!hasValue(queryString?.customer_id)) {
       yield put({
         type: types.FETCH_PAYMENT_INVOICES_SUCCESS,
-        payload: {paymentInvoices: [], fresh: true}
+        payload: {paymentInvoices: [], fresh: true},
       });
       onSuccess?.();
       return;
@@ -146,7 +158,7 @@ export function* fetchPaymentInvoices({payload}) {
     const response = yield call(req.fetchPaymentInvoices, queryString);
     yield put({
       type: types.FETCH_PAYMENT_INVOICES_SUCCESS,
-      payload: {paymentInvoices: response?.data, fresh}
+      payload: {paymentInvoices: response?.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -155,8 +167,9 @@ export function* fetchPaymentInvoices({payload}) {
 }
 
 /**
- * Send payment receipt saga
- * @returns {IterableIterator<*>}
+ * Saga to send payment receipt
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* sendPaymentReceipt({payload}) {
   try {
@@ -172,6 +185,10 @@ function* sendPaymentReceipt({payload}) {
   }
 }
 
+/**
+ * Root saga for payment.
+ * @returns {IterableIterator<*>} The generator function.
+ */
 export default function* paymentSaga() {
   yield takeLatest(types.FETCH_PAYMENTS, fetchPayments);
   yield takeLatest(types.FETCH_SINGLE_PAYMENT, fetchSinglePayment);

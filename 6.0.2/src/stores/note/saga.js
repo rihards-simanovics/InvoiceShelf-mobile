@@ -8,8 +8,9 @@ import {navigation} from '@/navigation';
 import {fetchCustomFields} from 'stores/custom-field/saga';
 
 /**
- * Fetch notes saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching notes.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 export function* fetchNotes({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -17,7 +18,7 @@ export function* fetchNotes({payload}) {
     const response = yield call(req.fetchNotes, queryString);
     yield put({
       type: types.FETCH_NOTES_SUCCESS,
-      payload: {notes: response?.data, fresh}
+      payload: {notes: response?.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -26,8 +27,9 @@ export function* fetchNotes({payload}) {
 }
 
 /**
- * Fetch single note saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching a single note.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchSingleNote({payload}) {
   try {
@@ -39,8 +41,9 @@ function* fetchSingleNote({payload}) {
 }
 
 /**
- * Fetch note initial details saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching initial note details.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchNoteInitialDetails({payload}) {
   yield call(fetchCustomFields, {payload: {queryString: {limit: 'all'}}});
@@ -48,8 +51,9 @@ function* fetchNoteInitialDetails({payload}) {
 }
 
 /**
- * Add note saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a note.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* addNote({payload}) {
   try {
@@ -67,8 +71,9 @@ function* addNote({payload}) {
 }
 
 /**
- * Update note saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a note.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateNote({payload}) {
   const {id, params} = payload;
@@ -86,8 +91,9 @@ function* updateNote({payload}) {
 }
 
 /**
- * Remove note saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a note.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* removeNote({payload}) {
   try {
@@ -104,6 +110,10 @@ function* removeNote({payload}) {
   }
 }
 
+/**
+ * Root saga for note-related sagas.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* noteSaga() {
   yield takeLatest(types.FETCH_NOTES, fetchNotes);
   yield takeLatest(types.FETCH_SINGLE_NOTE, fetchSingleNote);

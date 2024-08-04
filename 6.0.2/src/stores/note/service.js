@@ -2,47 +2,47 @@ import Request from 'utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch notes
- * @param q : queryString
- * @returns {*}
+ * Fetch notes from the server.
+ * @param {Object} q - The query parameters for fetching notes.
+ * @returns {Promise<*>} - The promise resolving to the response.
  */
-export const fetchNotes = q => {
+export const fetchNotes = (q) => {
   return Request.get(`/notes?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single note
- * @param id : note id
- * @returns {*}
+ * Fetch a single note by ID.
+ * @param {string} id - The ID of the note to fetch.
+ * @returns {Promise<*>} - The promise resolving to the response.
  */
-export const fetchSingleNote = id => {
+export const fetchSingleNote = (id) => {
   return Request.get(`/notes/${id}`);
 };
 
 /**
- * Add note
- * @param data
- * @returns {*}
+ * Add a new note.
+ * @param {Object} data - The data for the new note.
+ * @returns {Promise<*>} - The promise resolving to the response.
  */
-export const addNote = data => {
+export const addNote = (data) => {
   return Request.post(`/notes`, data);
 };
 
 /**
- * Update note
- * @param id : note id
- * @param data
- * @returns {*}
+ * Update an existing note by ID.
+ * @param {string} id - The ID of the note to update.
+ * @param {Object} data - The updated data for the note.
+ * @returns {Promise<*>} - The promise resolving to the response.
  */
 export const updateNote = (id, data) => {
   return Request.put(`/notes/${id}`, data);
 };
 
 /**
- * Remove note
- * @param id : note id
- * @returns {*}
+ * Remove a note by ID.
+ * @param {string} id - The ID of the note to remove.
+ * @returns {Promise<*>} - The promise resolving to the response.
  */
-export const removeNote = id => {
+export const removeNote = (id) => {
   return Request.delete(`/notes/${id}`);
 };

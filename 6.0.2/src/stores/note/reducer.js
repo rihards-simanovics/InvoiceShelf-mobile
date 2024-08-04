@@ -3,9 +3,15 @@ import * as types from './types';
 const initialState = {
   notes: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Reducer function for managing note state.
+ * @param {Object} state - The current state of the notes.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} - The new state after applying the action.
+ */
 export default function noteReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -19,32 +25,32 @@ export default function noteReducer(state = initialState, action) {
           ...state,
           notes: payload.notes,
           isSaving: false,
-          isDeleting: false
+          isDeleting: false,
         };
       }
       return {
         ...state,
-        notes: [...state.notes, ...payload.notes]
+        notes: [...state.notes, ...payload.notes],
       };
 
     case types.ADD_NOTE_SUCCESS:
       return {
         ...state,
-        notes: [...[payload], ...state.notes]
+        notes: [payload, ...state.notes],
       };
 
     case types.UPDATE_NOTE_SUCCESS:
       return {
         ...state,
-        notes: state.notes.map(note =>
+        notes: state.notes.map((note) =>
           note.id === payload.id ? payload : note
-        )
+        ),
       };
 
     case types.REMOVE_NOTE_SUCCESS:
       return {
         ...state,
-        notes: state.notes.filter(({id}) => id !== payload)
+        notes: state.notes.filter(({id}) => id !== payload),
       };
 
     default:

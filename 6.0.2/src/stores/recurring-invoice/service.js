@@ -2,66 +2,66 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch Next-Invoice-At
- * @param data
- * @returns {*}
+ * Fetches the next invoice date based on provided parameters.
+ * @param {Object} data - The parameters for the request.
+ * @returns {Promise} - The promise resolving to the response.
  */
-export const fetchNextInvoiceAt = data => {
+export const fetchNextInvoiceAt = (data) => {
   return Request.get(
     `/recurring-invoice-frequency?${queryString.stringify(data)}`
   );
 };
 
 /**
- * Fetch Invoice Templates
- * @returns {*}
+ * Fetches the invoice templates.
+ * @returns {Promise} - The promise resolving to the response.
  */
 export const fetchInvoiceTemplates = () => {
   return Request.get(`/invoices/templates`);
 };
 
 /**
- * Fetch recurring-invoices
- * @param q : queryString
- * @returns {*}
+ * Fetches recurring invoices based on query parameters.
+ * @param {Object} q - The query parameters.
+ * @returns {Promise} - The promise resolving to the response.
  */
-export const fetchRecurringInvoices = q => {
+export const fetchRecurringInvoices = (q) => {
   return Request.get(`/recurring-invoices?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single recurring-invoice
- * @param id : recurring-invoice id
- * @returns {*}
+ * Fetches a single recurring invoice by ID.
+ * @param {string} id - The ID of the recurring invoice.
+ * @returns {Promise} - The promise resolving to the response.
  */
-export const fetchSingleRecurringInvoice = id => {
+export const fetchSingleRecurringInvoice = (id) => {
   return Request.get(`/recurring-invoices/${id}`);
 };
 
 /**
- * Add recurring-invoice
- * @param data
- * @returns {*}
+ * Adds a new recurring invoice.
+ * @param {Object} data - The data for the new invoice.
+ * @returns {Promise} - The promise resolving to the response.
  */
-export const addRecurringInvoice = data => {
+export const addRecurringInvoice = (data) => {
   return Request.post(`/recurring-invoices`, data);
 };
 
 /**
- * Update recurring-invoice
- * @param id : recurring-invoice id
- * @param data
- * @returns {*}
+ * Updates an existing recurring invoice by ID.
+ * @param {string} id - The ID of the recurring invoice.
+ * @param {Object} data - The updated data for the invoice.
+ * @returns {Promise} - The promise resolving to the response.
  */
 export const updateRecurringInvoice = (id, data) => {
   return Request.put(`/recurring-invoices/${id}`, data);
 };
 
 /**
- * Remove recurring-invoice
- * @param id : recurring-invoice id
- * @returns {*}
+ * Removes a recurring invoice by ID.
+ * @param {string} id - The ID of the recurring invoice.
+ * @returns {Promise} - The promise resolving to the response.
  */
-export const removeRecurringInvoice = id => {
+export const removeRecurringInvoice = (id) => {
   return Request.post(`/recurring-invoices/delete`, {ids: [id]});
 };

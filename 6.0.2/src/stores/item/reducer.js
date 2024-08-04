@@ -3,9 +3,15 @@ import * as types from './types';
 const initialState = {
   items: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Reducer function for managing item state.
+ * @param {Object} state - The current state.
+ * @param {Object} action - The action object.
+ * @returns {Object} - The new state.
+ */
 export default function itemReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -19,7 +25,7 @@ export default function itemReducer(state = initialState, action) {
           ...state,
           items: payload.items,
           isSaving: false,
-          isDeleting: false
+          isDeleting: false,
         };
       }
       return {...state, items: [...state.items, ...payload.items]};
@@ -27,21 +33,21 @@ export default function itemReducer(state = initialState, action) {
     case types.ADD_ITEM_SUCCESS:
       return {
         ...state,
-        items: [...payload, ...state.items]
+        items: [...payload, ...state.items],
       };
 
     case types.UPDATE_ITEM_SUCCESS:
       return {
         ...state,
-        items: state.items.map(item =>
+        items: state.items.map((item) =>
           item.id === payload.id ? payload : item
-        )
+        ),
       };
 
     case types.REMOVE_ITEM_SUCCESS:
       return {
         ...state,
-        items: state.items.filter(({id}) => id !== payload.id)
+        items: state.items.filter(({id}) => id !== payload.id),
       };
 
     default:

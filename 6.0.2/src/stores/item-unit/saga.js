@@ -4,9 +4,11 @@ import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
 import {showNotification, handleError} from '@/utils';
+
 /**
- * fetch item-units saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching item-units.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 export function* fetchItemUnits({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -14,17 +16,19 @@ export function* fetchItemUnits({payload}) {
     const response = yield call(req.fetchItemUnits, queryString);
     yield put({
       type: types.FETCH_ITEM_UNITS_SUCCESS,
-      payload: {units: response.data, fresh}
+      payload: {units: response.data, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
+    handleError(e);
     onFail?.();
   }
 }
 
 /**
- * Add item-units saga
- * @returns {IterableIterator<*>}
+ * Saga for adding an item-unit.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* addItemUnit({payload}) {
   const {params, onSuccess, onFail} = payload;
@@ -43,8 +47,9 @@ function* addItemUnit({payload}) {
 }
 
 /**
- * Update item-units saga
- * @returns {IterableIterator<*>}
+ * Saga for updating an item-unit.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateItemUnit({payload}) {
   const {params, onSuccess, onFail} = payload;
@@ -63,8 +68,9 @@ function* updateItemUnit({payload}) {
 }
 
 /**
- * Remove item-units saga
- * @returns {IterableIterator<*>}
+ * Saga for removing an item-unit.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* removeItemUnit({payload}) {
   const {id, onSuccess, onFail} = payload;
@@ -82,6 +88,10 @@ function* removeItemUnit({payload}) {
   }
 }
 
+/**
+ * Root saga for item-unit actions.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* itemUnitSaga() {
   yield takeEvery(types.FETCH_ITEM_UNITS, fetchItemUnits);
   yield takeEvery(types.ADD_ITEM_UNIT, addItemUnit);

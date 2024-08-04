@@ -1,3 +1,4 @@
+// Action type constants for note-related actions
 export const SPINNER = 'note/SPINNER';
 
 export const NOTES_FORM = 'note/NOTES_FORM';

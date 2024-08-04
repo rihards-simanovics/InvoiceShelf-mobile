@@ -17,17 +17,21 @@ export const UPDATE_ITEM_SUCCESS = 'item/UPDATE_ITEM_SUCCESS';
 export const REMOVE_ITEM = 'item/REMOVE_ITEM';
 export const REMOVE_ITEM_SUCCESS = 'item/REMOVE_ITEM_SUCCESS';
 
+/**
+ * Options for item discount types.
+ * @type {Array}
+ */
 export const ITEM_DISCOUNT_OPTION = [
   {
     key: 'none',
-    label: 'None'
+    label: 'None',
   },
   {
     key: 'fixed',
-    label: 'Fixed'
+    label: 'Fixed',
   },
   {
     key: 'percentage',
-    label: 'Percentage'
-  }
+    label: 'Percentage',
+  },
 ];

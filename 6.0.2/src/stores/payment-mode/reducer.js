@@ -3,9 +3,15 @@ import * as types from './types';
 const initialState = {
   modes: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Reducer for managing payment modes state.
+ * @param {Object} state - The current state.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} The new state.
+ */
 export default function paymentModeReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -19,7 +25,7 @@ export default function paymentModeReducer(state = initialState, action) {
           ...state,
           modes: payload.modes,
           isSaving: false,
-          isDeleting: false
+          isDeleting: false,
         };
       }
       return {...state, modes: [...state.modes, ...payload.modes]};
@@ -30,15 +36,15 @@ export default function paymentModeReducer(state = initialState, action) {
     case types.UPDATE_PAYMENT_MODE_SUCCESS:
       return {
         ...state,
-        modes: state.modes.map(mode =>
+        modes: state.modes.map((mode) =>
           mode.id === payload.id ? payload : mode
-        )
+        ),
       };
 
     case types.REMOVE_PAYMENT_MODE_SUCCESS:
       return {
         ...state,
-        modes: state.modes.filter(({id}) => id !== payload)
+        modes: state.modes.filter(({id}) => id !== payload),
       };
 
     default:

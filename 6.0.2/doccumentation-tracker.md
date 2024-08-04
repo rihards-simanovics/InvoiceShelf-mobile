@@ -572,55 +572,6 @@ src
 │       ├── webview-type.d.js
 │       └── webview.js
 └── stores
-    ├── item
-    │   ├── actions.js
-    │   ├── helper.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── item-unit
-    │   ├── actions.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   └── types.js
-    ├── note
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── payment
-    │   ├── actions.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
-    ├── payment-mode
-    │   ├── actions.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   └── types.js
-    ├── recurring-invoice
-    │   ├── actions.js
-    │   ├── helpers.js
-    │   ├── reducer.js
-    │   ├── saga.js
-    │   ├── selectors.js
-    │   ├── service.js
-    │   ├── types.js
-    │   └── validator.js
     ├── report
     │   ├── helpers.js
     │   ├── types.js

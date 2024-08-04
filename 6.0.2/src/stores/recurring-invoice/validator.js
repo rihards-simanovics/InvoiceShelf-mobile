@@ -2,8 +2,13 @@ import {isEmpty} from '@/constants';
 import {getError} from '@/validator';
 import {validateCustomField} from '@/components/custom-field';
 
-export const validate = values => {
-  const errors: any = {};
+/**
+ * Validates the values for a recurring invoice.
+ * @param {Object} values - The values to validate.
+ * @returns {Object} - The validation errors.
+ */
+export const validate = (values) => {
+  const errors = {};
   const {
     customer_id,
     starts_at,
@@ -15,8 +20,10 @@ export const validate = values => {
     frequency,
     items,
     template_name,
-    exchange_rate
+    exchange_rate,
   } = values;
+
+  // Validate required fields
   errors.customer_id = getError(customer_id, ['required']);
   errors.starts_at = getError(starts_at, ['required']);
   errors.limit_by = getError(limit_by, ['required']);
@@ -25,18 +32,25 @@ export const validate = values => {
   errors.template_name = getError(template_name, ['required']);
   errors.exchange_rate = getError(exchange_rate, [
     'required',
-    'isNumberFormat'
+    'isNumberFormat',
   ]);
 
-  if (limit_by === 'DATE')
+  // Conditional validations based on limit type
+  if (limit_by === 'DATE') {
     errors.limit_date = getError(limit_date, ['required']);
-  if (limit_by === 'COUNT')
+  }
+  if (limit_by === 'COUNT') {
     errors.limit_count = getError(limit_count, ['required']);
-  if (frequency_picker === '')
+  }
+  if (frequency_picker === '') {
     errors.frequency = getError(frequency, ['required', 'cronFormat']);
+  }
 
+  // Validate custom fields
   const fieldErrors = validateCustomField(values?.customFields);
-  !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
+  if (!isEmpty(fieldErrors)) {
+    errors.customFields = fieldErrors;
+  }
 
   return errors;
 };

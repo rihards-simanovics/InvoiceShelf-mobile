@@ -5,9 +5,15 @@ const initialState = {
   paymentInvoices: [],
   isSaving: false,
   isDeleting: false,
-  isLoading: false
+  isLoading: false,
 };
 
+/**
+ * Payment reducer to handle payment-related actions.
+ * @param {Object} state - The current state of the payment reducer.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} The new state after applying the action.
+ */
 export default function paymentReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -23,44 +29,44 @@ export default function paymentReducer(state = initialState, action) {
           paymentInvoices: [],
           isSaving: false,
           isDeleting: false,
-          isLoading: false
+          isLoading: false,
         };
       }
       return {
         ...state,
-        payments: [...state.payments, ...payload.payments]
+        payments: [...state.payments, ...payload.payments],
       };
 
     case types.ADD_PAYMENT_SUCCESS:
       return {
         ...state,
-        payments: [...[payload], ...state.payments]
+        payments: [payload, ...state.payments],
       };
 
     case types.UPDATE_PAYMENT_SUCCESS:
       return {
         ...state,
-        payments: state.payments.map(payment =>
+        payments: state.payments.map((payment) =>
           payment.id === payload.id ? payload : payment
-        )
+        ),
       };
 
     case types.REMOVE_PAYMENT_SUCCESS:
       return {
         ...state,
-        payments: state.payments.filter(({id}) => id !== payload)
+        payments: state.payments.filter(({id}) => id !== payload),
       };
 
     case types.FETCH_PAYMENT_INVOICES_SUCCESS:
       if (payload.fresh) {
         return {
           ...state,
-          paymentInvoices: payload.paymentInvoices
+          paymentInvoices: payload.paymentInvoices,
         };
       }
       return {
         ...state,
-        paymentInvoices: [...state.paymentInvoices, ...payload.paymentInvoices]
+        paymentInvoices: [...state.paymentInvoices, ...payload.paymentInvoices],
       };
 
     default:

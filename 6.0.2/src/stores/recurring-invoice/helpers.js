@@ -1,45 +1,58 @@
 import t from 'locales/use-translation';
 import moment from 'moment';
 
+/**
+ * Types of limits for recurring invoices.
+ * @type {Array<{label: string, value: string}>}
+ */
 export const LIMIT_TYPES = [
   {label: t('recurring_invoices.limit_types.none'), value: 'NONE'},
   {label: t('recurring_invoices.limit_types.date'), value: 'DATE'},
-  {label: t('recurring_invoices.limit_types.count'), value: 'COUNT'}
+  {label: t('recurring_invoices.limit_types.count'), value: 'COUNT'},
 ];
 
+/**
+ * Frequency types for recurring invoices.
+ * @type {Array<{label: string, value: string}>}
+ */
 export const FREQUENCIES_TYPES = [
   {label: t('recurring_invoices.frequencies.custom'), value: ''},
   {label: t('recurring_invoices.frequencies.every_minute'), value: '* * * * *'},
   {
     label: t('recurring_invoices.frequencies.every_30_minute'),
-    value: '*/30 * * * *'
+    value: '*/30 * * * *',
   },
   {label: t('recurring_invoices.frequencies.every_hour'), value: '0 * * * *'},
   {
     label: t('recurring_invoices.frequencies.every_2_hour'),
-    value: '0 */2 * * *'
+    value: '0 */2 * * *',
   },
   {
     label: t('recurring_invoices.frequencies.twice_a_day'),
-    value: '0 13-15 * * *'
+    value: '0 13-15 * * *',
   },
   {label: t('recurring_invoices.frequencies.every_week'), value: '0 0 * * 0'},
   {
     label: t('recurring_invoices.frequencies.every_15_days'),
-    value: '0 5 */15 * *'
+    value: '0 5 */15 * *',
   },
   {
     label: t('recurring_invoices.frequencies.first_day_of_month'),
-    value: '0 0 1 * *'
+    value: '0 0 1 * *',
   },
   {
     label: t('recurring_invoices.frequencies.every_6_month'),
-    value: '0 0 1 */6 *'
+    value: '0 0 1 */6 *',
   },
-  {label: t('recurring_invoices.frequencies.every_year'), value: '0 0 1 1 *'}
+  {label: t('recurring_invoices.frequencies.every_year'), value: '0 0 1 1 *'},
 ];
 
-export const initialValues = templates => {
+/**
+ * Initializes the default values for a recurring invoice.
+ * @param {Array} templates - The list of templates to choose from.
+ * @returns {Object} - The initial values for the recurring invoice.
+ */
+export const initialValues = (templates) => {
   return {
     customer_id: null,
     starts_at: moment(),
@@ -56,6 +69,6 @@ export const initialValues = templates => {
     discount_type: 'fixed',
     limit_by: 'NONE',
     discount: 0,
-    taxes: []
+    taxes: [],
   };
 };

@@ -13,20 +13,23 @@ import {isEmpty} from '@/constants';
 import {selectedCompanySalesTaxSettingSelector} from '../company/selectors';
 
 /**
- * Fetch Next-Invoice-At saga
- * @returns {*}
+ * Saga for fetching the next invoice date.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* fetchNextInvoiceAt({payload}) {
   try {
     const {params, onSuccess} = payload;
     const response = yield call(req.fetchNextInvoiceAt, params);
     onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch invoice templates saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching invoice templates.
+ * @returns {Generator} - The generator function.
  */
 function* fetchInvoiceTemplates() {
   const state = yield select();
@@ -34,28 +37,31 @@ function* fetchInvoiceTemplates() {
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
     yield put({
       type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
-      payload: invoiceTemplates
+      payload: invoiceTemplates,
     });
   }
 }
 
 /**
- * Fetch recurring invoice common details saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching common details of recurring invoices.
+ * @returns {Generator} - The generator function.
  */
 function* fetchRecurringInvoiceData() {
   try {
     yield put({type: types.CLEAR_RECURRING_INVOICE});
     yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
+      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}},
     });
     yield call(fetchInvoiceTemplates);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Fetch recurring invoice initial details saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching initial details of a recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* fetchRecurringInvoiceInitialDetails({payload}) {
   yield call(fetchRecurringInvoiceData);
@@ -64,8 +70,9 @@ function* fetchRecurringInvoiceInitialDetails({payload}) {
 }
 
 /**
- * Fetch recurring-invoices saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching recurring invoices.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* fetchRecurringInvoices({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -74,7 +81,7 @@ function* fetchRecurringInvoices({payload}) {
     const invoices = response?.data ?? [];
     yield put({
       type: types.FETCH_RECURRING_INVOICES_SUCCESS,
-      payload: {invoices, fresh}
+      payload: {invoices, fresh},
     });
     onSuccess?.(response);
   } catch (e) {
@@ -83,8 +90,9 @@ function* fetchRecurringInvoices({payload}) {
 }
 
 /**
- * Fetch single recurring-invoice saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching a single recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* fetchSingleRecurringInvoice({payload}) {
   try {
@@ -94,15 +102,18 @@ function* fetchSingleRecurringInvoice({payload}) {
     yield call(fetchRecurringInvoiceData);
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
-      payload: recurringInvoice?.items ?? []
+      payload: recurringInvoice?.items ?? [],
     });
     onSuccess?.(response?.data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add recurring-invoice saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* addRecurringInvoice({payload}) {
   try {
@@ -115,7 +126,7 @@ function* addRecurringInvoice({payload}) {
     const response = yield call(req.addRecurringInvoice, params);
     yield put({
       type: types.ADD_RECURRING_INVOICE_SUCCESS,
-      payload: response?.data
+      payload: response?.data,
     });
     onSuccess?.(response?.data);
     showNotification({message: t('notification.recurring_invoice_created')});
@@ -127,8 +138,9 @@ function* addRecurringInvoice({payload}) {
 }
 
 /**
- * Update recurring-invoice saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* updateRecurringInvoice({payload}) {
   try {
@@ -141,7 +153,7 @@ function* updateRecurringInvoice({payload}) {
     );
     yield put({
       type: types.UPDATE_RECURRING_INVOICE_SUCCESS,
-      payload: response?.data
+      payload: response?.data,
     });
     onSuccess?.(response?.data);
     showNotification({message: t('notification.recurring_invoice_updated')});
@@ -153,8 +165,9 @@ function* updateRecurringInvoice({payload}) {
 }
 
 /**
- * Remove recurring-invoice saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* removeRecurringInvoice({payload}) {
   try {
@@ -172,8 +185,9 @@ function* removeRecurringInvoice({payload}) {
 }
 
 /**
- * Add recurring-invoice item saga
- * @returns {IterableIterator<*>}
+ * Saga for adding an item to a recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* addRecurringInvoiceItem({payload}) {
   try {
@@ -182,18 +196,20 @@ function* addRecurringInvoiceItem({payload}) {
     const items = yield call(addItem, {payload: {item, returnCallback: true}});
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
-      payload: items ?? []
+      payload: items ?? [],
     });
     onSuccess?.();
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isSaving', false));
   }
 }
 
 /**
- * Remove recurring-invoice item saga
- * @returns {IterableIterator<*>}
+ * Saga for removing an item from a recurring invoice.
+ * @param {Object} payload - The action payload.
+ * @returns {Generator} - The generator function.
  */
 function* removeRecurringInvoiceItem({payload}) {
   try {
@@ -202,11 +218,16 @@ function* removeRecurringInvoiceItem({payload}) {
     yield put({type: types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS, payload: id});
     onResult?.();
   } catch (e) {
+    // Handle error if necessary
   } finally {
     yield put(spinner('isDeleting', false));
   }
 }
 
+/**
+ * Root saga for recurring invoice actions.
+ * @returns {Generator} - The generator function.
+ */
 export default function* recurringInvoiceSaga() {
   yield takeLatest(types.FETCH_NEXT_INVOICE_AT, fetchNextInvoiceAt);
   yield takeLatest(
