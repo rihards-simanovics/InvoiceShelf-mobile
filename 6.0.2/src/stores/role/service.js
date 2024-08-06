@@ -2,55 +2,55 @@ import Request from 'utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch roles
- * @param q : queryString
- * @returns {*}
+ * Fetches roles from the server.
+ * @param {Object} q - The query parameters for fetching roles.
+ * @returns {Promise<Object>} The response from the server.
  */
-export const fetchRoles = q => {
+export const fetchRoles = (q) => {
   return Request.get(`/roles?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single role
- * @param id : role id
- * @returns {*}
+ * Fetches a single role by ID.
+ * @param {string} id - The ID of the role to fetch.
+ * @returns {Promise<Object>} The response from the server.
  */
-export const fetchSingleRole = id => {
+export const fetchSingleRole = (id) => {
   return Request.get(`/roles/${id}`);
 };
 
 /**
- * Fetch permissions
- * @returns {*}
+ * Fetches permissions from the server.
+ * @returns {Promise<Object>} The response from the server.
  */
 export const fetchPermissions = () => {
   return Request.get(`/abilities`);
 };
 
 /**
- * Add role
- * @param data
- * @returns {*}
+ * Adds a new role to the server.
+ * @param {Object} data - The data for the new role.
+ * @returns {Promise<Object>} The response from the server.
  */
-export const addRole = data => {
+export const addRole = (data) => {
   return Request.post(`/roles`, data);
 };
 
 /**
- * Update role
- * @param id : role id
- * @param data
- * @returns {*}
+ * Updates an existing role by ID.
+ * @param {string} id - The ID of the role to update.
+ * @param {Object} data - The updated data for the role.
+ * @returns {Promise<Object>} The response from the server.
  */
 export const updateRole = (id, data) => {
   return Request.put(`/roles/${id}`, data);
 };
 
 /**
- * Remove role
- * @param id : role id
- * @returns {*}
+ * Removes a role by ID.
+ * @param {string} id - The ID of the role to remove.
+ * @returns {Promise<Object>} The response from the server.
  */
-export const removeRole = id => {
+export const removeRole = (id) => {
   return Request.delete(`/roles/${id}`);
 };

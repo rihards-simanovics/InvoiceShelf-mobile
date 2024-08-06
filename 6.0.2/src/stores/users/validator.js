@@ -1,6 +1,12 @@
 import {hasValue, isEmpty} from '@/constants';
 import {getError} from '@/validator';
 
+/**
+ * Validate user input values.
+ * @param {Object} values - The input values to validate.
+ * @param {Object} options - Additional options for validation.
+ * @returns {Object} - The validation errors.
+ */
 export const validate = (values, {type}) => {
   const errors: any = {};
   errors.name = getError(values?.name, ['required']);
@@ -14,7 +20,7 @@ export const validate = (values, {type}) => {
   );
   errors.role = getError(values?.role, ['required']);
   errors.companies = getError(values?.companies, ['requiredCheckArray'], {
-    message: 'validation.required'
+    message: 'validation.required',
   });
 
   return errors;

@@ -7,8 +7,9 @@ import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
 
 /**
- * Fetch current user saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch the current user.
+ * @param {Object} action - The action containing the payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchCurrentUser({payload}) {
   try {
@@ -17,12 +18,15 @@ function* fetchCurrentUser({payload}) {
     yield put(setCurrentUser(data));
     payload?.({...data, language});
     yield put(spinner('isSaving', false));
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Update current user saga
- * @returns {IterableIterator<*>}
+ * Saga to update the current user.
+ * @param {Object} action - The action containing the payload.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateCurrentUser({payload}) {
   try {
@@ -31,9 +35,12 @@ function* updateCurrentUser({payload}) {
     const {data} = yield call(req.updateCurrentUser, params);
     yield put(setCurrentUser(data));
     yield call(req.updateUserSettings, {language: params.language});
+
+    // Upload avatar if provided
     if (avatar) {
       yield call(req.uploadAvatar, avatar);
     }
+
     navigation.goBack();
     showNotification({message: t('notification.account_updated')});
   } catch (e) {
@@ -43,6 +50,10 @@ function* updateCurrentUser({payload}) {
   }
 }
 
+/**
+ * Root saga for user-related sagas.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* userSaga() {
   yield takeLatest(types.FETCH_CURRENT_USER, fetchCurrentUser);
   yield takeLatest(types.UPDATE_CURRENT_USER, updateCurrentUser);

@@ -1,3 +1,4 @@
+// Action types for tax type management
 export const SPINNER = 'taxType/SPINNER';
 
 export const TAXES_FORM = 'taxType/TAXES_FORM';

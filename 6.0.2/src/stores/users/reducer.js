@@ -3,9 +3,15 @@ import * as types from './types';
 const initialState = {
   users: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Reducer function for managing user-related state.
+ * @param {Object} state - The current state.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} - The new state.
+ */
 export default function usersReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -19,7 +25,7 @@ export default function usersReducer(state = initialState, action) {
           ...state,
           users: payload.users,
           isSaving: false,
-          isDeleting: false
+          isDeleting: false,
         };
       }
       return {...state, users: [...state.users, ...payload.users]};
@@ -27,21 +33,21 @@ export default function usersReducer(state = initialState, action) {
     case types.ADD_USER_SUCCESS:
       return {
         ...state,
-        users: [...[payload], ...state.users]
+        users: [payload, ...state.users],
       };
 
     case types.UPDATE_USER_SUCCESS:
       return {
         ...state,
-        users: state.users.map(user =>
+        users: state.users.map((user) =>
           user.id === payload.id ? payload : user
-        )
+        ),
       };
 
     case types.REMOVE_USER_SUCCESS:
       return {
         ...state,
-        users: state.users.filter(({id}) => id !== payload)
+        users: state.users.filter(({id}) => id !== payload),
       };
 
     default:

@@ -8,8 +8,9 @@ import {navigation} from '@/navigation';
 import {fetchCompanies} from '../company/saga';
 
 /**
- * Fetch users saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching users.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchUsers({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -24,8 +25,9 @@ function* fetchUsers({payload}) {
 }
 
 /**
- * Fetch single user saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching a single user.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchSingleUser({payload}) {
   try {
@@ -33,12 +35,15 @@ function* fetchSingleUser({payload}) {
     const {data} = yield call(req.fetchSingleUser, id);
     yield call(fetchCompanies);
     onSuccess?.(data);
-  } catch (e) {}
+  } catch (e) {
+    // Handle error if necessary
+  }
 }
 
 /**
- * Add user saga
- * @returns {IterableIterator<*>}
+ * Saga for adding a user.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* addUser({payload}) {
   try {
@@ -55,8 +60,9 @@ function* addUser({payload}) {
 }
 
 /**
- * Update user saga
- * @returns {IterableIterator<*>}
+ * Saga for updating a user.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* updateUser({payload}) {
   try {
@@ -74,8 +80,9 @@ function* updateUser({payload}) {
 }
 
 /**
- * Remove user saga
- * @returns {IterableIterator<*>}
+ * Saga for removing a user.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* removeUser({payload}) {
   try {
@@ -93,14 +100,19 @@ function* removeUser({payload}) {
 }
 
 /**
- * Fetch user initial details saga
- * @returns {IterableIterator<*>}
+ * Saga for fetching initial user details.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} - The generator function.
  */
 function* fetchUserInitialDetails({payload}) {
   yield call(fetchCompanies);
   payload?.();
 }
 
+/**
+ * Root saga for user-related sagas.
+ * @returns {IterableIterator<*>} - The generator function.
+ */
 export default function* usersSaga() {
   yield takeLatest(types.FETCH_USERS, fetchUsers);
   yield takeLatest(types.FETCH_SINGLE_USER, fetchSingleUser);

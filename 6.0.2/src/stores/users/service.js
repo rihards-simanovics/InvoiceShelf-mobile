@@ -2,47 +2,47 @@ import Request from 'utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Fetch users
- * @param q : queryString
- * @returns {*}
+ * Fetch users from the API.
+ * @param {Object} q - The query parameters for fetching users.
+ * @returns {Promise} - The API response.
  */
-export const fetchUsers = q => {
+export const fetchUsers = (q) => {
   return Request.get(`/users?${queryString.stringify(q)}`);
 };
 
 /**
- * Fetch single user
- * @param id : user id
- * @returns {*}
+ * Fetch a single user by ID.
+ * @param {string} id - The ID of the user to fetch.
+ * @returns {Promise} - The API response.
  */
-export const fetchSingleUser = id => {
+export const fetchSingleUser = (id) => {
   return Request.get(`/users/${id}`);
 };
 
 /**
- * Add user
- * @param data
- * @returns {*}
+ * Add a new user.
+ * @param {Object} data - The user data to add.
+ * @returns {Promise} - The API response.
  */
-export const addUser = data => {
+export const addUser = (data) => {
   return Request.post(`/users`, data);
 };
 
 /**
- * Update user
- * @param id : user id
- * @param data
- * @returns {*}
+ * Update an existing user.
+ * @param {string} id - The ID of the user to update.
+ * @param {Object} data - The updated user data.
+ * @returns {Promise} - The API response.
  */
 export const updateUser = (id, data) => {
   return Request.put(`/users/${id}`, data);
 };
 
 /**
- * Remove user
- * @param id : user id
- * @returns {*}
+ * Remove a user by ID.
+ * @param {string} id - The ID of the user to remove.
+ * @returns {Promise} - The API response.
  */
-export const removeUser = id => {
+export const removeUser = (id) => {
   return Request.post(`/users/delete`, {users: [id]});
 };

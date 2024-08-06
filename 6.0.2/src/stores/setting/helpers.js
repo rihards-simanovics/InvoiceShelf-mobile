@@ -3,6 +3,10 @@ import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
 
+/**
+ * Generates the settings menu items based on permissions.
+ * @returns {Array} - An array of menu items for settings.
+ */
 export const SETTINGS_MENU = () => {
   return [
     {
@@ -11,7 +15,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.ACCOUNT_INFO},
-      show: true
+      show: true,
     },
     {
       title: t('settings.company_information'),
@@ -19,7 +23,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.CREATE_COMPANY},
-      show: PermissionService.isOwner
+      show: PermissionService.isOwner,
     },
     {
       title: t('settings.preference'),
@@ -27,27 +31,23 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 21,
       fullItem: {route: routes.PREFERENCES},
-      show: PermissionService.isOwner
+      show: PermissionService.isOwner,
     },
     {
       title: t('settings.payment_modes'),
       leftIcon: 'credit-card',
       leftIconSolid: true,
       iconSize: 19,
-      fullItem: {
-        route: routes.PAYMENT_MODES
-      },
-      show: PermissionService.isAllowToView(routes.MAIN_PAYMENTS)
+      fullItem: {route: routes.PAYMENT_MODES},
+      show: PermissionService.isAllowToView(routes.MAIN_PAYMENTS),
     },
     {
       title: t('settings.item_units'),
       leftIcon: 'product-hunt',
       leftIconSolid: true,
       iconSize: 21,
-      fullItem: {
-        route: routes.ITEM_UNITS
-      },
-      show: PermissionService.isAllowToView(routes.ITEMS)
+      fullItem: {route: routes.ITEM_UNITS},
+      show: PermissionService.isAllowToView(routes.ITEMS),
     },
     {
       title: t('settings.taxes'),
@@ -55,7 +55,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.TAXES},
-      show: PermissionService.isAllowToView(routes.TAXES)
+      show: PermissionService.isAllowToView(routes.TAXES),
     },
     {
       title: t('settings.notification'),
@@ -63,7 +63,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTIFICATIONS},
-      show: PermissionService.isOwner
+      show: PermissionService.isOwner,
     },
     {
       title: t('settings.notes'),
@@ -71,14 +71,14 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTES},
-      show: PermissionService.isAllowToManage('manage-all-notes')
+      show: PermissionService.isAllowToManage('manage-all-notes'),
     },
     {
       title: t('header.roles'),
       leftIcon: 'users',
       iconSize: 20,
       fullItem: {route: routes.ROLES},
-      show: PermissionService.isOwner
+      show: PermissionService.isOwner,
     },
     {
       title: t('settings.touch_or_Face_id'),
@@ -86,14 +86,14 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.TOUCH_OR_FACE_ID},
-      show: true
+      show: true,
     },
     {
       title: t('settings.endpoint'),
       leftIcon: 'link',
       iconSize: 20,
       fullItem: {route: routes.ENDPOINTS_SETTINGS},
-      show: PermissionService.isOwner
-    }
+      show: PermissionService.isOwner,
+    },
   ];
 };

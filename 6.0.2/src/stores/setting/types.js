@@ -1,3 +1,4 @@
+// Action types for settings and authentication
 export const NOTIFICATION_FORM = 'setting/NOTIFICATION_FORM';
 export const TOUCH_FACE_ID_FORM = 'setting/TOUCH_FACE_ID_FORM';
 

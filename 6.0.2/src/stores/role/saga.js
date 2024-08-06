@@ -7,8 +7,9 @@ import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
 
 /**
- * Fetch roles saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch roles.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchRoles({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -23,8 +24,9 @@ function* fetchRoles({payload}) {
 }
 
 /**
- * Fetch single role saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch a single role.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchSingleRole({payload}) {
   try {
@@ -33,30 +35,32 @@ function* fetchSingleRole({payload}) {
     const {abilities: permissions} = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_SINGLE_ROLE_SUCCESS,
-      payload: {permissions, currentPermissions: data?.abilities ?? []}
+      payload: {permissions, currentPermissions: data?.abilities ?? []},
     });
     onSuccess?.(data);
   } catch (e) {}
 }
 
 /**
- * Fetch permissions saga
- * @returns {IterableIterator<*>}
+ * Saga to fetch permissions.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* fetchPermissions({payload}) {
   try {
     const response = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_PERMISSIONS_SUCCESS,
-      payload: response.abilities ?? []
+      payload: response.abilities ?? [],
     });
     payload?.(response);
   } catch (e) {}
 }
 
 /**
- * Add role saga
- * @returns {IterableIterator<*>}
+ * Saga to add a new role.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* addRole({payload}) {
   try {
@@ -74,8 +78,9 @@ function* addRole({payload}) {
 }
 
 /**
- * Update role saga
- * @returns {IterableIterator<*>}
+ * Saga to update an existing role.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* updateRole({payload}) {
   try {
@@ -93,8 +98,9 @@ function* updateRole({payload}) {
 }
 
 /**
- * Remove role saga
- * @returns {IterableIterator<*>}
+ * Saga to remove a role.
+ * @param {Object} action - The action dispatched.
+ * @returns {IterableIterator<*>} The generator function.
  */
 function* removeRole({payload}) {
   const {id} = payload;
@@ -111,6 +117,10 @@ function* removeRole({payload}) {
   }
 }
 
+/**
+ * Root saga for role management.
+ * @returns {IterableIterator<*>} The generator function.
+ */
 export default function* roleSaga() {
   yield takeLatest(types.FETCH_ROLES, fetchRoles);
   yield takeLatest(types.FETCH_SINGLE_ROLE, fetchSingleRole);

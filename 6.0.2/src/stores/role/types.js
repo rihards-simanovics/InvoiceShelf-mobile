@@ -1,3 +1,4 @@
+// Action type constants for role management
 export const SPINNER = 'role/SPINNER';
 
 export const ROLES_FORM = 'role/ROLES_FORM';

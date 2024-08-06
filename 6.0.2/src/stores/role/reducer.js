@@ -3,13 +3,20 @@ import * as types from './types';
 import {getModalName} from './helpers';
 import {hasValue, isArray, isEmpty} from '@/constants';
 
+// Initial state for the role reducer
 const initialState = {
   roles: [],
   permissions: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
 };
 
+/**
+ * Role reducer to manage roles and permissions state.
+ * @param {Object} state - The current state of the role.
+ * @param {Object} action - The action dispatched.
+ * @returns {Object} The new state after applying the action.
+ */
 export default function roleReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -18,9 +25,9 @@ export default function roleReducer(state = initialState, action) {
       return {...state, [payload.name]: payload.value};
 
     case types.FETCH_ROLES_SUCCESS:
-      const roleList = payload.roles.map(role => ({
+      const roleList = payload.roles.map((role) => ({
         ...role,
-        fullItem: role
+        fullItem: role,
       }));
 
       if (payload.fresh) {
@@ -30,16 +37,16 @@ export default function roleReducer(state = initialState, action) {
       return {...state, roles: [...state.roles, ...roleList]};
 
     case types.FETCH_PERMISSIONS_SUCCESS:
-      const permissions = payload.map(p => ({
+      const permissions = payload.map((p) => ({
         ...p,
         allowed: false,
         disabled: false,
-        modelName: p?.model ? getModalName(p.model) : 'Common'
+        modelName: p?.model ? getModalName(p.model) : 'Common',
       }));
       return {...state, permissions};
 
     case types.FETCH_SINGLE_ROLE_SUCCESS:
-      const isAllowed = name => {
+      const isAllowed = (name) => {
         return hasValue(find(payload.currentPermissions, {name}));
       };
 
@@ -52,7 +59,7 @@ export default function roleReducer(state = initialState, action) {
           ...p,
           disabled: false,
           allowed,
-          modelName: p?.model ? getModalName(p.model) : 'Common'
+          modelName: p?.model ? getModalName(p.model) : 'Common',
         });
         p?.depends_on &&
           allowed &&
@@ -64,7 +71,7 @@ export default function roleReducer(state = initialState, action) {
           return;
         }
 
-        const found = dependList.find(d => d === p.ability);
+        const found = dependList.find((d) => d === p.ability);
 
         if (found) {
           filteredCreatedPermissions[i] = {...p, disabled: true};
@@ -76,15 +83,15 @@ export default function roleReducer(state = initialState, action) {
     case types.UPDATE_PERMISSION:
       const {allowed, ability} = payload;
       let filteredPermissions = state.permissions;
-      let pos = filteredPermissions.findIndex(p => p.name === ability.name);
+      let pos = filteredPermissions.findIndex((p) => p.name === ability.name);
 
       filteredPermissions[pos] = {...ability, allowed};
 
-      const shouldDisableDependsOnAbility = _dependAbility => {
+      const shouldDisableDependsOnAbility = (_dependAbility) => {
         let disabled = allowed;
 
         const currentPermissions = filteredPermissions.filter(
-          p => p.allowed && p?.depends_on && p.ability !== ability.ability
+          (p) => p.allowed && p?.depends_on && p.ability !== ability.ability
         );
 
         let dependList = [];
@@ -94,7 +101,7 @@ export default function roleReducer(state = initialState, action) {
             dependList = [...dependList, ...c.depends_on];
           }
 
-          const found = dependList.find(d => d === _dependAbility);
+          const found = dependList.find((d) => d === _dependAbility);
           found && (disabled = true);
         }
 
@@ -105,20 +112,20 @@ export default function roleReducer(state = initialState, action) {
         for (const _dependAbility of ability?.depends_on) {
           let disabled = shouldDisableDependsOnAbility(_dependAbility);
           let pos = filteredPermissions.findIndex(
-            p => p.ability === _dependAbility
+            (p) => p.ability === _dependAbility
           );
 
           filteredPermissions[pos] = {
             ...filteredPermissions[pos],
             allowed: true,
-            disabled
+            disabled,
           };
         }
       }
 
       return {
         ...state,
-        permissions: filteredPermissions
+        permissions: filteredPermissions,
       };
 
     case types.SELECT_ALL_PERMISSIONS:
@@ -127,47 +134,47 @@ export default function roleReducer(state = initialState, action) {
         p?.depends_on && (dependList = [...dependList, ...p.depends_on]);
       }
 
-      let filteredAllPermissions = state.permissions.map(p => {
-        const found = dependList.find(d => d === p.ability);
+      let filteredAllPermissions = state.permissions.map((p) => {
+        const found = dependList.find((d) => d === p.ability);
         return {
           ...p,
           allowed: true,
-          disabled: found ? true : false
+          disabled: found ? true : false,
         };
       });
       return {
         ...state,
-        permissions: filteredAllPermissions
+        permissions: filteredAllPermissions,
       };
 
     case types.RESET_PERMISSIONS:
       return {
         ...state,
-        permissions: state.permissions.map(p => ({
+        permissions: state.permissions.map((p) => ({
           ...p,
           allowed: false,
-          disabled: false
-        }))
+          disabled: false,
+        })),
       };
 
     case types.ADD_ROLE_SUCCESS:
       return {
         ...state,
-        roles: [...[payload], ...state.roles]
+        roles: [...[payload], ...state.roles],
       };
 
     case types.UPDATE_ROLE_SUCCESS:
       return {
         ...state,
-        roles: state.roles.map(role =>
+        roles: state.roles.map((role) =>
           role.id === payload.id ? payload : role
-        )
+        ),
       };
 
     case types.REMOVE_ROLE_SUCCESS:
       return {
         ...state,
-        roles: state.roles.filter(({id}) => id !== payload)
+        roles: state.roles.filter(({id}) => id !== payload),
       };
 
     default:
