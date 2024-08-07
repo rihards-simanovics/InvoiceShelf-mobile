@@ -1,6 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "prestart": "node scripts/check-versions.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -8,9 +9,14 @@
     "eject": "expo eject",
     "prettier-fix": "prettier --config .prettierlc.js --write 'src/**/*.js'",
     "lints": "yarn prettier-fix",
-    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
+    "build:android-local": "eas build --platform android --local",
+    "build:android-local-preview": "eas build -p android --profile preview --local",
+    "build:ios-local": "eas build --platform ios --local",
+    "build:web-local": "npx expo export -p web"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/datetimepicker": "3.5.2",
     "@react-native-community/eslint-config": "0.0.5",
