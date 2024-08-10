@@ -13,66 +13,84 @@ import {
   BaseSelect,
   BaseButtonGroup,
   BaseButton,
-  CacheImage
+  CacheImage,
 } from '@/components';
 import {isEmpty} from '@/constants';
 
+/**
+ * TemplateField component for selecting a template from a list.
+ */
 class Template extends Component<IProps> {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false,
-      selectedTemplate: ''
+      visible: false, // Modal visibility state
+      selectedTemplate: '', // Currently selected template
     };
   }
 
   componentDidMount() {
     const {templates, input} = this.props;
 
+    // Set the initially selected template based on input value
     const selectedTemplate =
-      templates && templates.filter(val => val.name === input?.value)?.[0];
+      templates && templates.filter((val) => val.name === input?.value)?.[0];
 
     this.setState({selectedTemplate});
   }
 
+  /**
+   * Toggles the visibility of the template selection modal.
+   */
   onToggle = () => {
     const {
       input: {value},
       templates,
-      disabled
+      disabled,
     } = this.props;
     const {selectedTemplate, visible} = this.state;
 
     if (disabled) {
-      return;
+      return; // Do not toggle if disabled
     }
 
     if (visible && selectedTemplate?.name !== value) {
-      const template = templates.filter(val => val.name === value)[0];
+      const template = templates.filter((val) => val.name === value)[0];
       this.setState({
-        selectedTemplate: template
+        selectedTemplate: template,
       });
     }
 
     this.setState({visible: !visible});
   };
 
-  onTemplateSelect = template => {
+  /**
+   * Sets the selected template in the state.
+   * @param {Object} template - The selected template object.
+   */
+  onTemplateSelect = (template) => {
     this.setState({
-      selectedTemplate: template
+      selectedTemplate: template,
     });
   };
 
-  onSearch = search => {
+  /**
+   * Updates the search term in the state and fetches items based on the search.
+   * @param {string} search - The search term.
+   */
+  onSearch = (search) => {
     this.setState({search});
     this.getItems({fresh: true, q: search});
   };
 
+  /**
+   * Submits the selected template and triggers the onChange callback.
+   */
   onSubmit = async () => {
     const {
       onChangeCallback,
-      input: {onChange}
+      input: {onChange},
     } = this.props;
 
     const {selectedTemplate} = this.state;
@@ -81,7 +99,7 @@ class Template extends Component<IProps> {
 
     onChangeCallback && onChangeCallback(selectedTemplate);
 
-    this.onToggle();
+    this.onToggle(); // Close the modal after submission
   };
 
   render() {
@@ -94,7 +112,7 @@ class Template extends Component<IProps> {
       meta,
       disabled,
       isRequired = false,
-      theme
+      theme,
     } = this.props;
 
     const {visible, selectedTemplate: {name} = {}} = this.state;
@@ -129,7 +147,7 @@ class Template extends Component<IProps> {
             placement: 'center',
             hasCircle: false,
             noBorder: false,
-            transparent: false
+            transparent: false,
           }}
           bottomDivider
           defaultLayout
@@ -150,7 +168,7 @@ class Template extends Component<IProps> {
                         resizeMode="cover"
                         style={[
                           styles.image,
-                          name === val.name && styles.active
+                          name === val.name && styles.active,
                         ]}
                         theme={theme}
                       />
@@ -174,6 +192,8 @@ class Template extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+// Map state to props using the common selector
+const mapStateToProps = (state) => commonSelector(state);
 
+// Export the connected TemplateField component
 export const TemplateField = connect(mapStateToProps)(Template);

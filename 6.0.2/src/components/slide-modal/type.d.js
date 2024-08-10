@@ -1,9 +1,12 @@
 import React from 'react';
 import {ITheme} from '@/interfaces';
 
+/**
+ * Props interface for the SlideModal component.
+ */
 export interface IProps {
   /**
-   * If true the modal is showing.
+   * If true, the modal is showing.
    */
   visible?: boolean;
 
@@ -18,7 +21,7 @@ export interface IProps {
   headerProps?: any;
 
   /**
-   * Invoked with the the change event as an argument when the search value changes.
+   * Invoked with the change event as an argument when the search value changes.
    */
   onSearch?: (text: string) => void;
 
@@ -85,8 +88,7 @@ export interface IProps {
   theme?: ITheme;
 
   /**
-   * Either children or a render prop that receives a boolean reflecting whether
-   * the component is currently pressed.
+   * Custom view to render inside the modal.
    */
   customView?: React.ReactNode | any;
 }

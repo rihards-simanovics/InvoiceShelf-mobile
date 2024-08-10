@@ -10,6 +10,9 @@ import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
 import {isIosPlatform} from '@/helpers/platform';
 
+/**
+ * Screen component that renders a modal with customizable layouts and content.
+ */
 class Screen extends Component<IProps> {
   constructor(props) {
     super(props);
@@ -33,9 +36,10 @@ class Screen extends Component<IProps> {
       infiniteScrollProps,
       scrollViewProps,
       customView,
-      theme
+      theme,
     } = this.props;
 
+    // Determine the children to render based on pagination
     const listViewChildren = isPagination ? (
       <View style={styles.listViewContainer}>
         <InfiniteScroll {...infiniteScrollProps}>
@@ -59,34 +63,32 @@ class Screen extends Component<IProps> {
         statusBarTranslucent={true}
       >
         <View style={styles.modalContainer}>
-          {!defaultLayout && (
+          {!defaultLayout ? (
             <MainLayout
               headerProps={{
                 ...headerProps,
-                containerStyle: styles.header
+                containerStyle: styles.header,
               }}
               onSearch={onSearch}
               bottomDivider={bottomDivider}
               bottomAction={bottomAction}
-              inputProps={searchInputProps && searchInputProps}
+              inputProps={searchInputProps}
               searchFieldProps={{
                 ...searchFieldProps,
                 inputContainerStyle: {
-                  height: 38
+                  height: 38,
                 },
                 inputFieldStyle: styles.inputField(theme),
-                containerStyle: {marginTop: 14}
+                containerStyle: {marginTop: 14},
               }}
             >
               {listViewChildren}
             </MainLayout>
-          )}
-
-          {defaultLayout && (
+          ) : (
             <DefaultLayout
               headerProps={{
                 ...headerProps,
-                containerStyle: styles.header
+                containerStyle: styles.header,
               }}
               bottomAction={bottomAction}
             >
@@ -100,25 +102,28 @@ class Screen extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+// Map state to props using the common selector
+const mapStateToProps = (state) => commonSelector(state);
 
+// Export the connected SlideModal component
 export const SlideModal = connect(mapStateToProps)(Screen);
 
+// Styles for the SlideModal component
 const styles = StyleSheet.create({
   listViewContainer: {
     paddingBottom: defineSize(0, 0, 0, 30),
-    flex: 0.99
+    flex: 0.99,
   },
   modalContainer: {
     flex: 1,
-    marginTop: -20
+    marginTop: -20,
   },
   header: {
     height: 120,
-    paddingTop: 60
+    paddingTop: 60,
   },
-  inputField: theme => ({
+  inputField: (theme) => ({
     marginTop: theme?.mode === 'dark' && isIosPlatform ? 14 : 10,
-    marginBottom: 14
-  })
+    marginBottom: 14,
+  }),
 });

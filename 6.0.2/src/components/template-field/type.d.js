@@ -5,47 +5,47 @@ export type IProps = {
   input: Object,
 
   /**
-   * Return when field value change.
+   * Callback function to be called when the field value changes.
    */
   onChangeCallback: () => void,
 
   /**
-   * Content-Container style.
+   * Style for the content container.
    */
   containerStyle: Object,
 
   /**
-   * An array of objects with data for each template.
+   * An array of objects containing data for each template.
    */
   templates: Array,
 
   /**
-   * Label for Fake-input.
+   * Label for the fake input.
    */
   label: string,
 
   /**
-   * Icon for Fake-input.
+   * Icon for the fake input.
    */
   icon: string,
 
   /**
-   * Placeholder for Fake-input.
+   * Placeholder text for the fake input.
    */
   placeholder: string,
 
   /**
-   * Meta props for Fake-Input field.
+   * Meta properties for the fake input field.
    */
   meta: Object,
 
   /**
-   * Is field is disabled.
+   * Indicates if the field is disabled.
    */
   disabled: boolean,
 
   /**
-   * Is field is required.
+   * Indicates if the field is required.
    */
-  isRequired: boolean
+  isRequired: boolean,
 };

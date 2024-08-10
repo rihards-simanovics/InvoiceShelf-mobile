@@ -1,28 +1,31 @@
 import {ITheme} from '@/interfaces';
 
+/**
+ * Interface for the props of the ViewDataContainer component.
+ */
 export interface IProps {
   /**
-   * Label value of field.
+   * Label value of the field.
    */
   label?: string;
 
   /**
-   * Value of field.
+   * Value of the field.
    */
   values?: string;
 
   /**
-   * Is field with pair.
+   * Indicates if the field is displayed in pairs.
    */
   inPairs?: boolean;
 
   /**
-   * An objects with data of field.
+   * An object containing data for the first field.
    */
   first?: any;
 
   /**
-   * An objects with data of field.
+   * An object containing data for the second field.
    */
   second?: any;
 

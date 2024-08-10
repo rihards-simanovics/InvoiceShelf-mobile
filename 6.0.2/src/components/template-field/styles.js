@@ -2,35 +2,38 @@ import {StyleSheet} from 'react-native';
 import {colors} from '@/styles';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
+/**
+ * Styles for the TemplateField component.
+ */
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 12
+    marginTop: 12,
   },
   imageList: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginHorizontal: -10
+    marginHorizontal: -10,
   },
   image: {
     height: 220,
     width: wp(40),
     borderWidth: 1,
-    borderColor: colors.lightGray
+    borderColor: colors.lightGray,
   },
   active: {
-    borderColor: colors.primary
+    borderColor: colors.primary,
   },
   imageContainer: {
     position: 'relative',
     overflow: 'visible',
     marginHorizontal: 10,
-    marginVertical: 12
+    marginVertical: 12,
   },
   iconStyle: {
-    padding: 3
+    padding: 3,
   },
   iconContainer: {
     position: 'absolute',
@@ -40,6 +43,6 @@ export default StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 20,
     padding: 0,
-    margin: 0
-  }
+    margin: 0,
+  },
 });
