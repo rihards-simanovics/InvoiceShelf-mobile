@@ -13,10 +13,14 @@ import {
   PercentageIcon,
   RectangleIcon,
   SettingIcon,
-  RefreshIcon
+  RefreshIcon,
 } from '@/icons';
 
+/**
+ * AssetSvg component renders an SVG icon based on the provided props.
+ */
 export class AssetSvg extends Component<IProps> {
+  // Mapping of icon names to their respective SVG components
   static icons = {
     cancel: CancelIcon,
     check: CheckIcon,
@@ -31,11 +35,17 @@ export class AssetSvg extends Component<IProps> {
     double_right: DOUBLE_RIGHT_ICON,
     pencil: PENCIL_ICON,
     eye: EYE_ICON,
-    refresh_circle: RefreshIcon
+    refresh_circle: RefreshIcon,
   };
 
+  /**
+   * Renders the SVG icon based on the provided props.
+   *
+   * @returns {JSX.Element} The rendered SVG icon.
+   */
   render() {
     const {name, fill, width = '22', height = '22', style} = this.props;
+
     return (
       <SvgXml
         xml={name}

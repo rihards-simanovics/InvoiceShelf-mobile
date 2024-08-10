@@ -2,26 +2,33 @@ import React, {Component} from 'react';
 import {Animated} from 'react-native';
 import {IProps, IStates} from './type.d';
 
+/**
+ * FadeListAnimation component that animates the opacity of its children
+ * when it mounts.
+ */
 export class FadeListAnimation extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {opacity: new Animated.Value(0)};
+    this.state = {opacity: new Animated.Value(0)}; // Initialize opacity to 0
   }
 
   componentDidMount() {
-    this.fadeIn();
+    this.fadeIn(); // Start fade-in animation on mount
   }
 
+  /**
+   * Fade in the component by animating the opacity.
+   */
   fadeIn = () => {
     const {delay = 0} = this.props;
-    const timeout = callback => setTimeout(() => callback(), delay);
+    const timeout = (callback) => setTimeout(() => callback(), delay);
 
     timeout(() => {
       Animated.timing(this.state.opacity, {
         toValue: 1,
         duration: 200,
-        useNativeDriver: true
-      }).start(() => {});
+        useNativeDriver: true,
+      }).start(() => {}); // Start the animation
     });
   };
 
@@ -31,17 +38,17 @@ export class FadeListAnimation extends Component<IProps, IStates> {
 
     const contentOffsetY = opacity.interpolate({
       inputRange: [0, 0.5, 1],
-      outputRange: [15, 5, 0]
+      outputRange: [15, 5, 0], // Adjust vertical position during fade
     });
 
     return (
       <Animated.View
         style={{
           opacity: opacity,
-          transform: [{translateY: contentOffsetY}]
+          transform: [{translateY: contentOffsetY}],
         }}
       >
-        {children}
+        {children} // Render children with animated opacity
       </Animated.View>
     );
   }

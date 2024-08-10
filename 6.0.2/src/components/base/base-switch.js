@@ -5,7 +5,7 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
-  TextStyle
+  TextStyle,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {colors} from '@/styles';
@@ -14,6 +14,9 @@ import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
 import {isIosPlatform, isAndroidPlatform} from '@/helpers/platform';
 
+/**
+ * Switch component for toggling a boolean value.
+ */
 class Switch extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
@@ -28,6 +31,9 @@ class Switch extends Component<IProps, IStates> {
     }
   }
 
+  /**
+   * Toggles the switch status.
+   */
   onToggle = () => {
     const {onChangeCallback, disabled, input} = this.props;
     const {status} = this.state;
@@ -36,12 +42,11 @@ class Switch extends Component<IProps, IStates> {
       return;
     }
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {status: !prevState.status};
     });
 
     input?.onChange?.(!status);
-
     onChangeCallback?.(!status);
   };
 
@@ -57,7 +62,7 @@ class Switch extends Component<IProps, IStates> {
       input: {value},
       switchStyle,
       isRequired,
-      theme
+      theme,
     } = this.props;
 
     return (
@@ -82,7 +87,7 @@ class Switch extends Component<IProps, IStates> {
             thumbColor={colors.white}
             trackColor={{
               false: colors.darkGray,
-              true: colors.primaryLight
+              true: colors.primaryLight,
             }}
             onValueChange={() => this.onToggle()}
             value={status}
@@ -105,8 +110,11 @@ class Switch extends Component<IProps, IStates> {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseSwitch component.
+ */
 export const BaseSwitch = connect(mapStateToProps)(Switch);
 
 const styles = StyleSheet.create({
@@ -116,30 +124,33 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     flexDirection: 'row',
     marginVertical: 15,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   hint: {
     marginTop: 4,
-    width: '83%'
+    width: '83%',
   },
   switchStyle: {
     transform: isIosPlatform
       ? [{scaleX: 0.8}, {scaleY: 0.8}]
-      : [{scaleX: 1.2}, {scaleY: 1.2}]
+      : [{scaleX: 1.2}, {scaleY: 1.2}],
   },
   switchContainer: {
-    height: 20
+    height: 20,
   },
   descriptionContainer: {
     flex: 1,
     paddingRight: 8,
     marginTop: -5,
     ...(isAndroidPlatform && {
-      marginTop: -10
-    })
-  }
+      marginTop: -10,
+    }),
+  },
 });
 
+/**
+ * Props for Switch component.
+ */
 interface IProps {
   /**
    * Redux form built-in input events.
@@ -215,6 +226,9 @@ interface IProps {
   mainContainerStyle?: StyleProp<ViewStyle> | any;
 }
 
+/**
+ * States for Switch component.
+ */
 interface IStates {
   /**
    * The value of the switch. If true the switch will be turned on.

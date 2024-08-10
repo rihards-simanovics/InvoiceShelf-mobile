@@ -2,6 +2,9 @@ import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 import {IClass} from '@/interfaces';
 
+/**
+ * Interface for the properties of the BaseButtonView component.
+ */
 export interface IProps {
   /**
    * Styling for the button container via class.
@@ -48,7 +51,7 @@ export interface IProps {
   'base-class'?: IClass;
 
   /**
-   * Handle the component will render or not.
+   * Handle whether the component will render or not.
    * @default true
    */
   show?: boolean;

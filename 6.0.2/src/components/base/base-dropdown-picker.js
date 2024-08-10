@@ -6,6 +6,9 @@ import {hasTextLength} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseSelect} from '@/components';
 
+/**
+ * DropdownPicker component for selecting an item from a dropdown list.
+ */
 class DropdownPicker extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +19,7 @@ class DropdownPicker extends Component {
     const {
       input: {value, onChange},
       onChangeCallback,
-      callbackWhenMount
+      callbackWhenMount,
     } = this.props;
 
     onChange?.(value);
@@ -24,18 +27,24 @@ class DropdownPicker extends Component {
     callbackWhenMount ? callbackWhenMount?.() : onChangeCallback?.(value);
   }
 
-  onChange = v => {
+  /**
+   * Handles the change of selected value.
+   * @param {string} v - The new selected value.
+   */
+  onChange = (v) => {
     const {
       onChangeCallback,
-      input: {onChange}
+      input: {onChange},
     } = this.props;
 
     onChange?.(v);
-
     this.setState({selectedItemValue: v});
     onChangeCallback && onChangeCallback(v);
   };
 
+  /**
+   * Handles the press of the done button.
+   */
   onDonePress = () => {
     const {onDonePress} = this.props;
     onDonePress?.();
@@ -57,23 +66,25 @@ class DropdownPicker extends Component {
       placeholderTextColor = colors.darkGray,
       baseSelectProps,
       customView,
-      description
+      description,
     } = this.props;
 
     const {selectedItemValue} = this.state;
     let selected = [];
 
+    // Determine the selected item based on the form value or the state value
     if (findValueByForm)
-      selected = items && items.find(item => item.value === value);
+      selected = items && items.find((item) => item.value === value);
     else
-      selected = items && items.find(item => item.value === selectedItemValue);
+      selected =
+        items && items.find((item) => item.value === selectedItemValue);
 
     let selectedLabel = selected && (selected.displayLabel || selected.label);
     let selectedValue = selected && selected.value;
 
     let placeHolder = {
       ...{color: colors.darkGray},
-      ...defaultPickerOptions
+      ...defaultPickerOptions,
     };
 
     const placeholderText =
@@ -85,14 +96,14 @@ class DropdownPicker extends Component {
     return (
       <RNPickerSelect
         placeholder={defaultPickerOptions && placeHolder}
-        items={items.map(item => ({...item, color: colors.secondary}))}
-        onValueChange={v => this.onChange(v)}
+        items={items.map((item) => ({...item, color: colors.secondary}))}
+        onValueChange={(v) => this.onChange(v)}
         value={typeof selectedValue !== 'undefined' && selectedValue}
         placeholderTextColor={placeholderTextColor}
         ref={(dropdownRef = {}) => {
           refLinkFn?.({
             ...dropdownRef,
-            focus: () => dropdownRef?.togglePicker?.()
+            focus: () => dropdownRef?.togglePicker?.(),
           });
         }}
         modalProps={{animationType: 'slide'}}
@@ -110,7 +121,6 @@ class DropdownPicker extends Component {
             icon={fieldIcon}
             disabled={disabled}
             rightIcon={'angle-down'}
-            disabled={disabled}
             placeholder={placeholderText}
             values={valuesText}
             description={description}
@@ -122,6 +132,9 @@ class DropdownPicker extends Component {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseDropdownPicker component.
+ */
 export const BaseDropdownPicker = connect(mapStateToProps)(DropdownPicker);

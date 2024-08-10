@@ -9,6 +9,9 @@ import {BaseButton, BaseSelect} from '@/components';
 import {isIosPlatform, majorVersionIOS} from '@/helpers/platform';
 import {TIME_FORMAT, TIME_FORMAT_MERIDIEM} from '@/constants';
 
+/**
+ * BaseTimePicker component for selecting a time.
+ */
 export class BaseTimePicker extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
@@ -17,7 +20,7 @@ export class BaseTimePicker extends Component<IProps, IStates> {
       timeStamp: new Date(),
       selectedTimeStamp: new Date(),
       displayMode: null,
-      time: null
+      time: null,
     };
   }
 
@@ -26,6 +29,9 @@ export class BaseTimePicker extends Component<IProps, IStates> {
     this.setVersionCompatiblePicker();
   }
 
+  /**
+   * Sets the initial time value based on the input.
+   */
   setInitialTimeValue = () => {
     const {input} = this.props;
 
@@ -45,11 +51,14 @@ export class BaseTimePicker extends Component<IProps, IStates> {
 
       this.setState({
         selectedTimeStamp: timeStamp,
-        time: moment(displayTime).format(TIME_FORMAT_MERIDIEM)
+        time: moment(displayTime).format(TIME_FORMAT_MERIDIEM),
       });
     }
   };
 
+  /**
+   * Sets the display mode for the time picker based on the platform.
+   */
   setVersionCompatiblePicker = () => {
     if (isIosPlatform && majorVersionIOS >= 14) {
       this.setState({displayMode: 'spinner'});
@@ -64,6 +73,9 @@ export class BaseTimePicker extends Component<IProps, IStates> {
     this.setState({displayMode: 'default'});
   };
 
+  /**
+   * Toggles the visibility of the time picker modal.
+   */
   onToggleModal = () => {
     const {visible, selectedTimeStamp} = this.state;
 
@@ -76,10 +88,15 @@ export class BaseTimePicker extends Component<IProps, IStates> {
     }
 
     this.setState({
-      visible: !visible
+      visible: !visible,
     });
   };
 
+  /**
+   * Handles the change event of the time picker.
+   * @param {Object} event - The event object.
+   * @param {Date} selectedDate - The selected date.
+   */
   onChange = (event, selectedDate) => {
     if (!isIosPlatform && event.type === 'dismissed') {
       this.setState({visible: false});
@@ -91,18 +108,26 @@ export class BaseTimePicker extends Component<IProps, IStates> {
     }
   };
 
-  onChangeTime = timeStamp => {
+  /**
+   * Handles the time change and updates the input value.
+   * @param {Date} timeStamp - The selected time.
+   */
+  onChangeTime = (timeStamp) => {
     const {input, onChangeCallback} = this.props;
     this.onToggleModal();
     this.setState({
       selectedTimeStamp: timeStamp,
-      time: moment(timeStamp).format(TIME_FORMAT_MERIDIEM)
+      time: moment(timeStamp).format(TIME_FORMAT_MERIDIEM),
     });
     const timeFormat = moment(timeStamp).format(TIME_FORMAT);
     input?.onChange?.(timeFormat);
     onChangeCallback?.(timeFormat);
   };
 
+  /**
+   * Renders the time picker component.
+   * @returns {JSX.Element} - The rendered time picker.
+   */
   renderPicker = () => {
     const {timeStamp, visible, displayMode} = this.state;
 
@@ -130,7 +155,7 @@ export class BaseTimePicker extends Component<IProps, IStates> {
         <DateTimePicker
           testID="dateTimePicker"
           style={{
-            backgroundColor: isDarkMode() ? colors.dark : colors.veryLightGray
+            backgroundColor: isDarkMode() ? colors.dark : colors.veryLightGray,
           }}
           value={timeStamp}
           mode={'time'}
@@ -156,7 +181,7 @@ export class BaseTimePicker extends Component<IProps, IStates> {
       baseSelectProps,
       isRequired,
       meta,
-      disabled
+      disabled,
     } = this.props;
     const {time, displayMode} = this.state;
 
@@ -183,6 +208,9 @@ export class BaseTimePicker extends Component<IProps, IStates> {
   }
 }
 
+/**
+ * Props for BaseTimePicker component.
+ */
 interface IProps {
   /**
    * Label of date picker view.
@@ -226,6 +254,9 @@ interface IProps {
   onChangeCallback?: (callback: any) => void;
 }
 
+/**
+ * States for BaseTimePicker component.
+ */
 interface IStates {
   /**
    * If true the modal is showing.

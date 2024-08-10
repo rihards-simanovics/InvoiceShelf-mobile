@@ -12,6 +12,10 @@ import {currentCurrencySelector} from 'stores/company/selectors';
 import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
 import {hasTextLength, hasValue} from '@/constants';
 
+/**
+ * TextInput is a customizable input component that supports various features
+ * such as secure text entry, currency formatting, and error handling.
+ */
 class TextInput extends Component<IProps> {
   constructor(props) {
     super(props);
@@ -19,7 +23,7 @@ class TextInput extends Component<IProps> {
     this.state = {
       isSecureTextEntry: this.props.secureTextEntry,
       active: false,
-      inputVal: ''
+      inputVal: '',
     };
   }
 
@@ -34,11 +38,17 @@ class TextInput extends Component<IProps> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps?.input?.value !== this.props.input?.value)
+    if (nextProps?.input?.value !== this.props.input?.value) {
       this.initialValue(nextProps?.input?.value);
+    }
   }
 
-  initialValue = value => {
+  /**
+   * Initializes the input value based on the provided value.
+   *
+   * @param {string} value - The initial value for the input.
+   */
+  initialValue = (value) => {
     const {isCurrencyInput} = this.props;
 
     if (value && isCurrencyInput && this.isNumber(value)) {
@@ -49,18 +59,32 @@ class TextInput extends Component<IProps> {
     this.setState({inputVal: `${value}`});
   };
 
+  /**
+   * Toggles the secure text entry state.
+   */
   toggleSecureTextEntry = () => {
     if (this.props.disabled) {
       return;
     }
 
     this.setState(({isSecureTextEntry}) => ({
-      isSecureTextEntry: !isSecureTextEntry
+      isSecureTextEntry: !isSecureTextEntry,
     }));
   };
 
-  isNumber = text => !isNaN(parseFloat(text)) && isFinite(text);
+  /**
+   * Checks if the provided text is a valid number.
+   *
+   * @param {string} text - The text to check.
+   * @returns {boolean} True if the text is a number, false otherwise.
+   */
+  isNumber = (text) => !isNaN(parseFloat(text)) && isFinite(text);
 
+  /**
+   * Gets the appropriate sign based on the input type.
+   *
+   * @returns {string|null} The sign ('$' or '%') or null if none.
+   */
   getSign = () => {
     const {dollarField, percentageField} = this.props;
 
@@ -75,15 +99,30 @@ class TextInput extends Component<IProps> {
     return null;
   };
 
-  onErrorCallback = error => {
+  /**
+   * Callback for handling errors.
+   *
+   * @param {string} error - The error message.
+   */
+  onErrorCallback = (error) => {
     this.props.onError?.(hasValue(error));
   };
 
-  toggleFocus = status => {
+  /**
+   * Toggles the focus state of the input.
+   *
+   * @param {boolean} status - The focus status.
+   */
+  toggleFocus = (status) => {
     this.setState({active: status});
   };
 
-  onChangeValue = text => {
+  /**
+   * Handles the change in input value.
+   *
+   * @param {string} text - The new input value.
+   */
+  onChangeValue = (text) => {
     this.props.onChangeText?.(text);
   };
 
@@ -119,14 +158,17 @@ class TextInput extends Component<IProps> {
       theme,
       returnKeyType = keyboardReturnKeyType.NEXT,
       onSubmitEditing,
-      placeholder
+      placeholder,
     } = this.props;
 
     const {isSecureTextEntry, active, inputVal} = this.state;
 
     const sign = this.getSign();
 
+    // Handle error callback if applicable
     !hideError && onError && this.onErrorCallback(error);
+
+    // Determine left icon color based on theme and input state
     let leftIconColor =
       theme?.mode === 'dark' && (active || hasTextLength(inputVal))
         ? theme?.text?.secondaryColor
@@ -145,8 +187,8 @@ class TextInput extends Component<IProps> {
         ),
         leftIconContainerStyle: [
           styles.leftIcon,
-          leftIconStyle && leftIconStyle
-        ]
+          leftIconStyle && leftIconStyle,
+        ],
       };
     }
     if (isCurrencyInput && currency?.symbol) {
@@ -157,7 +199,7 @@ class TextInput extends Component<IProps> {
               {currency.symbol}
             </Text>
           </View>
-        )
+        ),
       };
     }
     if (leftSymbol) {
@@ -168,7 +210,7 @@ class TextInput extends Component<IProps> {
               {leftSymbol}
             </Text>
           </View>
-        )
+        ),
       };
     }
 
@@ -180,7 +222,7 @@ class TextInput extends Component<IProps> {
               {rightSymbol}
             </Text>
           </View>
-        )
+        ),
       };
     }
 
@@ -198,25 +240,25 @@ class TextInput extends Component<IProps> {
               color={theme?.icons?.eye?.color}
             />
           </ButtonView>
-        )
+        ),
       };
     }
 
     let methods: any = {
-      onFocus: event => {
+      onFocus: (event) => {
         this.toggleFocus(true);
         setActivity?.(true);
         onFocus?.(event);
       },
       ...(!inputProps?.multiline && {
-        blurOnSubmit: inputProps?.onSubmitEditing ? false : true
+        blurOnSubmit: inputProps?.onSubmitEditing ? false : true,
       }),
       ...(!inputProps?.multiline && {
-        onEndEditing: () => this.toggleFocus(false)
+        onEndEditing: () => this.toggleFocus(false),
       }),
       ...(inputProps?.multiline && {
-        onBlur: () => this.toggleFocus(false)
-      })
+        onBlur: () => this.toggleFocus(false),
+      }),
     };
 
     return (
@@ -225,13 +267,13 @@ class TextInput extends Component<IProps> {
         <Input
           containerStyle={[
             containerStyle && containerStyle,
-            styles.containerStyle
+            styles.containerStyle,
           ]}
           {...icons}
           inputStyle={[
             styles.input(theme, !!icons.leftIcon),
             {
-              color: theme?.input?.color
+              color: theme?.input?.color,
             },
             leftSymbol && styles.withLeftSymbolText,
             rightSymbol && styles.withRightSymbolText,
@@ -239,40 +281,40 @@ class TextInput extends Component<IProps> {
             textColor && {color: textColor},
             textStyle,
             height && {height},
-            inputProps?.multiline && styles.multilineField
+            inputProps?.multiline && styles.multilineField,
           ]}
           inputContainerStyle={[
             styles.inputContainerStyle,
             {
               backgroundColor: theme?.input?.backgroundColor,
-              borderColor: theme?.input?.borderColor
+              borderColor: theme?.input?.borderColor,
             },
             inputContainerStyle && inputContainerStyle,
             rounded && {borderRadius: 5},
             disabled && [
               styles.disabledInput(theme),
-              disabledStyle && disabledStyle
+              disabledStyle && disabledStyle,
             ],
             submitFailed &&
               error && {
-                borderColor: theme?.input?.validationBackgroundColor
-              }
+                borderColor: theme?.input?.validationBackgroundColor,
+              },
           ]}
           returnKeyType={returnKeyType}
-          onSubmitEditing={e => onSubmitEditing?.(e.nativeEvent.text)}
+          onSubmitEditing={(e) => onSubmitEditing?.(e.nativeEvent.text)}
           placeholder={placeholder}
           keyboardType={this.props.keyboardType ?? keyboardType.DEFAULT}
           {...(this.props.keyboardType &&
             (this.props.keyboardType === keyboardType.EMAIL ||
               this.props.keyboardType === keyboardType.URL) && {
-              autoCapitalize: 'none'
+              autoCapitalize: 'none',
             })}
           {...(secureTextEntry && {
-            autoCapitalize: 'none'
+            autoCapitalize: 'none',
           })}
           {...inputProps}
           {...methods}
-          onChangeText={enteredValue => {
+          onChangeText={(enteredValue) => {
             this.setState({inputVal: enteredValue});
             this.onChangeValue?.(enteredValue);
 
@@ -282,13 +324,13 @@ class TextInput extends Component<IProps> {
           }}
           defaultValue={`${inputVal}`}
           secureTextEntry={isSecureTextEntry}
-          ref={ref => refLinkFn?.(ref)}
+          ref={(ref) => refLinkFn?.(ref)}
           placeholderTextColor={theme?.input?.placeholderColor}
           editable={editable && !disabled}
           allowFontScaling={false}
           textAlignVertical={inputProps && inputProps?.multiline && 'top'}
           {...(theme?.mode === 'dark' && {
-            selectionColor: theme?.text?.primaryColor
+            selectionColor: theme?.text?.primaryColor,
           })}
         />
         {sign && (
@@ -303,9 +345,11 @@ class TextInput extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => ({
+// Map state to props for Redux
+const mapStateToProps = (state) => ({
   currency: currentCurrencySelector(state),
-  ...commonSelector(state)
+  ...commonSelector(state),
 });
 
+// Connect the TextInput component to the Redux store
 export const BaseInput = connect(mapStateToProps)(TextInput);

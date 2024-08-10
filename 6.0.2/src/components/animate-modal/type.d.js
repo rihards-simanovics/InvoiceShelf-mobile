@@ -2,14 +2,17 @@ import React from 'react';
 import {ModalProps} from 'react-native-modal';
 import {StyleProp, ViewStyle} from 'react-native';
 
+/**
+ * Interface for the properties accepted by the AnimateModal component.
+ */
 export interface IProps {
   /**
    * A function to toggle modal visibility.
    */
-  onToggle?: () => any;
+  onToggle?: () => void;
 
   /**
-   * If true the modal is showing.
+   * If true, the modal is showing.
    */
   visible?: boolean;
 

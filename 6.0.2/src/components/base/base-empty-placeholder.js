@@ -10,21 +10,21 @@ import {emptyContentPlaceholder} from '@/utils';
 import {PermissionService} from '@/services';
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp
+  heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+/**
+ * EmptyPlaceholder component to display when there is no content.
+ * @param {IProps} props - The component props.
+ */
 export const EmptyPlaceholder = (props: IProps) => {
   const {route, theme} = props;
-  const {
-    title,
-    description,
-    image,
-    buttonTitle,
-    buttonPress
-  } = emptyContentPlaceholder(props);
+  const {title, description, image, buttonTitle, buttonPress} =
+    emptyContentPlaceholder(props);
 
   let showButton = hasTextLength(buttonTitle);
 
+  // Check if the button should be shown based on permissions
   if (route && hasTextLength(buttonTitle)) {
     showButton = PermissionService.isAllowToCreate(route?.name);
   }
@@ -74,31 +74,37 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   emptyImage: {
     height: hp('20%'),
     width: wp('40%'),
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   emptyTitle: {
     marginTop: 15,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   emptyDescription: {
     paddingHorizontal: 10,
-    marginTop: 5
+    marginTop: 5,
   },
   emptyButton: {
     marginTop: 22,
-    marginHorizontal: 40
-  }
+    marginHorizontal: 40,
+  },
 });
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseEmptyPlaceholder component.
+ */
 export const BaseEmptyPlaceholder = connect(mapStateToProps)(EmptyPlaceholder);
 
+/**
+ * Props for EmptyPlaceholder component.
+ */
 interface IProps {
   /**
    * An active theme object.
@@ -148,7 +154,7 @@ interface IProps {
   buttonPress?: () => void;
 
   /**
-   * if true, show the filter-based empty placeholder.
+   * If true, show the filter-based empty placeholder.
    */
   isFilter?: boolean;
 }

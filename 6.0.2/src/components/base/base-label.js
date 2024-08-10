@@ -5,7 +5,11 @@ import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
 import {ITheme} from '@/interfaces';
 
-const Label: FC<IProps> = props => {
+/**
+ * Label component to display a label for a form field.
+ * @param {IProps} props - The component props.
+ */
+const Label: FC<IProps> = (props) => {
   const {children, theme, isRequired, style, ...rest} = props;
 
   if (!children) {
@@ -20,8 +24,6 @@ const Label: FC<IProps> = props => {
       color={theme?.viewLabel?.primaryColor}
       style={{...styles.label, ...style}}
       {...rest}
-      //   style={!hasObjectLength(rest) ? {...styles.label, ...style} : style}
-      //   bold2={theme?.mode === 'dark'}
     >
       {children}
       {isRequired ? <Text danger> *</Text> : null}
@@ -31,14 +33,20 @@ const Label: FC<IProps> = props => {
 
 const styles = StyleSheet.create({
   label: {
-    paddingBottom: 7
-  }
+    paddingBottom: 7,
+  },
 });
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseLabel component.
+ */
 export const BaseLabel = connect(mapStateToProps)(Label);
 
+/**
+ * Props for Label component.
+ */
 interface IProps {
   /**
    * Either children or a render prop that receives a boolean reflecting whether

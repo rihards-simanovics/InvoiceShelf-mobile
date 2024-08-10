@@ -5,8 +5,15 @@ import {Text} from '../text';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
 
+/**
+ * BaseDivider component that renders a divider with an optional title.
+ *
+ * @param {IProps} props - The properties for the BaseDivider component.
+ * @returns {JSX.Element} The rendered divider component.
+ */
 export const BaseDivider = (props: IProps) => {
   const {title, dividerStyle, titleStyle, theme} = props;
+
   return title ? (
     <View style={styles.dividerContainer}>
       <Divider style={[styles.divider, dividerStyle]} />
@@ -22,16 +29,17 @@ export const BaseDivider = (props: IProps) => {
   );
 };
 
+// Styles for the BaseDivider component
 const styles = StyleSheet.create({
   dividerContainer: {
     marginVertical: 20,
     marginHorizontal: 12,
-    position: 'relative'
+    position: 'relative',
   },
   divider: {
     backgroundColor: colors.darkGray,
     marginVertical: 15,
-    height: 1
+    height: 1,
   },
   titleContainer: {
     position: 'absolute',
@@ -43,24 +51,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.white,
-    left: '45%'
+    left: '45%',
   },
-  withoutTitle: theme => ({
+  withoutTitle: (theme) => ({
     backgroundColor: theme?.divider?.primaryBgColor,
     borderColor: theme?.divider?.primaryBgColor,
     borderWidth: 0.7,
-    marginBottom: 2
-  })
+    marginBottom: 2,
+  }),
 });
 
+// Interface for component props
 interface IProps {
   /**
-   * Title of divider view.
+   * Title of the divider view.
    */
   title?: string;
 
   /**
-   * Styling for divider container.
+   * Styling for the divider container.
    */
   dividerStyle?: StyleProp<ViewStyle> | any;
 

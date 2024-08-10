@@ -1,28 +1,31 @@
 import {StyleProp, ViewStyle} from 'react-native';
 
+/**
+ * Interface for the props accepted by the AssetSvg component.
+ */
 export interface IProps {
   /**
-   * Name of SVG icon.
+   * Name of the SVG icon to be rendered.
    */
   name: string;
 
   /**
-   * Color of fillable SVG icon.
+   * Color of the fillable SVG icon.
    */
   fill?: string;
 
   /**
-   * Width of SVG icon.
+   * Width of the SVG icon. Can be a number or a string.
    */
   width?: number | string;
 
   /**
-   * Height of SVG icon.
+   * Height of the SVG icon. Can be a number or a string.
    */
   height?: number | string;
 
   /**
-   * Styling for the icon container.
+   * Additional styling for the icon container.
    */
   style?: StyleProp<ViewStyle> | any;
 }

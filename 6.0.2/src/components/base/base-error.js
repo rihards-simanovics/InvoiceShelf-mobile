@@ -8,7 +8,11 @@ import t from 'locales/use-translation';
 import {isAndroidPlatform} from '@/helpers/platform';
 import {FadeAnimation} from '../animations';
 
-export const Error = props => {
+/**
+ * Error component to display validation errors.
+ * @param {Object} props - The component props.
+ */
+export const Error = (props) => {
   const {
     meta,
     hideError,
@@ -16,7 +20,7 @@ export const Error = props => {
     maxNumber = 0,
     maxCharacter = 0,
     minCharacter = 0,
-    theme
+    theme,
   } = props;
 
   const hasError =
@@ -51,11 +55,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.danger,
     justifyContent: 'center',
     ...(isAndroidPlatform && {
-      paddingBottom: 1
-    })
-  }
+      paddingBottom: 1,
+    }),
+  },
 });
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseError component.
+ */
 export const BaseError = connect(mapStateToProps)(Error);

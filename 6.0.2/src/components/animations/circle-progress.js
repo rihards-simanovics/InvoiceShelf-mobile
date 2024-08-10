@@ -6,6 +6,10 @@ const ViewPropTypesStyle = ViewPropTypes
   ? ViewPropTypes.style
   : View.propTypes.style;
 
+/**
+ * AnimatedCircularProgress component that displays a circular progress indicator
+ * with customizable properties and animations.
+ */
 export class AnimatedCircularProgress extends React.PureComponent {
   static propTypes = {
     backgroundColor: PropTypes.string,
@@ -17,7 +21,7 @@ export class AnimatedCircularProgress extends React.PureComponent {
     innerBackgroundColor: PropTypes.string,
     duration: PropTypes.number,
     children: PropTypes.node,
-    style: ViewPropTypesStyle
+    style: ViewPropTypesStyle,
   };
 
   static defaultProps = {
@@ -30,14 +34,14 @@ export class AnimatedCircularProgress extends React.PureComponent {
     innerBackgroundColor: 'transparent',
     duration: 1000,
     children: null,
-    style: null
+    style: null,
   };
 
   constructor(props) {
     super(props);
     this.animatedValue = new Animated.Value(0);
     this.state = {
-      showCircle: false
+      showCircle: false,
     };
   }
 
@@ -49,20 +53,35 @@ export class AnimatedCircularProgress extends React.PureComponent {
     this.props?.reference?.(undefined);
   }
 
-  showCircleView = status => {
+  /**
+   * Show or hide the circular progress view.
+   * @param {boolean} status - The visibility status of the circle.
+   */
+  showCircleView = (status) => {
     this.setState({showCircle: status});
   };
 
-  start = callBack => {
+  /**
+   * Start the animation for the circular progress.
+   * @param {Function} callBack - Optional callback to execute after animation completes.
+   */
+  start = (callBack) => {
     const {duration, startDeg, endDeg} = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: (duration / 360) * (endDeg - startDeg),
       useNativeDriver: false,
-      easing: Easing.linear
+      easing: Easing.linear,
     }).start(() => callBack?.());
   };
 
+  /**
+   * Render a half circle with specified color and transformations.
+   * @param {string} color - The color of the half circle.
+   * @param {Array} transforms - Transformations to apply to the half circle.
+   * @param {Object} otherStyle - Additional styles for the half circle.
+   * @returns {JSX.Element} The rendered half circle.
+   */
   renderHalf = (color, transforms = [], otherStyle = {}) => {
     const {radius} = this.props;
     return (
@@ -72,43 +91,40 @@ export class AnimatedCircularProgress extends React.PureComponent {
           {
             backgroundColor: color,
             width: radius,
-            height: radius * 2
+            height: radius * 2,
           },
           {
             transform: [
               {translateX: radius / 2},
               ...transforms,
-              {translateX: -radius / 2}
-            ]
+              {translateX: -radius / 2},
+            ],
           },
-          otherStyle
+          otherStyle,
         ]}
       />
     );
   };
 
+  /**
+   * Render the complete circular progress view.
+   * @param {Object} params - Parameters for rendering the circle.
+   * @returns {JSX.Element} The rendered circular progress.
+   */
   renderCircle = ({
     backgroundColor,
-    //
     color1,
     zIndex1 = 0,
     rotate1,
-    //
     color2,
     zIndex2,
     rotate2,
-    //
     color3,
     zIndex3 = 0,
-    rotate3
+    rotate3,
   }) => {
-    const {
-      radius,
-      innerRadius,
-      style,
-      children,
-      innerBackgroundColor
-    } = this.props;
+    const {radius, innerRadius, style, children, innerBackgroundColor} =
+      this.props;
 
     return (
       <View
@@ -118,20 +134,14 @@ export class AnimatedCircularProgress extends React.PureComponent {
             width: radius * 2,
             height: radius * 2,
             borderRadius: radius,
-            backgroundColor
+            backgroundColor,
           },
-          style
+          style,
         ]}
       >
-        {this.renderHalf(color1, [{rotate: rotate1}], {
-          zIndex: zIndex1
-        })}
-        {this.renderHalf(color2, [{rotate: rotate2}], {
-          zIndex: zIndex2
-        })}
-        {this.renderHalf(color3, [{rotate: rotate3}], {
-          zIndex: zIndex3
-        })}
+        {this.renderHalf(color1, [{rotate: rotate1}], {zIndex: zIndex1})}
+        {this.renderHalf(color2, [{rotate: rotate2}], {zIndex: zIndex2})}
+        {this.renderHalf(color3, [{rotate: rotate3}], {zIndex: zIndex3})}
         <View
           style={[
             styles.innerStyle,
@@ -141,8 +151,8 @@ export class AnimatedCircularProgress extends React.PureComponent {
               borderRadius: innerRadius,
               left: radius - innerRadius,
               top: radius - innerRadius,
-              backgroundColor: innerBackgroundColor
-            }
+              backgroundColor: innerBackgroundColor,
+            },
           ]}
         >
           {children}
@@ -159,19 +169,18 @@ export class AnimatedCircularProgress extends React.PureComponent {
     let color1;
     let color2;
     let color3;
-
     let zIndex2;
-
     let rotate1;
     let rotate2;
     let rotate3;
 
+    // Determine rotation and color based on start and end degrees
     if (startDeg <= 180 && endDeg <= 180) {
       rotate1 = '0deg';
       rotate2 = '180deg';
       rotate3 = this.animatedValue.interpolate({
         inputRange: LIST_TIMING_ANIMATION_INPUT_2_VALUE,
-        outputRange: [`${180 + startDeg}deg`, `${180 + endDeg}deg`]
+        outputRange: [`${180 + startDeg}deg`, `${180 + endDeg}deg`],
       });
 
       color1 = backgroundColor;
@@ -183,7 +192,7 @@ export class AnimatedCircularProgress extends React.PureComponent {
       circleBg = color;
       rotate1 = this.animatedValue.interpolate({
         inputRange: LIST_TIMING_ANIMATION_INPUT_2_VALUE,
-        outputRange: [`${180 + startDeg}deg`, `${180 + endDeg}deg`]
+        outputRange: [`${180 + startDeg}deg`, `${180 + endDeg}deg`],
       });
       rotate2 = '180deg';
       rotate3 = '180deg';
@@ -202,7 +211,7 @@ export class AnimatedCircularProgress extends React.PureComponent {
         part1 / total,
         part1 / total,
         part1 / total,
-        1
+        1,
       ];
 
       rotate1 = '0deg';
@@ -214,13 +223,13 @@ export class AnimatedCircularProgress extends React.PureComponent {
           `${180 + 180}deg`,
           `${180 + 180}deg`,
           `${180 + 180}deg`,
-          `${180 + endDeg}deg`
-        ]
+          `${180 + endDeg}deg`,
+        ],
       });
 
       color1 = this.animatedValue.interpolate({
         inputRange: listTimingAnimationInput,
-        outputRange: [backgroundColor, backgroundColor, color, color, color]
+        outputRange: [backgroundColor, backgroundColor, color, color, color],
       });
 
       color2 = color;
@@ -228,26 +237,23 @@ export class AnimatedCircularProgress extends React.PureComponent {
 
       zIndex2 = this.animatedValue.interpolate({
         inputRange: listTimingAnimationInput,
-        outputRange: [0, 0, 0, 1, 1]
+        outputRange: [0, 0, 0, 1, 1],
       });
     }
 
     if (!showCircle) {
-      return null;
+      return null; // Do not render if the circle is not visible
     }
 
     return this.renderCircle({
       backgroundColor: circleBg,
-      //
       color1,
       rotate1,
-      //
       color2,
       zIndex2,
       rotate2,
-      //
       color3,
-      rotate3
+      rotate3,
     });
   }
 }
@@ -256,16 +262,16 @@ const LIST_TIMING_ANIMATION_INPUT_2_VALUE = [0, 1];
 
 const styles = StyleSheet.create({
   outerStyle: {
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   half: {
     position: 'absolute',
     left: 0,
-    top: 0
+    top: 0,
   },
   innerStyle: {
     position: 'absolute',
     backgroundColor: '#fff',
-    zIndex: 2
-  }
+    zIndex: 2,
+  },
 });

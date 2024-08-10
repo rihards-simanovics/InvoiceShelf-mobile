@@ -15,57 +15,6 @@ the first set of files is:
 <pre>
 src
 ├── components
-│   ├── animate-modal
-│   │   ├── animate-modal.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── animations
-│   │   ├── circle-progress.js
-│   │   ├── fade-list.js
-│   │   ├── fade.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── asset-icon
-│   │   ├── asset-icon.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── asset-image
-│   │   ├── asset-image.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── asset-svg
-│   │   ├── asset-svg.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── base
-│   │   ├── base-action-sheet.js
-│   │   ├── base-button-view
-│   │   │   ├── base-button-view.js
-│   │   │   ├── index.js
-│   │   │   └── type.d.js
-│   │   ├── base-button.js
-│   │   ├── base-date-picker.js
-│   │   ├── base-date-time-picker.js
-│   │   ├── base-divider.js
-│   │   ├── base-dropdown-picker.js
-│   │   ├── base-empty-placeholder.js
-│   │   ├── base-error.js
-│   │   ├── base-input
-│   │   │   ├── base-input.js
-│   │   │   ├── index.js
-│   │   │   ├── styles.js
-│   │   │   └── type.d.js
-│   │   ├── base-label.js
-│   │   ├── base-multi-select.js
-│   │   ├── base-select.js
-│   │   ├── base-switch.js
-│   │   ├── base-tabs.js
-│   │   ├── base-time-picker.js
-│   │   ├── base-view
-│   │   │   ├── base-view.js
-│   │   │   ├── index.js
-│   │   │   └── type.d.js
-│   │   └── index.js
 │   ├── button-view
 │   │   ├── button-view.js
 │   │   └── index.js

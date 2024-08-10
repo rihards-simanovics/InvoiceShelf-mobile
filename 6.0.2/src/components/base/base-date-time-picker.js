@@ -10,6 +10,9 @@ import {BaseError, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {ITheme} from '@/interfaces';
 
+/**
+ * DateTimePicker component that allows users to select both date and time.
+ */
 class DateTimePicker extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
@@ -18,7 +21,7 @@ class DateTimePicker extends Component<IProps, IStates> {
 
   static defaultProps = {
     dateFieldName: 'date',
-    timeFieldName: 'time'
+    timeFieldName: 'time',
   };
 
   componentDidMount() {
@@ -27,7 +30,7 @@ class DateTimePicker extends Component<IProps, IStates> {
       dateFieldName,
       timeFieldName,
       callOnChangeInMount = false,
-      removeSecond = false
+      removeSecond = false,
     } = this.props;
 
     if (value) {
@@ -50,10 +53,15 @@ class DateTimePicker extends Component<IProps, IStates> {
     }
   }
 
+  /**
+   * Handles changes in date and time selection.
+   *
+   * @param {Object} params - The date and time values.
+   */
   onChange = ({date = null, time = null}) => {
     const {
       onChangeCallback,
-      input: {onChange, value}
+      input: {onChange, value},
     } = this.props;
     let dateTimeValue = '';
 
@@ -75,17 +83,35 @@ class DateTimePicker extends Component<IProps, IStates> {
     onChangeCallback?.(dateTimeValue);
   };
 
+  /**
+   * Sets the form field value.
+   *
+   * @param {string} field - The field name.
+   * @param {any} value - The value to set.
+   */
   setFormField = (field, value) => {
     this.props.dispatch(change('DATE_TIME_PICKER_FORM', field, value));
   };
 
-  getDefaultDateValue = value => {
+  /**
+   * Retrieves the default date value.
+   *
+   * @param {string} value - The current value.
+   * @returns {string} The default date value.
+   */
+  getDefaultDateValue = (value) => {
     if (!value) return ' ';
     const valueParts = value.split(' ');
     return valueParts?.[0] ?? '';
   };
 
-  getDefaultTimeValue = value => {
+  /**
+   * Retrieves the default time value.
+   *
+   * @param {string} value - The current value.
+   * @returns {string} The default time value.
+   */
+  getDefaultTimeValue = (value) => {
     if (!value) return ' ';
     const valueParts = value.split(' ');
     return valueParts?.[1] ?? '';
@@ -103,7 +129,7 @@ class DateTimePicker extends Component<IProps, IStates> {
       timeFieldName,
       hideError,
       theme,
-      disabled
+      disabled,
     } = this.props;
 
     if (loading) return null;
@@ -120,11 +146,11 @@ class DateTimePicker extends Component<IProps, IStates> {
             <Field
               name={dateFieldName}
               component={BaseDatePicker}
-              onChangeCallback={val => this.onChange({date: val})}
+              onChangeCallback={(val) => this.onChange({date: val})}
               placeholder={this.getDefaultDateValue(value)}
               formDateFormat="YYYY-MM-DD"
               baseSelectProps={{
-                baseSelectContainerStyle: hasError && styles.inputError
+                baseSelectContainerStyle: hasError && styles.inputError,
               }}
               disabled={disabled}
             />
@@ -134,9 +160,9 @@ class DateTimePicker extends Component<IProps, IStates> {
               name={timeFieldName}
               component={BaseTimePicker}
               placeholder={this.getDefaultTimeValue(value)}
-              onChangeCallback={val => this.onChange({time: val})}
+              onChangeCallback={(val) => this.onChange({time: val})}
               baseSelectProps={{
-                baseSelectContainerStyle: hasError && styles.inputError
+                baseSelectContainerStyle: hasError && styles.inputError,
               }}
               disabled={disabled}
             />
@@ -148,37 +174,42 @@ class DateTimePicker extends Component<IProps, IStates> {
   }
 }
 
+// Redux form connection
 const dateTimePickerForm = reduxForm({form: 'DATE_TIME_PICKER_FORM'})(
   DateTimePicker
 );
 
-const mapStateToProps = state => commonSelector(state);
+// Redux state mapping
+const mapStateToProps = (state) => commonSelector(state);
 
+// Connect the DateTimePicker component to Redux
 export const BaseDateTimePicker = connect(mapStateToProps)(dateTimePickerForm);
 
+// Styles for the component
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10
+    marginTop: 10,
   },
   row: {
     flexDirection: 'row',
-    marginTop: -8
+    marginTop: -8,
   },
   dateColumn: {
-    flex: 1.2
+    flex: 1.2,
   },
-  timeColumn: theme => ({
+  timeColumn: (theme) => ({
     flex: 1,
-    marginLeft: theme?.mode === 'light' ? 0 : 1
+    marginLeft: theme?.mode === 'light' ? 0 : 1,
   }),
   validation: {
-    marginTop: -10
+    marginTop: -10,
   },
   inputError: {
-    borderColor: colors.dangerLight
-  }
+    borderColor: colors.dangerLight,
+  },
 });
 
+// Interface for component props
 interface IProps {
   /**
    * Name of the date picker field to access current date value.
@@ -196,7 +227,7 @@ interface IProps {
   input?: any;
 
   /**
-   * Invoked with the the change event as an argument when the value changes.
+   * Invoked with the change event as an argument when the value changes.
    */
   onChangeCallback?: (callback: any) => void;
 
@@ -221,7 +252,7 @@ interface IProps {
   removeSecond?: boolean;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
 
@@ -247,12 +278,13 @@ interface IProps {
   theme: ITheme;
 
   /**
-   * If true the user won't be able to press.
+   * If true, the user won't be able to press.
    * @default false
    */
   disabled?: boolean;
 }
 
+// Interface for component state
 interface IStates {
   /**
    * The loading indicator for the screen, displayed until the screen is ready to be displayed.

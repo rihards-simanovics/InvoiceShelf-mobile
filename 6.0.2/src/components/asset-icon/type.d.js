@@ -1,23 +1,26 @@
 import {StyleProp, ViewStyle} from 'react-native';
 
+/**
+ * Interface for the properties accepted by the AssetIcon component.
+ */
 export interface IProps {
   /**
-   * Name of font awesome icon.
+   * Name of the FontAwesome icon.
    */
   name?: string;
 
   /**
-   * Size of font awesome icon.
+   * Size of the FontAwesome icon.
    */
   size?: number;
 
   /**
-   * Whether to check that is icon solid or outline.
+   * Whether to render the icon as solid or outline.
    */
   solid?: boolean;
 
   /**
-   * Color of font awesome icon.
+   * Color of the FontAwesome icon.
    */
   color?: string;
 

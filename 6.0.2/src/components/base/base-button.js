@@ -11,23 +11,31 @@ import {isEmpty} from '@/constants';
 import {isAndroidPlatform} from '@/helpers/platform';
 import {defineSize, defineLargeSizeParam} from '@/helpers/size';
 
+// Background color configurations for button types
 const bgColor = {
   primary: {
     light: colors.primary,
-    dark: colors.primaryLight
+    dark: colors.primaryLight,
   },
   danger: {
     light: colors.danger,
-    dark: colors.danger
-  }
+    dark: colors.danger,
+  },
 };
 
+// Height configurations for button sizes
 const height = {
   sm: defineLargeSizeParam(32, 30),
   md: defineLargeSizeParam(42, 40),
-  lg: defineLargeSizeParam(44, 42)
+  lg: defineLargeSizeParam(44, 42),
 };
 
+/**
+ * Button component that renders a customizable button with loading state.
+ *
+ * @param {IProps} props - The properties for the button component.
+ * @returns {JSX.Element} The rendered button component.
+ */
 export const Button = (props: IProps) => {
   const {
     onPress,
@@ -38,9 +46,12 @@ export const Button = (props: IProps) => {
     size = 'md',
     style,
     additionalProps,
-    labelComponent
+    labelComponent,
   } = props;
+
   const isOutline = type.includes('outline');
+
+  // Determine the label to display
   const label = !labelComponent ? (
     <Text
       h5
@@ -53,6 +64,8 @@ export const Button = (props: IProps) => {
   ) : (
     labelComponent
   );
+
+  // Loading spinner component
   const spinner = (
     <Loading
       size="small"
@@ -61,12 +74,15 @@ export const Button = (props: IProps) => {
       }
     />
   );
+
   const children = !loading ? label : spinner;
+
+  // Gradient style for primary-gradient button type
   const gradientStyle = {
     colors: [colors.primary, colors.primaryLight],
     start: {x: 0, y: 0.5},
     end: {x: 1, y: 0.5},
-    style: styles.gradient
+    style: styles.gradient,
   };
 
   return (
@@ -94,15 +110,24 @@ export const Button = (props: IProps) => {
   );
 };
 
-const mapStateToProps = state => commonSelector(state);
+// Redux state mapping
+const mapStateToProps = (state) => commonSelector(state);
 
+// Connect the Button component to Redux
 export const BaseButton = connect(mapStateToProps)(Button);
 
-export const BaseButtonGroup = props => {
+/**
+ * BaseButtonGroup component that renders a group of buttons.
+ *
+ * @param {Object} props - The properties for the button group component.
+ * @returns {JSX.Element | null} The rendered button group component or null.
+ */
+export const BaseButtonGroup = (props) => {
   const {children} = props;
   const isMoreThanTwo = children?.length >= 2;
   const baseButtons = [];
 
+  // Function to handle button visibility
   const buttons = (button, i = 0) => {
     const canCheckVisibility =
       button?.props && button.props.hasOwnProperty('show');
@@ -141,9 +166,10 @@ export const BaseButtonGroup = props => {
   );
 };
 
+// Styled components
 const Container = styled(RNView)`
-  background-color: ${props => props.theme?.secondaryBgColor};
-  border-color: ${props => props.theme?.input?.borderColor};
+  background-color: ${(props) => props.theme?.secondaryBgColor};
+  border-color: ${(props) => props.theme?.input?.borderColor};
   padding-horizontal: 10;
   padding-top: ${defineSize(16, 16, 16, 18)};
   padding-bottom: ${defineSize(15, 15, 15, 35)};
@@ -155,29 +181,32 @@ const Row = styled(RNView)`
   justify-content: space-between;
 `;
 
-const outlineType = type => (type ? type.split('-')[0] : 'primary');
+// Helper function to determine outline type
+const outlineType = (type) => (type ? type.split('-')[0] : 'primary');
 
+// Styles for the button
 const styles = StyleSheet.create({
   gradient: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   outlineView: ({type, theme}) => ({
     borderWidth: 1,
-    borderColor: bgColor?.[outlineType(type)]?.[theme?.mode]
+    borderColor: bgColor?.[outlineType(type)]?.[theme?.mode],
   }),
   text: {
     ...(isAndroidPlatform && {
-      paddingTop: 2
-    })
+      paddingTop: 2,
+    }),
   },
   outlineText: ({type, theme}) => ({
-    color: bgColor?.[outlineType(type)]?.[theme?.mode]
-  })
+    color: bgColor?.[outlineType(type)]?.[theme?.mode],
+  }),
 });
 
+// Interface for component props
 interface IProps {
   /**
    * Click action.

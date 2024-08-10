@@ -14,12 +14,16 @@ import DefaultAvatar from '../../assets/default-avatar.jpg';
 import EmptyInvoicesDark from '../../assets/empty-invoices-icon-dark.png';
 import {IProps} from './type.d';
 
+/**
+ * AssetImage component that renders images from local assets or remote URLs.
+ */
 export class AssetImage extends Component<IProps> {
   constructor(props) {
     super(props);
-    this.state = {loading: true};
+    this.state = {loading: true}; // Track loading state of the image
   }
 
+  // Predefined images for easy access
   static images = {
     logo_dark: LogoDark,
     logo_white: LogoWhite,
@@ -33,12 +37,12 @@ export class AssetImage extends Component<IProps> {
     avatar: DefaultAvatar,
     light: {
       empty_invoices: EmptyInvoices,
-      logo: LogoDark
+      logo: LogoDark,
     },
     dark: {
       empty_invoices: EmptyInvoicesDark,
-      logo: LogoWhite
-    }
+      logo: LogoWhite,
+    },
   };
 
   render() {
@@ -46,9 +50,9 @@ export class AssetImage extends Component<IProps> {
 
     return (
       <Image
-        source={uri ? {uri: source} : source}
-        style={style}
-        {...imageProps}
+        source={uri ? {uri: source} : source} // Determine source based on uri prop
+        style={style} // Apply custom styles
+        {...imageProps} // Spread additional image properties
       />
     );
   }

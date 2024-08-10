@@ -7,7 +7,11 @@ import {colors, fontSizes} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
 import {isAndroidPlatform} from '@/helpers/platform';
 
-const SelectView = props => {
+/**
+ * SelectView component for displaying a selectable input field.
+ * @param {Object} props - The component props.
+ */
+const SelectView = (props) => {
   const {
     label,
     icon,
@@ -30,9 +34,10 @@ const SelectView = props => {
     customView,
     leftIconProps,
     leftSymbolStyle,
-    description
+    description,
   } = props;
 
+  // Render custom view if provided
   if (customView) {
     return customView({props});
   }
@@ -52,13 +57,13 @@ const SelectView = props => {
     styles.container(theme),
     baseSelectContainerStyle,
     meta?.submitFailed && meta?.error && styles.error,
-    disabled && styles.disableView(theme)
+    disabled && styles.disableView(theme),
   ];
 
   const textStyle = [
     styles.text,
     values && valueStyle,
-    !values && placeholderStyle
+    !values && placeholderStyle,
   ];
 
   return (
@@ -121,7 +126,7 @@ const SelectView = props => {
 };
 
 const styles = StyleSheet.create({
-  container: theme => ({
+  container: (theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
@@ -131,48 +136,56 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     height: 44,
     ...(isAndroidPlatform && {
-      height: 47
-    })
+      height: 47,
+    }),
   }),
-  disableView: theme => ({
+  disableView: (theme) => ({
     backgroundColor: theme?.input?.disableBackgroundColor,
-    opacity: 0.7
+    opacity: 0.7,
   }),
   error: {
-    borderColor: colors.dangerLight
+    borderColor: colors.dangerLight,
   },
   leftIcon: {
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   leftSymbol: {
     paddingLeft: 15,
     ...(isAndroidPlatform && {
-      marginTop: 4
-    })
+      marginTop: 4,
+    }),
   },
   rightIcon: {
-    paddingRight: 15
+    paddingRight: 15,
   },
   text: {
     paddingHorizontal: 13,
     flex: 1,
     fontSize: fontSizes.h5,
     ...(isAndroidPlatform && {
-      paddingTop: 4
-    })
+      paddingTop: 4,
+    }),
   },
   validation: {
     marginTop: -10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });
 
 const Container = styled(View)`
   margin-top: 10;
 `;
 
-const leftIconSize = name => (name === 'align-center' ? 14 : 16);
+/**
+ * Determines the size of the left icon based on its name.
+ * @param {string} name - The name of the icon.
+ * @returns {number} - The size of the icon.
+ */
+const leftIconSize = (name) => (name === 'align-center' ? 14 : 16);
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseSelect component.
+ */
 export const BaseSelect = connect(mapStateToProps)(SelectView);

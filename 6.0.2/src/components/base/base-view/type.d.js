@@ -2,6 +2,9 @@ import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 import {IClass} from '@/interfaces';
 
+/**
+ * Interface for the properties of the BaseView component.
+ */
 export interface IProps {
   /**
    * Styling for the view container via class.
@@ -26,7 +29,7 @@ export interface IProps {
   [key: string]: string | number | any;
 
   /**
-   * Handle the component will render or not.
+   * Handle whether the component will render or not.
    * @default true
    */
   show?: boolean;

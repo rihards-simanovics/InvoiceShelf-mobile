@@ -5,12 +5,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   StyleProp,
-  ViewStyle
+  ViewStyle,
 } from 'react-native';
 import {Text} from '../text';
 import {fonts} from '@/styles';
 import {ITheme} from '@/interfaces';
 
+/**
+ * BaseTabs component for displaying a tabbed interface.
+ */
 export class BaseTabs extends Component<IProps> {
   constructor(props) {
     super(props);
@@ -37,8 +40,8 @@ export class BaseTabs extends Component<IProps> {
                 styles.tab(theme),
                 {
                   condition: [Title, id].includes(activeTab),
-                  style: styles.selected_tab(theme)
-                }
+                  style: styles.selected_tab(theme),
+                },
               ])}
               onPress={() => setActiveTab(Title)}
             >
@@ -54,7 +57,7 @@ export class BaseTabs extends Component<IProps> {
               ) : (
                 tabName &&
                 tabName({
-                  active: [tabName, id].includes(activeTab)
+                  active: [tabName, id].includes(activeTab),
                 })
               )}
             </TouchableOpacity>
@@ -70,15 +73,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   tabs: {
     width: '100%',
     height: 38,
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
-  tab: theme => ({
+  tab: (theme) => ({
     flex: 1,
     borderBottomWidth: 2,
     borderColor: theme?.tab?.borderColor,
@@ -86,17 +89,20 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    textAlign: 'left'
+    textAlign: 'left',
   }),
-  selected_tab: theme => ({
+  selected_tab: (theme) => ({
     borderBottomWidth: 2,
-    borderBottomColor: theme?.tab?.borderBottomColor
+    borderBottomColor: theme?.tab?.borderBottomColor,
   }),
-  selectedTabTitle: theme => ({
-    color: theme?.tab?.activeColor
-  })
+  selectedTabTitle: (theme) => ({
+    color: theme?.tab?.activeColor,
+  }),
 });
 
+/**
+ * Props for BaseTabs component.
+ */
 interface IProps {
   /**
    * Name of currently active tab.

@@ -2,9 +2,12 @@ import {
   StyleProp,
   ImageStyle,
   ImageSourcePropType,
-  ImageProps
+  ImageProps,
 } from 'react-native';
 
+/**
+ * Interface for the properties accepted by the AssetImage component.
+ */
 export interface IProps {
   /**
    * Styling for the image container.
@@ -12,12 +15,12 @@ export interface IProps {
   style?: StyleProp<ImageStyle> | any;
 
   /**
-   * If true image fetch from remote URL.
+   * If true, the image is fetched from a remote URL.
    */
   uri?: boolean;
 
   /**
-   * Additional props to pass to the Image.
+   * Additional props to pass to the Image component.
    */
   imageProps?: ImageProps | any;
 

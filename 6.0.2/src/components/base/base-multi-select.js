@@ -9,14 +9,18 @@ import {
   BaseLabel,
   ButtonView,
   Text,
-  View as BaseView
+  View as BaseView,
 } from '@/components';
-import {colors, fontSizes} from '@/styles';
+import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
 import {isAndroidPlatform} from '@/helpers/platform';
 import {isEmpty} from '@/constants';
 
-const SelectView = props => {
+/**
+ * SelectView component for displaying a multi-select dropdown.
+ * @param {Object} props - The component props.
+ */
+const SelectView = (props) => {
   const {
     label,
     onChangeCallback,
@@ -28,7 +32,7 @@ const SelectView = props => {
     theme,
     items,
     displayName,
-    customView
+    customView,
   } = props;
 
   const buttonStyle = [
@@ -38,7 +42,7 @@ const SelectView = props => {
       meta?.error &&
       typeof meta.error === 'string' &&
       styles.error,
-    disabled && styles.disableView(theme)
+    disabled && styles.disableView(theme),
   ];
 
   if (customView) {
@@ -88,7 +92,7 @@ const SelectView = props => {
 };
 
 const styles = StyleSheet.create({
-  container: theme => ({
+  container: (theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
@@ -98,29 +102,32 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     minHeight: 44,
     ...(isAndroidPlatform && {
-      minHeight: 47
-    })
+      minHeight: 47,
+    }),
   }),
-  disableView: theme => ({
+  disableView: (theme) => ({
     backgroundColor: theme?.input?.disableBackgroundColor,
-    opacity: 0.7
+    opacity: 0.7,
   }),
   error: {
-    borderColor: colors.dangerLight
+    borderColor: colors.dangerLight,
   },
   rightIcon: {
-    paddingRight: 15
+    paddingRight: 15,
   },
   validation: {
     marginTop: -10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });
 
 const Container = styled(View)`
   margin-top: 10;
 `;
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = (state) => commonSelector(state);
 
+/**
+ * Connected BaseMultiSelect component.
+ */
 export const BaseMultiSelect = connect(mapStateToProps)(SelectView);

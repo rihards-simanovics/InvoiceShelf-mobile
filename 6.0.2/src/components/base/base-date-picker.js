@@ -9,6 +9,9 @@ import {commonSelector} from 'stores/common/selectors';
 import {BaseSelect} from '@/components';
 import {ITheme} from '@/interfaces';
 
+/**
+ * DatePicker component that allows users to select a date.
+ */
 class DatePicker extends Component<IProps, IStates> {
   pickerDateValue: any;
   displayValue: any;
@@ -20,12 +23,12 @@ class DatePicker extends Component<IProps, IStates> {
     this.state = {
       isDateTimePickerVisible: false,
       value: '',
-      displayMode: null
+      displayMode: null,
     };
   }
 
   static defaultProps = {
-    formDateFormat: DATE_FORMAT
+    formDateFormat: DATE_FORMAT,
   };
 
   componentDidMount() {
@@ -33,13 +36,16 @@ class DatePicker extends Component<IProps, IStates> {
     this.setInitialDateValue();
   }
 
+  /**
+   * Sets the initial date value based on props.
+   */
   setInitialDateValue = () => {
     const {
       input: {value, onChange},
       dateFormat,
       selectedDate,
       selectedDateValue,
-      formDateFormat
+      formDateFormat,
     } = this.props;
 
     if (selectedDate && !value === false) {
@@ -52,14 +58,15 @@ class DatePicker extends Component<IProps, IStates> {
         let formDate = moment(value).format(formDateFormat);
 
         this.setState({value: displayDate});
-
         onChange?.(formDate);
-
         this.pickerDateValue = formDate;
       }
     }
   };
 
+  /**
+   * Sets the display mode of the date picker based on the platform and version.
+   */
   setVersionCompatiblePicker = () => {
     if (isIosPlatform && majorVersionIOS >= 14) {
       this.setState({displayMode: 'spinner'});
@@ -74,22 +81,29 @@ class DatePicker extends Component<IProps, IStates> {
     this.setState({displayMode: 'default'});
   };
 
+  /**
+   * Toggles the visibility of the date time picker.
+   */
   showHideDateTimePicker = () => {
     const {isDateTimePickerVisible} = this.state;
     this.setState({isDateTimePickerVisible: !isDateTimePickerVisible});
   };
 
-  handleDatePicked = date => {
+  /**
+   * Handles the date picked event.
+   *
+   * @param {Date} date - The selected date.
+   */
+  handleDatePicked = (date) => {
     const {
       onChangeCallback,
       dateFormat,
       input: {onChange},
       filter,
-      formDateFormat
+      formDateFormat,
     } = this.props;
 
     let displayDate = moment(date).format(dateFormat);
-
     let formDate = moment(date).format(formDateFormat);
 
     isIosPlatform
@@ -104,10 +118,18 @@ class DatePicker extends Component<IProps, IStates> {
 
     if (filter) {
       onChangeCallback && onChangeCallback(formDate, displayDate);
-    } else onChangeCallback && onChangeCallback(formDate);
+    } else {
+      onChangeCallback && onChangeCallback(formDate);
+    }
   };
 
-  getDate = displayValue => {
+  /**
+   * Retrieves the formatted date.
+   *
+   * @param {moment.Moment} displayValue - The moment object to format.
+   * @returns {string | null} The formatted date or null.
+   */
+  getDate = (displayValue) => {
     const {dateFormat} = this.props;
     if (displayValue) {
       return displayValue.format(dateFormat);
@@ -115,6 +137,11 @@ class DatePicker extends Component<IProps, IStates> {
     return null;
   };
 
+  /**
+   * Gets the options for the date picker.
+   *
+   * @returns {Object} The date picker options.
+   */
   getPickerOption = () => {
     const {displayValue} = this.props;
     const dateValue = displayValue || this.pickerDateValue;
@@ -130,6 +157,11 @@ class DatePicker extends Component<IProps, IStates> {
     return {};
   };
 
+  /**
+   * Retrieves the display value for the date picker.
+   *
+   * @returns {string} The display value.
+   */
   getDisplayValue = () => {
     const {displayValue, input} = this.props;
 
@@ -149,7 +181,7 @@ class DatePicker extends Component<IProps, IStates> {
       placeholder = ' ',
       baseSelectProps,
       disabled,
-      theme
+      theme,
     } = this.props;
 
     const {isDateTimePickerVisible, displayMode} = this.state;
@@ -189,13 +221,16 @@ class DatePicker extends Component<IProps, IStates> {
   }
 }
 
-const mapStateToProps = state => ({
+// Redux state mapping
+const mapStateToProps = (state) => ({
   dateFormat: state.common?.dateFormat,
-  ...commonSelector(state)
+  ...commonSelector(state),
 });
 
+// Connect the DatePicker component to Redux
 export const BaseDatePicker = connect(mapStateToProps)(DatePicker);
 
+// Interface for component props
 interface IProps {
   /**
    * Label of date picker view.
@@ -203,7 +238,7 @@ interface IProps {
   label?: string;
 
   /**
-   * Invoked with the the change event as an argument when the value changes.
+   * Invoked with the change event as an argument when the value changes.
    */
   onChangeCallback?: () => void;
 
@@ -233,7 +268,7 @@ interface IProps {
   input?: any;
 
   /**
-   * Selected date format type.  YYYY-MM-DD
+   * Selected date format type. YYYY-MM-DD
    */
   dateFormat?: string;
 
@@ -280,6 +315,7 @@ interface IProps {
   theme?: ITheme;
 }
 
+// Interface for component state
 interface IStates {
   /**
    * If true the modal is showing.
