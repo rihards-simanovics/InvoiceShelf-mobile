@@ -15,23 +15,6 @@ the first set of files is:
 <pre>
 src
 ├── components
-│   ├── custom-field
-│   │   ├── Types
-│   │   │   ├── DateTimeType.js
-│   │   │   ├── DateType.js
-│   │   │   ├── DropdownType.js
-│   │   │   ├── InputType.js
-│   │   │   ├── NumberType.js
-│   │   │   ├── PhoneType.js
-│   │   │   ├── SwitchType.js
-│   │   │   ├── TextAreaType.js
-│   │   │   ├── TimeType.js
-│   │   │   ├── UrlType.js
-│   │   │   └── index.js
-│   │   ├── custom-field.js
-│   │   ├── index.js
-│   │   ├── type.d.js
-│   │   └── validate-custom-field.js
 │   ├── editor
 │   │   ├── editor.js
 │   │   ├── index.js

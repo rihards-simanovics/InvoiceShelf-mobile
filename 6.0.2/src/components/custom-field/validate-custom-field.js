@@ -2,7 +2,13 @@ import {isEmpty} from '@/constants';
 import {getError} from '@/validator';
 import {dataTypes} from 'stores/custom-field/helpers';
 
-export const validateCustomField = fields => {
+/**
+ * Validates custom fields and returns an array of errors.
+ *
+ * @param {Array} fields - The fields to validate.
+ * @returns {Array} An array of field errors.
+ */
+export const validateCustomField = (fields) => {
   if (isEmpty(fields)) {
     return [];
   }
@@ -13,18 +19,21 @@ export const validateCustomField = fields => {
     let fieldError = {};
     const {type} = field;
     const required = field?.isRequired || field?.required;
+
     if (required && type !== dataTypes.SWITCH) {
-      if (type === dataTypes.URL)
+      if (type === dataTypes.URL) {
         fieldError['value'] = getError(field['value'], [
           'required',
-          'urlFormat'
+          'urlFormat',
         ]);
-      else if (type === dataTypes.NUMBER)
+      } else if (type === dataTypes.NUMBER) {
         fieldError['value'] = getError(field['value'], [
           'required',
-          'isNumberFormat'
+          'isNumberFormat',
         ]);
-      else fieldError['value'] = getError(field['value'], ['required']);
+      } else {
+        fieldError['value'] = getError(field['value'], ['required']);
+      }
       fieldErrors[index] = fieldError;
     }
   });

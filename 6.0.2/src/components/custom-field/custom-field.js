@@ -14,22 +14,31 @@ import {
   DropdownType,
   DateType,
   TimeType,
-  DateTimeType
+  DateTimeType,
 } from './Types';
 
+/**
+ * Renders custom fields based on their types.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.fields - The fields array.
+ * @param {Array} props.customFields - The custom fields configuration.
+ * @param {boolean} props.disabled - Indicates if the fields are disabled.
+ * @returns {Array} The rendered custom fields.
+ */
 const FIELDS = ({fields, customFields, disabled}) => {
   const items = [];
 
   if (fields.length === 0) return null;
 
-  customFields.map((field, index) => {
+  customFields.forEach((field, index) => {
     const {type} = field;
     const name = `customFields[${index}].value`;
     const fieldProps = {
       field,
       name,
       key: index,
-      disabled
+      disabled,
     };
 
     switch (type) {
@@ -81,6 +90,12 @@ const FIELDS = ({fields, customFields, disabled}) => {
   return items;
 };
 
+/**
+ * CustomField component that manages and renders custom fields.
+ *
+ * @param {IProps} props - The component props.
+ * @returns {JSX.Element|null} The rendered custom fields or null if none.
+ */
 export const CustomField = (props: IProps) => {
   const {customFields, dispatch, form, formValues, isAllowToEdit} = props;
 
@@ -95,6 +110,12 @@ export const CustomField = (props: IProps) => {
     return () => {};
   }, []);
 
+  /**
+   * Sets the form field value.
+   *
+   * @param {string} field - The name of the field.
+   * @param {any} value - The value to set.
+   */
   const setFormField = (field, value) => {
     dispatch(change(form, field, value));
   };

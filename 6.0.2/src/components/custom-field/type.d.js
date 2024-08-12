@@ -1,3 +1,6 @@
+/**
+ * Interface for the props of the CustomField component.
+ */
 export interface IProps {
   /**
    * An array of objects with data for each custom field.
@@ -5,7 +8,7 @@ export interface IProps {
   customFields?: Array<any>;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
 
@@ -20,12 +23,12 @@ export interface IProps {
   formValues: any;
 
   /**
-   * Type of active feature modal..
+   * Type of active feature modal.
    */
   type?: string;
 
   /**
-   * If true the user will be able to update the custom field data.
+   * If true, the user will be able to update the custom field data.
    */
   isAllowToEdit: boolean;
 }
