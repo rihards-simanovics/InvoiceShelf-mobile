@@ -4,7 +4,18 @@ import {CacheImageService, IS_UNDER_PROCESSING} from './image-service';
 
 export const BASE_DIR = `${FileSystem.cacheDirectory}/`;
 
-export async function getPath(uri, imageName, _isMounted) {
+/**
+ * Retrieves the path of the cached image or downloads it if not available.
+ * @param {string} uri - The URI of the image to cache.
+ * @param {string} imageName - The name of the image.
+ * @param {boolean} _isMounted - Indicates if the component is still mounted.
+ * @returns {Promise<string | undefined>} - The path of the cached image or undefined.
+ */
+export async function getPath(
+  uri: string,
+  imageName: string,
+  _isMounted: boolean
+): Promise<string | undefined> {
   try {
     const {path, exists, isUnderProcess} = await getCacheEntry(imageName);
 
@@ -22,6 +33,14 @@ export async function getPath(uri, imageName, _isMounted) {
   }
 }
 
+/**
+ * Downloads the image and saves it to the cache.
+ * @param {string} uri - The URI of the image to download.
+ * @param {string} path - The path where the image will be saved.
+ * @param {string} name - The name of the image.
+ * @param {boolean} _isMounted - Indicates if the component is still mounted.
+ * @returns {Promise<string | undefined>} - The path of the downloaded image or undefined.
+ */
 const downloadImagePath = async (
   uri: string,
   path: string,
@@ -43,6 +62,7 @@ const downloadImagePath = async (
       filePath = result?.uri;
     }
   } catch (e) {
+    // Handle error if necessary
   } finally {
     CacheImageService.removeImage(name);
   }
@@ -50,12 +70,17 @@ const downloadImagePath = async (
   return filePath;
 };
 
+/**
+ * Retrieves the cache entry for the specified image name.
+ * @param {string} imageName - The name of the image.
+ * @returns {Promise<{exists: boolean, path: string, isUnderProcess: boolean}>} - The cache entry information.
+ */
 const getCacheEntry = async (
   imageName: string
 ): Promise<{
   exists: boolean,
   path: string,
-  isUnderProcess: boolean
+  isUnderProcess: boolean,
 }> => {
   const path: string = `${BASE_DIR}${imageName}`;
   let exists: boolean = false;

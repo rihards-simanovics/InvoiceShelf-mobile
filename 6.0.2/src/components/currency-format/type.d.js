@@ -1,8 +1,11 @@
 import {StyleProp, ViewStyle} from 'react-native';
 
+/**
+ * Props interface for the CurrencyFormat component.
+ */
 export interface IProps {
   /**
-   * Styling for main container.
+   * Styling for the main container.
    */
   style?: StyleProp<ViewStyle> | any;
 
@@ -17,12 +20,12 @@ export interface IProps {
   currency: any;
 
   /**
-   * The text to shown on the left side of the currency.
+   * The text to show on the left side of the currency.
    */
   preText: string;
 
   /**
-   * Styling for main container.
+   * Additional styling for the main container.
    */
   containerStyle?: StyleProp<ViewStyle> | any;
 }

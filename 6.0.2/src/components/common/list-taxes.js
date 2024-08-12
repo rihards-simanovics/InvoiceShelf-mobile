@@ -3,7 +3,18 @@ import {View, StyleSheet} from 'react-native';
 import {fonts} from '@/styles';
 import {Text, CurrencyFormat} from '@/components';
 
-export const taxList = ({key, currency, theme, label, amount}) => {
+/**
+ * Component that displays a tax item with a label and formatted amount.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.key - Unique key for the component (used for rendering).
+ * @param {string} props.currency - The currency symbol to display.
+ * @param {Object} props.theme - The theme object for styling.
+ * @param {string} props.label - The label for the tax item.
+ * @param {number} props.amount - The amount to be formatted and displayed.
+ * @returns {JSX.Element} The rendered tax item component.
+ */
+export const TaxList = ({key, currency, theme, label, amount}) => {
   return (
     <View style={styles.container} key={key}>
       <View>
@@ -22,17 +33,18 @@ export const taxList = ({key, currency, theme, label, amount}) => {
   );
 };
 
+// Styles for the TaxList component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
-  amount: theme => ({
+  amount: (theme) => ({
     color: theme?.listItem?.primary?.color,
     fontSize: 16,
     ...(theme?.mode === 'dark' && {
-      fontFamily: fonts.medium
-    })
-  })
+      fontFamily: fonts.medium,
+    }),
+  }),
 });

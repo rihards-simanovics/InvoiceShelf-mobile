@@ -15,31 +15,6 @@ the first set of files is:
 <pre>
 src
 ├── components
-│   ├── button-view
-│   │   ├── button-view.js
-│   │   └── index.js
-│   ├── cache-image
-│   │   ├── cache-image-style.js
-│   │   ├── cache-image.js
-│   │   ├── cache-manager.js
-│   │   ├── image-service.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── checkbox
-│   │   ├── checkbox.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── common
-│   │   ├── index.js
-│   │   └── list-taxes.js
-│   ├── content
-│   │   ├── content.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── currency-format
-│   │   ├── currency-format.js
-│   │   ├── index.js
-│   │   └── type.d.js
 │   ├── custom-field
 │   │   ├── Types
 │   │   │   ├── DateTimeType.js

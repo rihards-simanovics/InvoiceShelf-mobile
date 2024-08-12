@@ -1,6 +1,9 @@
 import React from 'react';
 import {ITheme} from '@/interfaces';
 
+/**
+ * Props interface for the Content component.
+ */
 export interface IProps {
   /**
    * Either children or a render prop that receives a boolean reflecting whether

@@ -9,6 +9,9 @@ import {colors} from '@/styles';
 import {AssetImage} from '../asset-image';
 import {IProps, IStates} from './type.d';
 
+/**
+ * CacheImage component that handles image caching and loading.
+ */
 export class CacheImage extends React.Component<IProps, IStates> {
   timer: any;
   processInterval: any;
@@ -16,7 +19,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
   _isMounted = false;
   isLoaded = false;
 
-  constructor(props) {
+  constructor(props: IProps) {
     super(props);
     this.underProcessingCounter = 0;
     this.isLoaded = false;
@@ -24,13 +27,13 @@ export class CacheImage extends React.Component<IProps, IStates> {
     this.state = {
       uri: undefined,
       downloadFail: false,
-      height: props?.temporaryHeight
+      height: props?.temporaryHeight,
     };
   }
 
   static defaultProps = {
     findImageHeight: false,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   };
 
   componentDidMount() {
@@ -38,7 +41,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
     this.load(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     this.checkIsImageUriChange(nextProps);
   }
 
@@ -48,7 +51,11 @@ export class CacheImage extends React.Component<IProps, IStates> {
     this.processInterval && clearInterval(this.processInterval);
   }
 
-  checkIsImageUriChange = async nextProps => {
+  /**
+   * Checks if the image URI has changed and updates the state accordingly.
+   * @param {IProps} nextProps - The next props to compare against current props.
+   */
+  checkIsImageUriChange = async (nextProps: IProps) => {
     const {imageName, uri} = nextProps;
 
     if (imageName !== this.props.imageName) {
@@ -57,16 +64,27 @@ export class CacheImage extends React.Component<IProps, IStates> {
     }
   };
 
+  /**
+   * Loads the image from the given URI.
+   * @param {IProps} props - The props containing the image URI and name.
+   */
   async load({uri, imageName}: IProps): Promise<void> {
     if (!uri) return;
 
     try {
       const path = await getPath(uri, imageName, this._isMounted);
       this._isMounted && this.setFileUri(path, uri);
-    } catch (e) {}
+    } catch (e) {
+      // Handle error if necessary
+    }
   }
 
-  setFileUri = (path, uri) => {
+  /**
+   * Sets the file URI in the component state.
+   * @param {string} path - The path of the image.
+   * @param {string} uri - The original URI of the image.
+   */
+  setFileUri = (path: string, uri: string) => {
     let filePath = uri;
 
     if (path && path === IS_UNDER_PROCESSING) {
@@ -81,12 +99,15 @@ export class CacheImage extends React.Component<IProps, IStates> {
     setTimeout(() => this.setState({uri: filePath}), 30);
   };
 
+  /**
+   * Checks if the image is currently under processing.
+   */
   checkImageIsUnderProcessing = async () => {
     try {
-      // 350 milliseconds per counter
-      this.underProcessingCounter = this.underProcessingCounter + 1;
+      // Increment the counter for processing time
+      this.underProcessingCounter += 1;
 
-      // if it takes more than 4 second
+      // If it takes more than 4 seconds, reset the state
       if (this.underProcessingCounter >= 12) {
         this.setState({uri: this.props.uri});
         this.processInterval && clearInterval(this.processInterval);
@@ -111,10 +132,15 @@ export class CacheImage extends React.Component<IProps, IStates> {
     }
   };
 
+  /**
+   * Handles the case when the image is under processing.
+   */
   handleImageUnderProcess = () => {
     try {
       this.processInterval = setInterval(this.checkImageIsUnderProcessing, 350);
-    } catch (e) {}
+    } catch (e) {
+      // Handle error if necessary
+    }
   };
 
   render() {
@@ -130,7 +156,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
       loadingProps,
       loaderStyle,
       resizeMode = 'cover',
-      theme
+      theme,
     } = this.props;
 
     const {uri, downloadFail, height} = this.state;
@@ -139,11 +165,11 @@ export class CacheImage extends React.Component<IProps, IStates> {
       styles.image(theme),
       style,
       findImageHeight && {height},
-      findImageHeight && height === minHeight && minHeightStyle
+      findImageHeight && height === minHeight && minHeightStyle,
     ];
 
     const loaderProps: any = {
-      onLoadEnd: () => (this.isLoaded = true)
+      onLoadEnd: () => (this.isLoaded = true),
     };
 
     const loader = (
@@ -154,7 +180,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
           styles.loader(theme),
           findImageHeight && {height},
           style,
-          loaderStyle
+          loaderStyle,
         ]}
         {...loadingProps}
       />
@@ -201,13 +227,13 @@ export class CacheImage extends React.Component<IProps, IStates> {
             onPress?.({
               height,
               uri,
-              originalUrl: this.props.uri
+              originalUrl: this.props.uri,
             })
           }
           style={[
             {flex: 1},
             findImageHeight && {minHeight: temporaryHeight},
-            buttonStyle
+            buttonStyle,
           ]}
         >
           {children}

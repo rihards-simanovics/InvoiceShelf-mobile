@@ -1,6 +1,9 @@
 import {ImageProps, StyleProp, ViewStyle, ImageResizeMode} from 'react-native';
 import {ITheme} from '@/interfaces';
 
+/**
+ * Props for the CacheImage component.
+ */
 export interface IProps {
   /**
    * Styling for main container.
@@ -76,24 +79,6 @@ export interface IProps {
   /**
    * Determines how to resize the image when the frame doesn't match the raw
    * image dimensions.
-   *
-   * 'cover': Scale the image uniformly (maintain the image's aspect ratio)
-   * so that both dimensions (width and height) of the image will be equal
-   * to or larger than the corresponding dimension of the view (minus padding).
-   *
-   * 'contain': Scale the image uniformly (maintain the image's aspect ratio)
-   * so that both dimensions (width and height) of the image will be equal to
-   * or less than the corresponding dimension of the view (minus padding).
-   *
-   * 'stretch': Scale width and height independently, This may change the
-   * aspect ratio of the src.
-   *
-   * 'repeat': Repeat the image to cover the frame of the view.
-   * The image will keep it's size and aspect ratio. (iOS only)
-   *
-   * 'center': Scale the image down so that it is completely visible,
-   * if bigger than the area of the view.
-   * The image will not be scaled up.
    */
   resizeMode?: ImageResizeMode;
 
@@ -104,6 +89,9 @@ export interface IProps {
   theme?: ITheme;
 }
 
+/**
+ * States for the CacheImage component.
+ */
 export interface IStates {
   /**
    * The image source (either a remote URL or a local file resource).
