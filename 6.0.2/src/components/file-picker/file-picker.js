@@ -21,56 +21,69 @@ import {BaseActionSheet, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps, IStates} from './type.d';
 
+// Action types for file picker
 const ACTIONS = {
   DOCUMENT: 'DOCUMENT',
   GALLERY: 'GALLERY',
-  CAMERA: 'CAMERA'
+  CAMERA: 'CAMERA',
 };
 
+/**
+ * FilePicker component for selecting files from gallery, camera, or documents.
+ */
 class Picker extends Component<IProps, IStates> {
-  actionSheet: any;
+  actionSheet: React.RefObject<any>;
 
-  constructor(props) {
+  constructor(props: IProps) {
     super(props);
     this.actionSheet = React.createRef();
     this.state = this.initialState();
   }
 
-  initialState = () => {
-    return {
-      image: null,
-      loading: false,
-      action: null,
-      options: this.getDropdownOptions()
-    };
-  };
+  /**
+   * Initializes the component state.
+   * @returns Initial state object.
+   */
+  initialState = (): IStates => ({
+    image: null,
+    loading: false,
+    action: null,
+    options: this.getDropdownOptions(),
+  });
 
+  /**
+   * Generates dropdown options based on props.
+   * @returns Array of dropdown options.
+   */
   getDropdownOptions = () => {
     const {withDocument} = this.props;
 
-    const label = string => t(string);
+    const label = (string: string) => t(string);
 
     const options = [
       {
         label: label('file_picker.gallery'),
-        value: ACTIONS.GALLERY
+        value: ACTIONS.GALLERY,
       },
       {
         label: label('file_picker.camera'),
-        value: ACTIONS.CAMERA
-      }
+        value: ACTIONS.CAMERA,
+      },
     ];
 
     if (withDocument) {
       options.unshift({
         label: label('file_picker.document'),
-        value: ACTIONS.DOCUMENT
+        value: ACTIONS.DOCUMENT,
       });
     }
 
     return options;
   };
 
+  /**
+   * Requests permission to access device settings if denied.
+   */
   requestToGrantPermission = async () => {
     const redirectToSetting = () => {
       if (isIosPlatform) {
@@ -91,10 +104,14 @@ class Picker extends Component<IProps, IStates> {
       desc: t('file_picker.permission'),
       showCancel: true,
       okText: 'Allow',
-      okPress: redirectToSetting
+      okPress: redirectToSetting,
     });
   };
 
+  /**
+   * Requests permission to access the media library.
+   * @returns True if permission is granted, otherwise false.
+   */
   askGalleryPermission = async () => {
     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -106,6 +123,10 @@ class Picker extends Component<IProps, IStates> {
     return true;
   };
 
+  /**
+   * Requests permission to access the camera.
+   * @returns True if permission is granted, otherwise false.
+   */
   askCameraPermission = async () => {
     const {status} = await ImagePicker.requestCameraPermissionsAsync();
 
@@ -117,12 +138,26 @@ class Picker extends Component<IProps, IStates> {
     return true;
   };
 
-  onToggleLoading = async loading => {
+  /**
+   * Toggles the loading state and invokes the loading callback.
+   * @param loading - Boolean indicating loading state.
+   */
+  onToggleLoading = async (loading: boolean) => {
     await this.setState({loading});
     this.props?.fileLoading?.(loading);
   };
 
-  onSelect = async (file, action, onSuccess) => {
+  /**
+   * Handles file selection and invokes the callback with the selected file.
+   * @param file - The selected file object.
+   * @param action - The action type (DOCUMENT, GALLERY, CAMERA).
+   * @param onSuccess - Callback to invoke on successful selection.
+   */
+  onSelect = async (
+    file: any,
+    action: string,
+    onSuccess: (file: any) => void
+  ) => {
     const {onChangeCallback} = this.props;
 
     try {
@@ -131,51 +166,52 @@ class Picker extends Component<IProps, IStates> {
         return;
       }
       const base64 = await FileSystem.readAsStringAsync(file.uri, {
-        encoding: FileSystem.EncodingType.Base64
+        encoding: FileSystem.EncodingType.Base64,
       });
 
       onChangeCallback?.({...file, base64});
-
       onSuccess?.(file);
-
       this.setState({action});
-
       this.onToggleLoading(false);
     } catch (e) {
       this.onToggleLoading(false);
     }
   };
 
-  showFileManager = async action => {
+  /**
+   * Opens the document picker to select a file.
+   * @param action - The action type (DOCUMENT, GALLERY, CAMERA).
+   */
+  showFileManager = async (action: string) => {
     try {
       await this.onToggleLoading(true);
-
       const file = await DocumentPicker.getDocumentAsync({});
-
       this.onSelect(file, action, () => {});
     } catch (e) {
       this.onToggleLoading(false);
     }
   };
 
-  showGallery = async action => {
+  /**
+   * Opens the gallery to select an image.
+   * @param action - The action type (DOCUMENT, GALLERY, CAMERA).
+   */
+  showGallery = async (action: string) => {
     try {
       const isAllow = await this.askGalleryPermission();
-
       if (!isAllow) {
         return;
       }
 
       await this.onToggleLoading(true);
-
       const file = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         quality: 1,
-        allowsMultipleSelection: false
+        allowsMultipleSelection: false,
       });
 
-      this.onSelect(file, action, res => {
+      this.onSelect(file, action, (res) => {
         this.setState({image: res.uri});
       });
     } catch (e) {
@@ -183,7 +219,11 @@ class Picker extends Component<IProps, IStates> {
     }
   };
 
-  showCamera = async action => {
+  /**
+   * Opens the camera to take a picture.
+   * @param action - The action type (DOCUMENT, GALLERY, CAMERA).
+   */
+  showCamera = async (action: string) => {
     try {
       const isAllow = await this.askCameraPermission();
       if (!isAllow) {
@@ -191,14 +231,13 @@ class Picker extends Component<IProps, IStates> {
       }
 
       await this.onToggleLoading(true);
-
       const file = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        quality: 1
+        quality: 1,
       });
 
-      this.onSelect(file, action, res => {
+      this.onSelect(file, action, (res) => {
         this.setState({image: res.uri});
       });
     } catch (e) {
@@ -206,31 +245,44 @@ class Picker extends Component<IProps, IStates> {
     }
   };
 
-  onOptionSelect = async action => {
+  /**
+   * Handles the selection of an option from the dropdown.
+   * @param action - The selected action type.
+   */
+  onOptionSelect = async (action: string) => {
     if (!action) {
       this.setState({loading: false});
       return;
     }
 
-    if (action == ACTIONS.DOCUMENT) {
-      this.showFileManager(action);
-      return;
-    }
-
-    if (action == ACTIONS.GALLERY) {
-      this.showGallery(action);
-      return;
-    }
-
-    if (action == ACTIONS.CAMERA) {
-      this.showCamera(action);
-      return;
+    switch (action) {
+      case ACTIONS.DOCUMENT:
+        this.showFileManager(action);
+        break;
+      case ACTIONS.GALLERY:
+        this.showGallery(action);
+        break;
+      case ACTIONS.CAMERA:
+        this.showCamera(action);
+        break;
+      default:
+        break;
     }
   };
 
-  openDropdown = () =>
-    !this.props.disabled && this.actionSheet.current.showActionSheet();
+  /**
+   * Opens the dropdown menu if not disabled.
+   */
+  openDropdown = () => {
+    if (!this.props.disabled) {
+      this.actionSheet.current.showActionSheet();
+    }
+  };
 
+  /**
+   * Renders the selected file view based on the current state and props.
+   * @returns JSX Element representing the selected file view.
+   */
   selectedFile = () => {
     const {image, action} = this.state;
     const {
@@ -241,7 +293,7 @@ class Picker extends Component<IProps, IStates> {
       hasAvatar,
       showUploadedImageAsCache = true,
       theme,
-      disabled
+      disabled,
     } = this.props;
 
     const fileView = (
@@ -281,16 +333,16 @@ class Picker extends Component<IProps, IStates> {
       />
     );
 
-    const imageView = image => (
+    const imageView = (imageUri: string) => (
       <View style={[styles.imageContainer, imageContainerStyle]}>
-        <AssetImage source={image} style={[styles.images, style]} uri />
+        <AssetImage source={imageUri} style={[styles.images, style]} uri />
       </View>
     );
 
     const selectedAction = {
       [ACTIONS.DOCUMENT]: fileView,
       [ACTIONS.GALLERY]: imageView(image),
-      [ACTIONS.CAMERA]: imageView(image)
+      [ACTIONS.CAMERA]: imageView(image),
     };
 
     if (action) {
@@ -350,7 +402,7 @@ class Picker extends Component<IProps, IStates> {
       loadingContainerStyle,
       hasAvatar = false,
       withDocument,
-      theme
+      theme,
     } = this.props;
 
     const File = this.selectedFile();
@@ -359,8 +411,8 @@ class Picker extends Component<IProps, IStates> {
       is: loading,
       style: {
         ...styles.loadingContainer,
-        ...loadingContainerStyle
-      }
+        ...loadingContainerStyle,
+      },
     };
 
     return (
@@ -381,7 +433,7 @@ class Picker extends Component<IProps, IStates> {
           <View
             style={[
               styles.imageWithIconContainer,
-              hasAvatar && imageContainerStyle
+              hasAvatar && imageContainerStyle,
             ]}
           >
             <Content loadingProps={loadingProps} theme={theme}>
@@ -400,6 +452,8 @@ class Picker extends Component<IProps, IStates> {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+// Connects the component to the Redux store
+const mapStateToProps = (state) => commonSelector(state);
 
+// Exports the connected FilePicker component
 export const FilePicker = connect(mapStateToProps)(Picker);

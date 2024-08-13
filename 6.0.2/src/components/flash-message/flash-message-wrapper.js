@@ -4,39 +4,44 @@ import {isIphoneX, getStatusBarHeight} from 'react-native-iphone-x-helper';
 import PropTypes from 'prop-types';
 
 /**
- * DETECTION AND DIMENSIONS CODE FROM:
- * https://github.com/react-community/react-native-safe-area-view
+ * Constants for iPad dimensions.
+ * @constant {number} PAD_WIDTH - Width of an iPad.
+ * @constant {number} PAD_HEIGHT - Height of an iPad.
  */
-
 const PAD_WIDTH = 768; // iPad
 const PAD_HEIGHT = 1024; // iPad
 
 const {height: D_HEIGHT, width: D_WIDTH} = Dimensions.get('window');
 
 const isAndroid = Platform.OS === 'android';
-
 const isIPhoneX = isIphoneX();
 
+/**
+ * Determines if the device is an iPad.
+ * @returns {boolean} True if the device is an iPad, false otherwise.
+ */
 const isIPad = (() => {
   if (Platform.OS !== 'ios' || isIPhoneX) return false;
 
-  // if portrait and width is smaller than iPad width
-  if (D_HEIGHT > D_WIDTH && D_WIDTH < PAD_WIDTH) {
-    return false;
-  }
-
-  // if landscape and height is smaller that iPad height
-  if (D_WIDTH > D_HEIGHT && D_HEIGHT < PAD_WIDTH) {
-    return false;
-  }
+  // Check for portrait and landscape orientations
+  if (D_HEIGHT > D_WIDTH && D_WIDTH < PAD_WIDTH) return false;
+  if (D_WIDTH > D_HEIGHT && D_HEIGHT < PAD_WIDTH) return false;
 
   return true;
 })();
 
+/**
+ * Checks if the orientation is landscape.
+ * @param {Object} dimensions - The dimensions of the device.
+ * @returns {boolean} True if landscape, false otherwise.
+ */
 const isOrientationLandscape = ({width, height}) => width > height;
 
 /**
- * Helper function to get the current status bar height to plus in paddingTop message
+ * Helper function to get the current status bar height for padding.
+ * @param {boolean} [isLandscape=false] - Indicates if the orientation is landscape.
+ * @param {number|null|function} [_customStatusBarHeight=null] - Custom status bar height.
+ * @returns {number} The calculated status bar height.
  */
 export function getFlashMessageStatusBarHeight(
   isLandscape = false,
@@ -48,12 +53,7 @@ export function getFlashMessageStatusBarHeight(
       : +_customStatusBarHeight;
   }
 
-  /**
-   * This is a temporary workaround because we don't have a way to detect
-   * if the status bar is translucent or opaque. If opaque, we don't need to
-   * factor in the height here; if translucent (content renders under it) then
-   * we do.
-   */
+  // Temporary workaround for status bar height detection
   if (isAndroid) {
     return +StatusBar.currentHeight + 6;
   }
@@ -69,20 +69,28 @@ export function getFlashMessageStatusBarHeight(
   return isLandscape ? 0 : 20;
 }
 
-const doubleFromPercentString = percent => {
+/**
+ * Converts a percentage string to a decimal.
+ * @param {string} percent - The percentage string (e.g., "50%").
+ * @returns {number} The decimal representation of the percentage.
+ */
+const doubleFromPercentString = (percent) => {
   if (!percent || !percent.includes('%')) {
     return 0;
   }
 
   const dbl = parseFloat(percent) / 100;
 
-  if (isNaN(dbl)) return 0;
-
-  return dbl;
+  return isNaN(dbl) ? 0 : dbl;
 };
 
 /**
- * Helper function to "append" extra padding in MessageComponent style
+ * Helper function to apply extra padding to a style.
+ * @param {Object} style - The original style object.
+ * @param {Object} wrapperInset - The inset values for padding.
+ * @param {boolean} [hideStatusBar=false] - If true, hides the status bar.
+ * @param {string} [prop='padding'] - The property to apply (padding or margin).
+ * @returns {Object} The modified style object with applied insets.
  */
 export function styleWithInset(
   style,
@@ -107,6 +115,7 @@ export function styleWithInset(
     ...viewStyle
   } = StyleSheet.flatten(style || {});
 
+  // Convert percentage strings to numbers
   if (typeof paddingTop !== 'number') {
     paddingTop = doubleFromPercentString(paddingTop) * viewWidth;
   }
@@ -131,12 +140,16 @@ export function styleWithInset(
         : paddingTop,
     paddingBottom: paddingBottom + wrapperInset.insetBottom,
     paddingLeft: paddingLeft + wrapperInset.insetLeft,
-    paddingRight: paddingRight + wrapperInset.insetRight
+    paddingRight: paddingRight + wrapperInset.insetRight,
   };
 }
 
 /**
- * Helper function to "append" extra margin in MessageComponent style
+ * Helper function to apply extra margin to a style.
+ * @param {Object} style - The original style object.
+ * @param {Object} wrapperInset - The inset values for margin.
+ * @param {boolean} [hideStatusBar=false] - If true, hides the status bar.
+ * @returns {Object} The modified style object with applied margins.
  */
 export function styleWithInsetMargin(
   style,
@@ -156,6 +169,7 @@ export function styleWithInsetMargin(
     ...viewStyle
   } = StyleSheet.flatten(style || {});
 
+  // Convert percentage strings to numbers
   if (typeof marginTop !== 'number') {
     marginTop = doubleFromPercentString(marginTop) * viewWidth;
   }
@@ -180,25 +194,27 @@ export function styleWithInsetMargin(
         : marginTop,
     marginBottom: marginBottom + wrapperInset.insetBottom,
     marginLeft: marginLeft + wrapperInset.insetLeft,
-    marginRight: marginRight + wrapperInset.insetRight
+    marginRight: marginRight + wrapperInset.insetRight,
   };
 }
 
 /**
- * Utility component wrapper to handle orientation changes and extra padding controle for iOS (specially iPads and iPhone X)
+ * Utility component wrapper to handle orientation changes and extra padding control for iOS (especially iPads and iPhone X).
  */
 export default class FlashMessageWrapper extends Component {
   static defaultProps = {
     /**
-     * Default FlashMessage position is "top"
-     * Other options like "bottom" and "center" uses other extra padding configurations
+     * Default FlashMessage position is "top".
+     * Other options like "bottom" and "center" use other extra padding configurations.
      */
-    position: 'top'
+    position: 'top',
   };
+
   static propTypes = {
     position: PropTypes.string,
-    children: PropTypes.func.isRequired
+    children: PropTypes.func.isRequired,
   };
+
   constructor() {
     super();
 
@@ -206,24 +222,32 @@ export default class FlashMessageWrapper extends Component {
     this.dimensionsSubscription = null;
 
     this.state = {
-      isLandscape: isOrientationLandscape(Dimensions.get('window'))
+      isLandscape: isOrientationLandscape(Dimensions.get('window')),
     };
   }
+
   componentDidMount() {
     this.dimensionsSubscription = Dimensions.addEventListener(
       'change',
       this.handleOrientationChange
     );
   }
+
   componentWillUnmount() {
     if (!!this.dimensionsSubscription) {
       this.dimensionsSubscription.remove();
     }
   }
+
+  /**
+   * Handles orientation changes and updates the state.
+   * @param {Object} { window } - The new window dimensions.
+   */
   handleOrientationChange({window}) {
     const isLandscape = isOrientationLandscape(window);
     this.setState({isLandscape});
   }
+
   render() {
     const {position, statusBarHeight = null, children} = this.props;
     const {isLandscape} = this.state;
@@ -234,7 +258,7 @@ export default class FlashMessageWrapper extends Component {
     );
 
     /**
-     * This wrapper will return data about extra inset padding, statusBarHeight and some device detection like iPhoneX and iPad
+     * This wrapper will return data about extra inset padding, statusBarHeight, and some device detection like iPhoneX and iPad.
      */
     const wrapper = {
       isLandscape,
@@ -261,7 +285,7 @@ export default class FlashMessageWrapper extends Component {
             : 34
           : isAndroid
           ? 2
-          : 0
+          : 0,
     };
 
     return children(wrapper);

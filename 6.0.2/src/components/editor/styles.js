@@ -2,6 +2,9 @@ import {StyleSheet} from 'react-native';
 import {colors} from '@/styles';
 import {defineSize, SCREEN_HEIGHT} from '@/helpers/size';
 
+/**
+ * Styles for the Editor component.
+ */
 const styles = StyleSheet.create({
   modalViewContainer: {
     position: 'absolute',
@@ -10,66 +13,63 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: colors.veryLightGray,
     paddingBottom: defineSize(5, 5, 5, 25),
-    maxHeight: SCREEN_HEIGHT - 50
+    maxHeight: SCREEN_HEIGHT - 50,
   },
-
   body: {
     flex: 1,
-    paddingHorizontal: defineSize(20, 20, 20, 22)
+    paddingHorizontal: defineSize(20, 20, 20, 22),
   },
   items: {
     paddingVertical: defineSize(5, 5, 5, 10),
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   item: {
     paddingBottom: 1,
     paddingRight: 15,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   itemText: {
     paddingVertical: 6,
-    marginLeft: 6
+    marginLeft: 6,
   },
-
   labelView: {
     marginTop: 10,
     marginBottom: 10,
-    width: '100%'
+    width: '100%',
   },
   arrowIcon: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-
   row: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 12,
     marginBottom: -10,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   rowCenter: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   hint: {
-    paddingLeft: 4
+    paddingLeft: 4,
   },
   insertFields: {
     paddingHorizontal: 5,
-    paddingBottom: 4
+    paddingBottom: 4,
   },
   pencilIconView: {
     justifyContent: 'center',
     paddingRight: 5,
-    paddingBottom: 4
+    paddingBottom: 4,
   },
   eyeIconView: {
     paddingLeft: 10,
     paddingRight: 5,
-    paddingBottom: 2
+    paddingBottom: 2,
   },
-  htmlView: theme => ({
+  htmlView: (theme) => ({
     marginTop: 10,
     marginHorizontal: 0,
     minHeight: 152,
@@ -79,11 +79,11 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     borderRadius: 3,
     ...(theme?.mode === 'light' && {
-      borderColor: colors.gray2
-    })
+      borderColor: colors.gray2,
+    }),
   }),
   error: {
-    borderColor: colors.danger
+    borderColor: colors.danger,
   },
   validation: {
     position: 'absolute',
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flex: 1,
     zIndex: 100,
-    backgroundColor: colors.danger
+    backgroundColor: colors.danger,
   },
-  disabledInput: theme => ({
+  disabledInput: (theme) => ({
     backgroundColor: theme?.input?.disableBackgroundColor,
-    opacity: 0.7
-  })
+    opacity: 0.7,
+  }),
 });
 
 export default styles;

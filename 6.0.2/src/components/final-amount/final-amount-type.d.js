@@ -1,5 +1,8 @@
 import {ITheme, INavigation} from '@/interfaces';
 
+/**
+ * Props for the FinalAmount component.
+ */
 export type IProps = {
   /**
    * An Object with data of current Currency.
@@ -44,7 +47,7 @@ export type IProps = {
   discount_per_item: boolean,
 
   /**
-   *  Tax per item.
+   * Tax per item.
    */
-  tax_per_item: boolean
+  tax_per_item: boolean,
 };

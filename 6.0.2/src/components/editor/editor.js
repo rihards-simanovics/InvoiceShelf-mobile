@@ -14,13 +14,17 @@ import {
   AnimateModal,
   HtmlView,
   Text,
-  BaseLabel
+  BaseLabel,
 } from '@/components';
 import {hasTextLength, hasValue, hitSlop, isEmpty} from '@/constants';
 import {dismissKeyboard} from '@/helpers/keyboard';
 import {SCREEN_WIDTH} from '@/helpers/size';
 import {IProps, IStates} from './type.d';
 
+/**
+ * Enum for placeholder types used in the editor component.
+ * @enum {string}
+ */
 export const PLACEHOLDER_TYPES = {
   CUSTOMER: 'Customer',
   INVOICE: 'Invoice',
@@ -30,19 +34,24 @@ export const PLACEHOLDER_TYPES = {
   PREDEFINE_CUSTOMER: 'Predefine_Customer',
   PREDEFINE_COMPANY: 'Predefine_Company',
   PREDEFINE_BILLING: 'Predefine_Billing',
-  PREDEFINE_SHIPPING: 'Predefine_Shipping'
+  PREDEFINE_SHIPPING: 'Predefine_Shipping',
 };
 
+/**
+ * EditorComponent is a React component that provides an interface for editing
+ * various types of data with support for custom fields and previews.
+ */
 class EditorComponent extends Component<IProps, IStates> {
-  animatedOpacityReverse: any;
-  constructor(props) {
+  animatedOpacityReverse: Animated.Value;
+
+  constructor(props: IProps) {
     super(props);
     this.animatedOpacityReverse = new Animated.Value(1);
 
     this.state = {
       visible: false,
-      preview: props?.showPreview ? true : false,
-      hasError: false
+      preview: props?.showPreview || false,
+      hasError: false,
     };
   }
 
@@ -52,14 +61,21 @@ class EditorComponent extends Component<IProps, IStates> {
   }
 
   componentWillUnmount() {
+    // Cleanup reference on unmount
     // this.props?.reference?.(undefined);
   }
 
+  /**
+   * Toggles the visibility of the modal.
+   */
   onToggleModal = () => {
     dismissKeyboard();
     this.setState({visible: !this.state.visible});
   };
 
+  /**
+   * Toggles the preview mode of the editor.
+   */
   togglePreview = () => {
     const {isAllowToEdit = true} = this.props;
     const disabled = !isAllowToEdit;
@@ -76,24 +92,40 @@ class EditorComponent extends Component<IProps, IStates> {
     }, 300);
   };
 
+  /**
+   * Reverses the opacity animation.
+   * @param {number} toValue - The target opacity value.
+   */
   reverseOpacityAnimation = (toValue = 0) => {
     Animated.timing(this.animatedOpacityReverse, {
       toValue,
       duration: 300,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   };
 
-  setHasErrorToTrue = hasError => {
+  /**
+   * Sets the error state to true.
+   * @param {boolean} hasError - Indicates if there is an error.
+   */
+  setHasErrorToTrue = (hasError: boolean) => {
     this.setState({hasError});
   };
 
-  onSelectPlaceholder = value => {
+  /**
+   * Handles the selection of a placeholder value.
+   * @param {string} value - The selected placeholder value.
+   */
+  onSelectPlaceholder = (value: string) => {
     this.onToggleModal();
     this.updateValue(value);
   };
 
-  updateValue = value => {
+  /**
+   * Updates the value of the editor field.
+   * @param {string} value - The new value to set.
+   */
+  updateValue = (value: string) => {
     const {dispatch, form, name, formValues} = this.props;
     let val = '';
 
@@ -106,14 +138,20 @@ class EditorComponent extends Component<IProps, IStates> {
     dispatch(change(form, name, val));
   };
 
-  getFormattedFields = (fields, type) => {
+  /**
+   * Formats fields based on the provided type.
+   * @param {Array<any>} fields - The fields to format.
+   * @param {string} type - The type to filter fields by.
+   * @returns {{label: string, fields: Array<{label: string, value: string}>}} - The formatted fields.
+   */
+  getFormattedFields = (fields: Array<any>, type: string) => {
     const formattedFields = [];
 
     for (const field of fields) {
       if (field.model_type === type) {
         formattedFields.push({
           label: field.label,
-          value: field.slug
+          value: field.slug,
         });
       }
     }
@@ -125,16 +163,20 @@ class EditorComponent extends Component<IProps, IStates> {
     if (canAddLink) {
       formattedFields.push({
         label: `${type} Link`,
-        value: `${type.toUpperCase()}_LINK`
+        value: `${type.toUpperCase()}_LINK`,
       });
     }
 
     return {
       label: `${type.toUpperCase()} CUSTOM`,
-      fields: formattedFields
+      fields: formattedFields,
     };
   };
 
+  /**
+   * Retrieves the fields based on the custom fields and types provided.
+   * @returns {Array<any>} - The fields to display.
+   */
   getFields = () => {
     const {customFields = [], types = []} = this.props;
 
@@ -144,6 +186,7 @@ class EditorComponent extends Component<IProps, IStates> {
 
     const items = [];
 
+    // Predefined company fields
     if (includes(types, PLACEHOLDER_TYPES.PREDEFINE_COMPANY)) {
       items.push({
         label: 'Company',
@@ -152,20 +195,15 @@ class EditorComponent extends Component<IProps, IStates> {
           {label: 'Country', value: 'COMPANY_COUNTRY'},
           {label: 'State', value: 'COMPANY_STATE'},
           {label: 'City', value: 'COMPANY_CITY'},
-          {
-            label: 'Address Street 1',
-            value: 'COMPANY_ADDRESS_STREET_1'
-          },
-          {
-            label: 'Address Street 2',
-            value: 'COMPANY_ADDRESS_STREET_2'
-          },
+          {label: 'Address Street 1', value: 'COMPANY_ADDRESS_STREET_1'},
+          {label: 'Address Street 2', value: 'COMPANY_ADDRESS_STREET_2'},
           {label: 'Phone', value: 'COMPANY_PHONE'},
-          {label: 'Zip Code', value: 'COMPANY_ZIP_CODE'}
-        ]
+          {label: 'Zip Code', value: 'COMPANY_ZIP_CODE'},
+        ],
       });
     }
 
+    // Predefined billing fields
     if (includes(types, PLACEHOLDER_TYPES.PREDEFINE_BILLING)) {
       items.push({
         label: 'Billing Address',
@@ -174,20 +212,15 @@ class EditorComponent extends Component<IProps, IStates> {
           {label: 'Country', value: 'BILLING_COUNTRY'},
           {label: 'State', value: 'BILLING_STATE'},
           {label: 'City', value: 'BILLING_CITY'},
-          {
-            label: 'Address Street 1',
-            value: 'BILLING_ADDRESS_STREET_1'
-          },
-          {
-            label: 'Address Street 2',
-            value: 'BILLING_ADDRESS_STREET_2'
-          },
+          {label: 'Address Street 1', value: 'BILLING_ADDRESS_STREET_1'},
+          {label: 'Address Street 2', value: 'BILLING_ADDRESS_STREET_2'},
           {label: 'Phone', value: 'BILLING_PHONE'},
-          {label: 'Zip Code', value: 'BILLING_ZIP_CODE'}
-        ]
+          {label: 'Zip Code', value: 'BILLING_ZIP_CODE'},
+        ],
       });
     }
 
+    // Predefined shipping fields
     if (includes(types, PLACEHOLDER_TYPES.PREDEFINE_SHIPPING)) {
       items.push({
         label: 'Shipping Address',
@@ -196,20 +229,15 @@ class EditorComponent extends Component<IProps, IStates> {
           {label: 'Country', value: 'SHIPPING_COUNTRY'},
           {label: 'State', value: 'SHIPPING_STATE'},
           {label: 'City', value: 'SHIPPING_CITY'},
-          {
-            label: 'Address Street 1',
-            value: 'SHIPPING_ADDRESS_STREET_1'
-          },
-          {
-            label: 'Address Street 2',
-            value: 'SHIPPING_ADDRESS_STREET_2'
-          },
+          {label: 'Address Street 1', value: 'SHIPPING_ADDRESS_STREET_1'},
+          {label: 'Address Street 2', value: 'SHIPPING_ADDRESS_STREET_2'},
           {label: 'Phone', value: 'SHIPPING_PHONE'},
-          {label: 'Zip Code', value: 'SHIPPING_ZIP_CODE'}
-        ]
+          {label: 'Zip Code', value: 'SHIPPING_ZIP_CODE'},
+        ],
       });
     }
 
+    // Predefined customer fields
     if (includes(types, PLACEHOLDER_TYPES.PREDEFINE_CUSTOMER)) {
       items.push({
         label: 'CUSTOMER',
@@ -218,11 +246,12 @@ class EditorComponent extends Component<IProps, IStates> {
           {label: 'Contact Name', value: 'PRIMARY_CONTACT_NAME'},
           {label: 'Email', value: 'CONTACT_EMAIL'},
           {label: 'Phone', value: 'CONTACT_PHONE'},
-          {label: 'Website', value: 'CONTACT_WEBSITE'}
-        ]
+          {label: 'Website', value: 'CONTACT_WEBSITE'},
+        ],
       });
     }
 
+    // Custom fields based on types
     for (const type of types) {
       for (const field of customFields) {
         if (field.model_type === type) {
@@ -235,7 +264,12 @@ class EditorComponent extends Component<IProps, IStates> {
     return this.getFieldsView(items);
   };
 
-  getFieldsView = items => {
+  /**
+   * Generates the view for the fields.
+   * @param {Array<any>} items - The items to display.
+   * @returns {Array<JSX.Element>} - The rendered field views.
+   */
+  getFieldsView = (items: Array<any>) => {
     if (isEmpty(items)) {
       return [];
     }
@@ -248,19 +282,20 @@ class EditorComponent extends Component<IProps, IStates> {
       const containerStyle = [
         !isFirst && {paddingLeft: 15},
         isOnlyOne && {
-          width: SCREEN_WIDTH - 50
-        }
+          width: SCREEN_WIDTH - 50,
+        },
       ];
 
       return (
-        <View style={containerStyle}>
+        <View style={containerStyle} key={label}>
           <View style={styles.labelView}>
             <Text h4 darkGray medium numberOfLines={1}>
               {label}
             </Text>
           </View>
-          {fields.map(field => (
+          {fields.map((field) => (
             <TouchableOpacity
+              key={field.value}
               onPress={() => this.onSelectPlaceholder(field.value)}
               style={styles.item}
             >
@@ -287,6 +322,10 @@ class EditorComponent extends Component<IProps, IStates> {
     });
   };
 
+  /**
+   * Retrieves the current value of the editor field.
+   * @returns {any} - The current value.
+   */
   getValue = () => {
     const {name, formValues} = this.props;
 
@@ -311,7 +350,7 @@ class EditorComponent extends Component<IProps, IStates> {
       labelStyle,
       previewLabelStyle,
       isAllowToEdit = true,
-      theme
+      theme,
     } = this.props;
     const {visible, preview, hasError} = this.state;
     const disabled = !isAllowToEdit;
@@ -385,7 +424,7 @@ class EditorComponent extends Component<IProps, IStates> {
     let fieldProps = {};
     if (isRequired) {
       fieldProps = {
-        onError: this.setHasErrorToTrue
+        onError: this.setHasErrorToTrue,
       };
     }
 
@@ -408,7 +447,7 @@ class EditorComponent extends Component<IProps, IStates> {
         onToggle={this.onToggleModal}
         modalProps={{
           animationIn: 'slideInUp',
-          animationOut: 'slideOutDown'
+          animationOut: 'slideOutDown',
         }}
       >
         <View style={styles.modalViewContainer}>
@@ -432,11 +471,11 @@ class EditorComponent extends Component<IProps, IStates> {
         style={[
           styles.htmlView(theme),
           {
-            opacity: this.animatedOpacityReverse
+            opacity: this.animatedOpacityReverse,
           },
           htmlViewStyle,
           hasError && styles.error,
-          disabled && styles.disabledInput(theme)
+          disabled && styles.disabledInput(theme),
         ]}
       >
         <HtmlView
@@ -471,6 +510,8 @@ class EditorComponent extends Component<IProps, IStates> {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+// Map Redux state to component props
+const mapStateToProps = (state) => commonSelector(state);
 
+// Connect the component to Redux
 export const Editor = connect(mapStateToProps)(EditorComponent);

@@ -1,33 +1,36 @@
 import {ITheme} from '@/interfaces';
 
+/**
+ * Properties for the Empty component.
+ */
 export interface IProps {
   /**
-   * Title of empty placeholder.
+   * Title of the empty placeholder.
    */
   title?: string;
 
   /**
-   * Description of empty placeholder.
+   * Description of the empty placeholder.
    */
   description?: string;
 
   /**
-   * Image of empty placeholder.
+   * Image source for the empty placeholder.
    */
   image?: string;
 
   /**
-   * Title of empty placeholder button.
+   * Title of the button displayed in the empty placeholder.
    */
   buttonTitle?: string;
 
   /**
-   * An action to redirect a specific route.
+   * Function to be called when the button is pressed.
    */
   buttonPress?: () => void;
 
   /**
-   * An active theme object.
+   * Active theme object.
    * @see ITheme
    */
   theme?: ITheme;

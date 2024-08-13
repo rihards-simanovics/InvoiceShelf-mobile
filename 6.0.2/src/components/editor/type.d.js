@@ -2,6 +2,9 @@ import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 import {ITheme} from '@/interfaces';
 
+/**
+ * Props for the Editor component.
+ */
 export interface IProps {
   /**
    * Reference of editor component.
@@ -29,7 +32,7 @@ export interface IProps {
   label?: string;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
 
@@ -106,6 +109,9 @@ export interface IProps {
   theme: ITheme;
 }
 
+/**
+ * States for the Editor component.
+ */
 export interface IStates {
   /**
    * If true the custom item modal is showing.

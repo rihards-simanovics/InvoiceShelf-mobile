@@ -1,6 +1,9 @@
 import {StyleProp, ViewStyle} from 'react-native';
 import {ITheme} from '@/interfaces';
 
+/**
+ * Props for the FilePicker component.
+ */
 export interface IProps {
   /**
    * Label of file picker view.
@@ -13,12 +16,12 @@ export interface IProps {
   containerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * Invoked with the the change event as an argument when the value changes.
+   * Invoked with the change event as an argument when the value changes.
    */
   onChangeCallback?: (callback: any) => void;
 
   /**
-   * Styling for main container.
+   * Additional styling for the main container.
    */
   style?: StyleProp<ViewStyle> | any;
 
@@ -48,12 +51,12 @@ export interface IProps {
   fileLoading?: (callback: any) => void;
 
   /**
-   * The URL of current uploaded document.
+   * The URL of the currently uploaded document.
    */
   uploadedFileUrl?: string;
 
   /**
-   * The type of current uploaded document.
+   * The type of the currently uploaded document.
    */
   uploadedFileType?: string;
 
@@ -63,7 +66,7 @@ export interface IProps {
   showUploadedImageAsCache?: boolean;
 
   /**
-   * If true the user won't be able to press.
+   * If true, the user won't be able to press.
    * @default false
    */
   disabled?: boolean;
@@ -75,9 +78,12 @@ export interface IProps {
   theme: ITheme;
 }
 
+/**
+ * State interface for the FilePicker component.
+ */
 export interface IStates {
   /**
-   * The path of currently uploaded image
+   * The path of the currently uploaded image.
    */
   image: string;
 

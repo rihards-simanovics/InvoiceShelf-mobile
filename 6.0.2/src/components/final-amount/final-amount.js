@@ -20,7 +20,7 @@ import {
   View as BaseView,
   AssetIcon,
   BaseDropdownPicker,
-  taxList
+  taxList,
 } from '@/components';
 import {
   total,
@@ -28,10 +28,15 @@ import {
   itemTotalTaxes,
   getTaxValue,
   getTaxName,
-  finalAmount
+  finalAmount,
 } from '@/components/final-amount/final-amount-calculation';
 
-export const FinalAmount: FC<IProps> = props => {
+/**
+ * FinalAmount component displays the final amount including taxes and discounts.
+ * @param {IProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
+export const FinalAmount: FC<IProps> = (props) => {
   const {
     navigation,
     discount_per_item,
@@ -42,14 +47,20 @@ export const FinalAmount: FC<IProps> = props => {
     theme,
     currency,
     dispatch,
-    form
+    form,
   } = props;
+
   const disabled = !isAllowToEdit;
   let taxes = formValues?.taxes;
 
   let taxPerItem = isBooleanTrue(tax_per_item);
   let discountPerItem = isBooleanTrue(discount_per_item);
 
+  /**
+   * Sets the form field value.
+   * @param {string} field - The field name.
+   * @param {any} value - The value to set.
+   */
   const setFormField = (field, value) => {
     dispatch(change(form, field, value));
   };
@@ -106,12 +117,12 @@ export const FinalAmount: FC<IProps> = props => {
               name="discount_type"
               component={BaseDropdownPicker}
               items={DISCOUNT_OPTION}
-              onChangeCallback={val => setFormField('discount_type', val)}
+              onChangeCallback={(val) => setFormField('discount_type', val)}
               defaultPickerOptions={{
                 label: 'Fixed',
                 value: 'fixed',
                 color: colors.secondary,
-                displayLabel: currency?.symbol ?? '$'
+                displayLabel: currency?.symbol ?? '$',
               }}
               disabled={disabled}
               customView={({placeholderText, valuesText}) => (
@@ -145,36 +156,36 @@ export const FinalAmount: FC<IProps> = props => {
       )}
 
       {taxes &&
-        taxes.map(tax => {
+        taxes.map((tax) => {
           if (tax.compound_tax) return;
           return taxList({
             key: tax.id,
             currency,
             theme,
             label: `${getTaxName(tax)} ${tax.percent} %`,
-            amount: getTaxValue(tax.percent)
+            amount: getTaxValue(tax.percent),
           });
         })}
 
       {taxes &&
-        taxes.map(tax => {
+        taxes.map((tax) => {
           if (!tax.compound_tax) return;
           return taxList({
             key: tax.id,
             currency,
             theme,
             label: `${getTaxName(tax)} ${tax.percent} %`,
-            amount: getCompoundTaxValue(tax.percent)
+            amount: getCompoundTaxValue(tax.percent),
           });
         })}
 
-      {itemTotalTaxes().map(tax =>
+      {itemTotalTaxes().map((tax) =>
         taxList({
           key: tax.id,
           currency,
           theme,
           label: `${getTaxName(tax)} ${tax.percent} %`,
-          amount: tax.amount
+          amount: tax.amount,
         })
       )}
 
@@ -188,12 +199,12 @@ export const FinalAmount: FC<IProps> = props => {
           theme={theme}
           custom-view
           {...(discountPerItem && {
-            customViewClass: 'mt-10'
+            customViewClass: 'mt-10',
           })}
           rightIconPress={() =>
             navigation.navigate(routes.CREATE_TAX, {
               type: 'ADD',
-              onSelect: val => setFormField('taxes', [...val, ...taxes])
+              onSelect: (val) => setFormField('taxes', [...val, ...taxes]),
             })
           }
         />

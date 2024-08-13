@@ -1,8 +1,11 @@
 import {ITheme} from '@/interfaces';
 
+/**
+ * Props for the Filter component.
+ */
 export interface IProps {
   /**
-   * If true the modal is showing.
+   * If true, the modal is showing.
    */
   visible?: boolean;
 
@@ -12,7 +15,7 @@ export interface IProps {
   onToggle?: () => any;
 
   /**
-   * Invoked with the the change event as an argument when the value changes.
+   * Invoked with the change event as an argument when the value changes.
    */
   onSubmitFilter: () => void;
 
@@ -58,9 +61,12 @@ export interface IProps {
   theme: ITheme;
 }
 
+/**
+ * State for the Filter component.
+ */
 export interface IStates {
   /**
-   * If true the modal is showing.
+   * If true, the modal is showing.
    */
   visible: boolean;
 

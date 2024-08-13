@@ -9,41 +9,55 @@ import {TouchableOpacity, Animated} from 'react-native';
 import {RefreshIcon} from '@/icons/refresh-icon.js';
 import {styles} from './exchange-rate-styles.js';
 
+// Hit slop for touchable elements to increase touchable area
 const hitSlop = {top: 20, left: 25, bottom: 20, right: 25};
+
+// Spin animation options
 const SPIN_OPTION = {START: 'start', STOP: 'stop'};
 
+/**
+ * ExchangeRateField component for displaying and managing exchange rates.
+ */
 export class ExchangeRateField extends Component<IProps, IStates> {
-  spinValue: any;
+  spinValue: Animated.Value;
 
-  constructor(props) {
+  constructor(props: IProps) {
     super(props);
-    this.spinValue = new Animated.Value(0);
-    this.state = {refreshing: false};
+    this.spinValue = new Animated.Value(0); // Initialize spin animation value
+    this.state = {refreshing: false}; // Initial state
   }
 
+  /**
+   * Handles the refresh action to update the exchange rate.
+   */
   onRefresh = () => {
     const {refreshing} = this.state;
     const {
       setExchangeRate,
-      state: {currency}
+      state: {currency},
     } = this.props;
 
-    if (refreshing) return;
-    this.spinAnimation(SPIN_OPTION.START);
-    this.toggleRefreshing(true);
+    if (refreshing) return; // Prevent multiple refreshes
+    this.spinAnimation(SPIN_OPTION.START); // Start spin animation
+    this.toggleRefreshing(true); // Set refreshing state to true
+
     const onResult = () => {
       setTimeout(() => {
-        this.toggleRefreshing(false);
-        this.spinAnimation(SPIN_OPTION.STOP);
+        this.toggleRefreshing(false); // Stop refreshing state
+        this.spinAnimation(SPIN_OPTION.STOP); // Stop spin animation
       }, 500);
     };
 
-    setExchangeRate(currency, onResult);
+    setExchangeRate(currency, onResult); // Call the function to set exchange rate
   };
 
-  spinAnimation = status => {
+  /**
+   * Manages the spin animation based on the provided status.
+   * @param status - The status to determine whether to start or stop the animation.
+   */
+  spinAnimation = (status: string) => {
     if (status === SPIN_OPTION.STOP) {
-      this.spinValue.setValue(0);
+      this.spinValue.setValue(0); // Reset spin value
       return;
     }
 
@@ -51,25 +65,31 @@ export class ExchangeRateField extends Component<IProps, IStates> {
       Animated.timing(this.spinValue, {
         toValue: 1,
         duration: 1200,
-        useNativeDriver: true
+        useNativeDriver: true,
       })
-    ).start();
+    ).start(); // Start the spin animation
   };
 
-  toggleRefreshing = status => this.setState({refreshing: status});
+  /**
+   * Toggles the refreshing state.
+   * @param status - The new refreshing status.
+   */
+  toggleRefreshing = (status: boolean) => this.setState({refreshing: status});
 
   render() {
     const {
       props: {currency, isEditScreen, isAllowToEdit, theme},
       state: {hasProvider},
-      state
     } = this.props;
-    const disabled = !isAllowToEdit;
-    const baseCurrency = currency?.code;
-    const selectedCurrency = state?.currency?.code;
+
+    const disabled = !isAllowToEdit; // Determine if editing is allowed
+    const baseCurrency = currency?.code; // Base currency code
+    const selectedCurrency = this.props.state?.currency?.code; // Selected currency code
+
+    // Interpolate spin value for rotation animation
     const spin = this.spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0deg', '360deg']
+      outputRange: ['0deg', '360deg'],
     });
 
     return (
@@ -98,7 +118,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
               name="currency_code"
               component={BaseInput}
               inputProps={{
-                value: t('exchange_rate.selected_currency', {selectedCurrency})
+                value: t('exchange_rate.selected_currency', {selectedCurrency}),
               }}
               inputContainerStyle={styles.codeContainer}
               disabledStyle={disabled ? {} : styles.codeDisable(theme)}
@@ -120,7 +140,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
         <Text mb-4 h6 style={styles.description} darkGray>
           {t('exchange_rate.exchange_help_text', {
             selectedCurrency,
-            baseCurrency
+            baseCurrency,
           })}
         </Text>
       </View>

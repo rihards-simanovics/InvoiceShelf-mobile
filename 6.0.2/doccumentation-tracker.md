@@ -4,50 +4,32 @@ Below is a list of file that still need to bew reviewed for proper documentation
 
 use the below AI prompt but make sure to check all of the outputs, feed the files whole and if too large then function by function.
 
-```txt
+<pre>
 hey I have a task for you, I am currently documenting the codebase for an abandoned open source project, but before beginning redevelopment, could you help me with documenting it, I will provide you with file contents folder by folder and file by file. Please make sure to write doccomment for functions, classes, vars, const, etc. and also where appropriate inline comments, but with inline comments be sure to only add them where necessary, sparingly and such that it doesn't state the obvious (i.e. what I can get from reading the code). Also for any type definitions make sure to use doccomment style comments for each property as opposed to adding comment at the end of the line. Also where possible try cleaning-up the imports into a more digestible order, group them if you find necessary.
 
-the location of the files is in /src/components/..., and it is part of a react native expo app.
+the location of the files is in /src/components/folder_name_here, and it is part of a react native expo app.
 
 the first set of files is:
+
+index
+```ts
+
 ```
+
+styles
+```ts
+
+```
+
+types
+```ts
+
+```
+</pre>
 
 <pre>
 src
 ├── components
-│   ├── editor
-│   │   ├── editor.js
-│   │   ├── index.js
-│   │   ├── styles.js
-│   │   └── type.d.js
-│   ├── empty
-│   │   ├── empty.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── exchange-rate
-│   │   ├── exchange-rate-styles.js
-│   │   ├── exchange-rate.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── file-picker
-│   │   ├── file-picker.js
-│   │   ├── index.js
-│   │   ├── styles.js
-│   │   └── type.d.js
-│   ├── filter
-│   │   ├── filter.js
-│   │   ├── index.js
-│   │   └── type.d.js
-│   ├── final-amount
-│   │   ├── final-amount-calculation.js
-│   │   ├── final-amount-styles.js
-│   │   ├── final-amount-type.d.js
-│   │   ├── final-amount.js
-│   │   └── index.js
-│   ├── flash-message
-│   │   ├── flash-message-manager.js
-│   │   ├── flash-message-wrapper.js
-│   │   └── index.js
 │   ├── header
 │   │   ├── header.js
 │   │   ├── index.js
@@ -56,7 +38,6 @@ src
 │   ├── html-view
 │   │   ├── html-view.js
 │   │   └── index.js
-│   ├── index.js
 │   ├── infinite-scroll
 │   │   ├── index.js
 │   │   ├── infinite-scroll.js

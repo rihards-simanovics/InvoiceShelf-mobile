@@ -2,38 +2,40 @@ import {StyleSheet} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {colors} from '@/styles';
 
+// Common container style for the file picker
 const container = {
   borderWidth: 1,
   borderColor: colors.gray,
   borderStyle: 'dashed',
-  borderRadius: 4
+  borderRadius: 4,
 };
 
+// Styles for the FilePicker component
 export const styles = StyleSheet.create({
   mainContainer: {
     position: 'relative',
-    marginTop: 10
+    marginTop: 10,
   },
   images: {
     height: 110,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   container: {
     ...container,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 22
+    paddingVertical: 22,
   },
   loadingContainer: {
     ...container,
-    height: 100
+    height: 100,
   },
   uploadContainer: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   imageWithIconContainer: {
-    position: 'relative'
+    position: 'relative',
   },
   iconContainer: {
     position: 'absolute',
@@ -42,30 +44,30 @@ export const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 30,
     borderWidth: 2.5,
-    borderColor: colors.veryLightGray
+    borderColor: colors.veryLightGray,
   },
   imageContainer: {
     ...container,
-    padding: 10
+    padding: 10,
   },
   title: {
-    paddingTop: 5
+    paddingTop: 5,
   },
   label: {
     paddingBottom: 8,
-    marginLeft: -2
+    marginLeft: -2,
   },
   loadImage: {
-    width: wp('88%')
+    width: wp('88%'),
   },
   uploadedImage: {
-    height: '100%'
+    height: '100%',
   },
   uploadedFullImage: {
-    height: 110
+    height: 110,
   },
-  disabledInput: theme => ({
+  disabledInput: (theme: any) => ({
     backgroundColor: theme?.input?.disableBackgroundColor,
-    opacity: 0.7
-  })
+    opacity: 0.7,
+  }),
 });

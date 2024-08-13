@@ -6,23 +6,23 @@ import {hasTextLength} from '@/constants';
 import {PermissionService} from '@/services';
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp
+  heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {IProps} from './type.d';
 import {BaseButton} from '../base';
 
-export const Empty = (props: IProps) => {
-  const {
-    title,
-    description,
-    image,
-    buttonTitle,
-    buttonPress,
-    route,
-    theme
-  } = props;
-  let showButton = hasTextLength(buttonTitle);
+/**
+ * Empty component to display a placeholder when there is no content.
+ *
+ * @param {IProps} props - The properties for the Empty component.
+ * @returns {JSX.Element} The rendered component.
+ */
+export const Empty = (props: IProps): JSX.Element => {
+  const {title, description, image, buttonTitle, buttonPress, route, theme} =
+    props;
 
+  // Determine if the button should be shown based on the button title and permissions
+  let showButton = hasTextLength(buttonTitle);
   if (route && hasTextLength(buttonTitle)) {
     showButton = PermissionService.isAllowToCreate(route?.name);
   }
@@ -72,19 +72,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   emptyImage: {
     height: hp('20%'),
     width: wp('40%'),
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   emptyTitle: {
     marginTop: 15,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   emptyDescription: {
     paddingHorizontal: 10,
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
 });

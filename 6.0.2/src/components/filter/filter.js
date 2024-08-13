@@ -12,43 +12,57 @@ import {View as CtView} from '../view';
 import {colors} from '@/styles';
 import {BaseDropdownPicker} from '@/components';
 import {IProps, IStates} from './type.d';
-import {isIosPlatform} from '@/helpers/platform';
+import {isIosPlatform, isAndroidPlatform} from '@/helpers/platform';
 import {isEmpty, hasObjectLength} from '@/constants';
-import {isAndroidPlatform} from '@/helpers/platform';
 
+/**
+ * Filter component for managing and displaying filter options.
+ */
 export class Filter extends Component<IProps, IStates> {
   keyboardShowListener: any;
   keyboardHideListener: any;
-  constructor(props) {
+
+  constructor(props: IProps) {
     super(props);
     this.state = {
       visible: false,
       counter: 0,
-      isKeyboardVisible: false
+      isKeyboardVisible: false,
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
+    // Add listeners for keyboard show/hide events
     this.keyboardShowListener = Keyboard?.addListener?.(
       'keyboardDidShow',
       () => {
-        !isIosPlatform && this.setState({isKeyboardVisible: true});
+        if (!isIosPlatform) {
+          this.setState({isKeyboardVisible: true});
+        }
       }
     );
     this.keyboardHideListener = Keyboard?.addListener?.(
       'keyboardDidHide',
       () => {
-        !isIosPlatform && this.setState({isKeyboardVisible: false});
+        if (!isIosPlatform) {
+          this.setState({isKeyboardVisible: false});
+        }
       }
     );
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
+    // Remove keyboard listeners
     this.keyboardShowListener?.remove?.();
     this.keyboardHideListener?.remove?.();
-  };
+  }
 
-  inputField = fields => {
+  /**
+   * Renders input fields based on provided field data.
+   * @param fields - Array of field data.
+   * @returns JSX elements for input fields.
+   */
+  inputField = (fields: Array<any>) => {
     return fields.map((field, index) => {
       const {name, hint, inputProps} = field;
       return (
@@ -58,7 +72,7 @@ export class Filter extends Component<IProps, IStates> {
             component={BaseInput}
             hint={hint}
             inputProps={{
-              ...inputProps
+              ...inputProps,
             }}
             {...field}
             leftIconStyle={field.leftIcon && styles.inputIconStyle}
@@ -68,7 +82,12 @@ export class Filter extends Component<IProps, IStates> {
     });
   };
 
-  selectField = fields => {
+  /**
+   * Renders select fields based on provided field data.
+   * @param fields - Array of field data.
+   * @returns JSX elements for select fields.
+   */
+  selectField = (fields: Array<any>) => {
     const {counter} = this.state;
 
     return fields.map((field, index) => {
@@ -82,7 +101,7 @@ export class Filter extends Component<IProps, IStates> {
             name={name}
             items={items}
             component={SelectField}
-            hasFirstItem={counter > 0 ? false : true}
+            hasFirstItem={counter <= 0}
             {...field}
           />
         </View>
@@ -90,7 +109,12 @@ export class Filter extends Component<IProps, IStates> {
     });
   };
 
-  dropdownField = fields => {
+  /**
+   * Renders dropdown fields based on provided field data.
+   * @param fields - Array of field data.
+   * @returns JSX elements for dropdown fields.
+   */
+  dropdownField = (fields: Array<any>) => {
     return fields.map((field, index) => {
       const {name, items} = field;
 
@@ -107,7 +131,12 @@ export class Filter extends Component<IProps, IStates> {
     });
   };
 
-  datePickerField = fields => {
+  /**
+   * Renders date picker fields based on provided field data.
+   * @param fields - Array of field data.
+   * @returns JSX elements for date picker fields.
+   */
+  datePickerField = (fields: Array<any>) => {
     return fields.map((field, index) => {
       const {name} = field;
 
@@ -127,44 +156,57 @@ export class Filter extends Component<IProps, IStates> {
     });
   };
 
-  setFormField = (field, value) => {
+  /**
+   * Sets the value of a form field.
+   * @param field - The name of the field to update.
+   * @param value - The new value for the field.
+   */
+  setFormField = (field: string, value: any) => {
     const {form, dispatch} = this.props.clearFilter;
     dispatch(change(form, field, value));
   };
 
+  /**
+   * Toggles the visibility of the filter modal.
+   */
   onToggleFilter = () => {
-    this.setState(prevState => {
-      return {visible: !prevState.visible};
-    });
+    this.setState((prevState) => ({
+      visible: !prevState.visible,
+    }));
   };
 
-  onSubmit = val => {
+  /**
+   * Handles form submission.
+   * @param val - The values submitted from the form.
+   */
+  onSubmit = (val: any) => {
     let counter = 0;
 
     for (const key in val) {
-      key !== 'search' && counter++;
+      if (key !== 'search') {
+        counter++;
+      }
     }
 
     this.setState({counter});
-
     this.onToggleFilter();
-
     this.props.onSubmitFilter?.();
   };
 
+  /**
+   * Clears the filter form and resets values.
+   */
   onClear = () => {
     const {clearFilter, onResetFilter} = this.props;
     const {
       form,
       dispatch,
-      formValues: {search}
+      formValues: {search},
     } = clearFilter;
 
     dispatch(reset(form));
     dispatch(change(form, 'search', search));
-
     this.setState({counter: 0});
-
     onResetFilter?.();
   };
 
@@ -176,7 +218,7 @@ export class Filter extends Component<IProps, IStates> {
       selectFields,
       datePickerFields,
       clearFilter: {handleSubmit},
-      theme
+      theme,
     } = this.props;
 
     const {visible, counter, isKeyboardVisible} = this.state;
@@ -188,12 +230,12 @@ export class Filter extends Component<IProps, IStates> {
       hasCircle: false,
       noBorder: false,
       transparent: false,
-      leftIconPress: () => this.onToggleFilter(),
+      leftIconPress: this.onToggleFilter,
       rightIconPress: handleSubmit(this.onSubmit),
       ...(isAndroidPlatform && {
-        containerStyle: {paddingTop: 60, height: 110}
+        containerStyle: {paddingTop: 60, height: 110},
       }),
-      ...headerProps
+      ...headerProps,
     };
 
     const bottomAction = (
@@ -217,7 +259,7 @@ export class Filter extends Component<IProps, IStates> {
     return (
       <View>
         <ButtonView
-          onPress={() => this.onToggleFilter()}
+          onPress={this.onToggleFilter}
           activeOpacity={0.4}
           scale={0.93}
           justify-center
@@ -234,7 +276,6 @@ export class Filter extends Component<IProps, IStates> {
                 : theme?.icons?.filter?.color
             }
           />
-
           {counter > 0 && (
             <View style={styles.counter(theme, this.props['is-small'])}>
               <Text
@@ -251,7 +292,7 @@ export class Filter extends Component<IProps, IStates> {
         <Modal
           animationType="slide"
           visible={visible}
-          onRequestClose={() => this.onToggleFilter()}
+          onRequestClose={this.onToggleFilter}
           hardwareAccelerated={true}
           statusBarTranslucent={true}
         >
@@ -260,17 +301,14 @@ export class Filter extends Component<IProps, IStates> {
               headerProps={headerView}
               bottomAction={bottomAction}
               keyboardProps={{
-                keyboardVerticalOffset: isIosPlatform ? 60 : 100
+                keyboardVerticalOffset: isIosPlatform ? 60 : 100,
               }}
             >
               {!isEmpty(selectFields) && this.selectField(selectFields)}
-
               <CtView flex={1} flex-row mt-5>
                 {datePickerFields && this.datePickerField(datePickerFields)}
               </CtView>
-
               {dropdownFields && this.dropdownField(dropdownFields)}
-
               {inputFields && this.inputField(inputFields)}
             </DefaultLayout>
           </View>
@@ -286,13 +324,13 @@ const styles = StyleSheet.create({
     ...(isAndroidPlatform && {
       marginTop: -20,
       margin: 0,
-      padding: 0
-    })
+      padding: 0,
+    }),
   },
   inputIconStyle: {
-    marginLeft: 5
+    marginLeft: 5,
   },
-  counter: (theme, isSmall) => ({
+  counter: (theme: any, isSmall: boolean) => ({
     position: 'absolute',
     top: -9,
     right: -11,
@@ -309,13 +347,13 @@ const styles = StyleSheet.create({
       right: 1,
       width: 18,
       height: 18,
-      borderRadius: 18 / 2
-    })
+      borderRadius: 18 / 2,
+    }),
   }),
-  counterText: isSmall => ({
+  counterText: (isSmall: boolean) => ({
     fontSize: 12,
     ...(isSmall && {
-      fontSize: 11
-    })
-  })
+      fontSize: 11,
+    }),
+  }),
 });
