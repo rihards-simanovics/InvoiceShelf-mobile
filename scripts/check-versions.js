@@ -18,6 +18,7 @@ function getJdkVersion() {
   try {
     // Try the newer --version flag first
     const output = execSync('java --version 2>&1').toString();
+    console.log(output);
     const match = output.match(/openjdk (\d+\.\d+)/);
     if (match) {
       return match[1];
@@ -26,7 +27,7 @@ function getJdkVersion() {
     // If the --version flag fails, fall back to the older -version flag
     try {
       const output = execSync('java -version 2>&1').toString();
-      const match = output.match(/"(\d+\.\d+)_\d+"/);
+      const match = output.match(/"(\d+\.\d+)/);
       if (match) {
         return match[1];
       }
