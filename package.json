@@ -10,9 +10,12 @@
     "prettier-fix": "prettier --config .prettierlc.js --write 'src/**/*.js'",
     "lints": "yarn prettier-fix",
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
-    "build:android-local": "eas build --platform android --local",
-    "build:android-local-preview": "eas build -p android --profile preview --local",
-    "build:ios-local": "eas build --platform ios --local",
+    "build:android-eas": "eas build -p android",
+    "build:android-local": "eas build -p android --local",
+    "build:android-local-preview": "eas build -p android --e preview --local",
+    "build:ios-eas": "eas build -p ios",
+    "build:ios-local": "eas build -p ios --local",
+    "build:ios-local-preview": "eas build -p ios -e preview --local",
     "build:web-local": "npx expo export -p web"
   },
   "dependencies": {
@@ -34,6 +37,7 @@
     "eslint-plugin-flowtype": "^4.3.0",
     "expo": "^42.0.0",
     "expo-app-loading": "1.1.2",
+    "expo-cli": "^6.3.10",
     "expo-constants": "~11.0.1",
     "expo-device": "~3.3.0",
     "expo-document-picker": "~9.2.4",
