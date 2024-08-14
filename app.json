@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Crater Invoice",
-    "slug": "crater",
+    "name": "Invoice Shelf",
+    "slug": "invoiceshelf",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -25,7 +25,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.craterapp.app",
+      "bundleIdentifier": "com.invoiceshelf.app",
       "buildNumber": "24",
       "usesIcloudStorage": true,
       "infoPlist": {
@@ -33,7 +33,7 @@
       }
     },
     "android": {
-      "package": "com.craterapp.app",
+      "package": "com.invoiceshelf.app",
       "versionCode": 23,
       "softwareKeyboardLayoutMode": "pan",
       "userInterfaceStyle": "automatic",
