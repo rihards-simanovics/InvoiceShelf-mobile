@@ -12,7 +12,7 @@
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
     "build:android-eas": "eas build -p android",
     "build:android-local": "eas build -p android --local",
-    "build:android-local-preview": "eas build -p android --e preview --local",
+    "build:android-local-preview": "eas build -p android -e preview --local",
     "build:ios-eas": "eas build -p ios",
     "build:ios-local": "eas build -p ios --local",
     "build:ios-local-preview": "eas build -p ios -e preview --local",
