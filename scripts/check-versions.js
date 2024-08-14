@@ -2,7 +2,7 @@ const {execSync} = require('child_process');
 
 // Define the required versions
 const requiredNodeVersion = '14';
-const requiredJdkVersion = '1.8.0_422';
+const requiredJdkVersion = '1.8';
 
 // Check Node.js version
 const nodeVersion = process.version.split('.')[0].replace('v', ''); // Extract the major version number
@@ -18,7 +18,7 @@ function getJdkVersion() {
   try {
     // Try the newer --version flag first
     const output = execSync('java --version 2>&1').toString();
-    const match = output.match(/openjdk (\d+\.\d+\.\d+)/);
+    const match = output.match(/openjdk (\d+\.\d+)/);
     if (match) {
       return match[1];
     }
@@ -26,7 +26,7 @@ function getJdkVersion() {
     // If the --version flag fails, fall back to the older -version flag
     try {
       const output = execSync('java -version 2>&1').toString();
-      const match = output.match(/"(\d+\.\d+\.\d+_\d+)"/);
+      const match = output.match(/"(\d+\.\d+)_\d+"/);
       if (match) {
         return match[1];
       }
