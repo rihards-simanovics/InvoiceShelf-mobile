@@ -37,7 +37,6 @@
     "eslint-plugin-flowtype": "^4.3.0",
     "expo": "^42.0.0",
     "expo-app-loading": "1.1.2",
-    "expo-cli": "^6.3.10",
     "expo-constants": "~11.0.1",
     "expo-device": "~3.3.0",
     "expo-document-picker": "~9.2.4",
